@@ -143,17 +143,11 @@ function updatePreview() {
     previewText.style.borderRadius = s.borderRadius + "px";
     previewText.style.textAlign = s.textAlign;
     previewText.style.webkitTextStroke = `${s.strokeWidth}px ${s.strokeColor}`;
+    previewText.style.paintOrder = 'stroke fill';
 
-    // Simulate Text Shadow / Stroke
+    // Match content.js shadow style
     const shadow = s.shadowIntensity;
-    const stroke = s.strokeColor;
-
-    // Complex shadow to match the content script's cinema look
-    previewText.style.textShadow = `
-        ${stroke} 1px 0px 0px, ${stroke} -1px 0px 0px, 
-        ${stroke} 0px 1px 0px, ${stroke} 0px -1px 0px, 
-        0px 0px ${shadow}px #000
-    `;
+    previewText.style.textShadow = `2px 2px ${shadow}px rgba(0,0,0,0.8)`;
 
     // Background Opacity
     const opacity = s.bgOpacity / 100;
