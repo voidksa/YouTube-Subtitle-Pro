@@ -1,53 +1,68 @@
-# YouTube Subtitle Pro 🎬
+# YouTube Subtitle Pro - Version (v1.0.0)
 
-[![Version](https://img.shields.io/badge/version-1.0-blue)](https://github.com/voidksa/YouTube-Subtitle-Pro)
-[![Manifest](https://img.shields.io/badge/manifest-V3-green)](https://developer.chrome.com/docs/extensions/mv3/intro/)
-[![Author](https://img.shields.io/badge/author-voidksa-orange)](https://github.com/voidksa)
+[![Download](https://img.shields.io/badge/Download-YouTube%20Subtitle%20Pro%20(ZIP)-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
 
-A powerful, open-source browser extension designed to transform standard YouTube subtitles into a professional, cinema-grade experience, with separate and automatic customization for Arabic and English texts.
+> [!NOTE]
+> 🇺🇸 **[English](README.en.md)** | 🇸🇦 **[العربية](README.md)**
 
-[**🇪🇬 لقراءة الشرح باللغة العربية اضغط هنا**](README.md)
+> **Note:** This repository contains the **Compiled/Distribution version** of YouTube Subtitle Pro extension, designed to transform YouTube subtitles into a professional cinematic experience.
 
----
+A powerful, open-source browser extension that aims to transform standard YouTube subtitles into a professional cinema-grade experience, with full, separate, and automatic control over Arabic and English text styles.
 
-## ✨ Features
+## 🚀 Features in this Version (v1.0.0)
 
-*   **Smart Separate Customization:** Automatically detects the subtitle language and applies your specific settings (different styles for Arabic vs. English).
-*   **Cinema Look:** Full control over Font Size, Color, Family, Weight, Shadow Intensity, Background Opacity, Stroke, and Position.
-*   **Custom Fonts:** Includes "Tajawal" for Arabic and "Roboto" for English for a modern, readable look.
-*   **High Performance:** Built with modern web technologies (MutationObserver) to ensure zero lag, with instant preview of settings changes.
-*   **Fixes YouTube Bugs:** Solves issues like duplicate subtitles, text artifacts/glitches, and disappearing subtitles when switching languages.
+### 🌍 **Smart Language Customization**
+- **Separate Settings:** Allows you to set completely different settings for Arabic text (e.g., font, size) vs. English text.
+- **Arabic Font Support:** Integrated "Tajawal" font to ensure Arabic subtitles look modern and readable, alongside "Roboto" for English.
+- **Auto Detection:** The extension analyzes the displayed text and automatically applies the appropriate formatting (Arabic or English) in real-time.
 
-> **⚠️ Important Note:**
-> To ensure the extension works perfectly without conflicts, the native YouTube **Subtitle Options button has been hidden/removed**. Please rely entirely on the extension popup icon to customize your subtitle appearance.
-
----
-
-## 🚀 Installation
-
-Since this is an open-source project not yet on the Chrome Web Store, you can install it manually:
-
-1.  Download the project (Clone or Download ZIP) and extract it to a folder.
-2.  Open **Chrome** (or Edge/Brave).
-3.  Go to the extensions page: `chrome://extensions`
-4.  Enable **"Developer mode"** toggle in the top right/left corner.
-5.  Click **"Load unpacked"**.
-6.  Select the folder containing the project files (where `manifest.json` is located).
-7.  Done! The extension is now active. Go to YouTube and enjoy.
+### 🛠 **UI & Control**
+- **Cinematic Look:** Full control over Font Size, Color, Font Weight, Opacity, Stroke, and Shadow Intensity to mimic movie subtitles.
+- **Instant Preview:** No need to refresh the page; any setting change is reflected immediately on the video.
+- **YouTube Fixes:** Solves subtitle overlap/disappearance issues and hides the native YouTube options menu to prevent conflicts.
+- **High Performance:** Very lightweight on the browser and does not consume system resources.
 
 ---
 
-## 🛠️ Contributing
+## 📦 Installation
 
-This project is **fully Open Source**.
-If you are a developer and want to improve the tool or add new features, feel free to do so!
+Since this repository contains the **Unpacked Extension**, you can install it directly into Chrome/Edge without needing to build it.
 
-1.  **Fork** the repository.
-2.  Make your changes.
-3.  Submit a **Pull Request**.
+1. **Clone/Download this repository:**
+   ```bash
+   git clone https://github.com/voidksa/YouTube-Subtitle-Pro.git
+   ```
+   *(Or download the ZIP file from the Releases page and extract it)*
 
-**Credits:** Please keep the attribution to the original author **voidksa** when forking or redistributing.
+2. Open your browser (Chrome or Edge).
+3. Go to `chrome://extensions/`.
+4. Enable **Developer mode** (toggle in the top corner).
+5. Click the **Load unpacked** button.
+6. Select the folder containing the extension files (`YouTube Subtitle Pro` folder).
+
+✅ The extension is now installed and ready to use! Go to any YouTube video to try it out.
 
 ---
 
-**Developed with ❤️ by [voidksa](https://github.com/voidksa)**
+## ✨ Key Features
+
+- **Comprehensive Control:** Adjust subtitle position (height from bottom) and background opacity.
+- **Multiple Styles:** Choose from various fonts (Tajawal, Roboto, Arial, Cinema Typewriter).
+- **Auto-Save:** Your preferences are saved automatically locally; no need to reset them every time.
+- **Bilingual Interface:** The settings popup supports both Arabic and English languages.
+
+## 🔒 Privacy & Permissions
+
+- **storage:** To save your settings and font preferences locally in the browser.
+- **host_permissions (YouTube):** To enable the extension to work on YouTube videos only (`https://www.youtube.com/*`).
+
+> **Privacy Policy:** This extension does not collect, store, or transmit any personal data. All processing happens locally on your device.
+
+---
+
+## 📝 Credits
+
+- **Developed by:** `https://github.com/voidksa`.
+- **Source:** The project is open-source and available for contribution.
+
+**Disclaimer:** This tool is designed to enhance personal user experience and is not officially affiliated with YouTube.
