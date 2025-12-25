@@ -59,6 +59,9 @@
 - **Positioning:** Control subtitle height from the bottom of the video.
 - **Effects:** Add stroke and drop shadows for better clarity.
 
+### 🚫 Native Features Disabled
+- **Conflict Prevention:** Native YouTube **Subtitle Dragging** and **Subtitle Options Button** have been disabled to ensure the extension has full control over styling without any conflicts.
+
 ---
 
 ## 📦 Quick Installation Steps
