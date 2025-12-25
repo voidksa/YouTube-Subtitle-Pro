@@ -1,12 +1,22 @@
 {
   "manifest_version": 3,
   "name": "YouTube Subtitle Pro",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Professional Cinema Subtitles for Arabic & English",
-  "permissions": ["storage"],
-  "action": { "default_popup": "popup.html" },
-  "content_scripts": [{
-    "matches": ["https://www.youtube.com/*"],
-    "js": ["content.js"]
-  }]
+  "permissions": [
+    "storage"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://www.youtube.com/*"
+      ],
+      "js": [
+        "content.js"
+      ]
+    }
+  ]
 }

@@ -1,4 +1,4 @@
-# YouTube Subtitle Pro - Version (v1.0.0)
+# YouTube Subtitle Pro - Version (v1.1.0)
 
 [![Download](https://img.shields.io/badge/Download-YouTube%20Subtitle%20Pro%20(ZIP)-blue?style=for-the-badge&logo=google-chrome&logoColor=white)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
 
@@ -9,7 +9,25 @@
 
 A powerful, open-source browser extension that aims to transform standard YouTube subtitles into a professional cinema-grade experience, with full, separate, and automatic control over Arabic and English text styles.
 
-## 🚀 Features in this Version (v1.0.0)
+## 🚀 What's New in Version (v1.1.0)
+
+### 🎨 **Modern UI Redesign**
+- A completely new, dark-themed, and professional control panel (Popup).
+- **Live Preview:** An interactive preview box that shows font styles, shadows, and colors directly inside the menu before applying them.
+- **Better Organization:** Options are now grouped into clear sections (Typography, Appearance, Position).
+
+### 🔄 **Smart Language Switcher**
+- Smooth sliding toggle between "Arabic" and "English" settings.
+- **Persistence:** The extension now remembers the last language you were editing, even after restarting the browser.
+- Improved UX for RTL/LTR switching.
+
+### 🛠 **Performance Improvements**
+- Fixed issues with settings saving and restoration.
+- Enhanced responsiveness of the instant preview.
+
+---
+
+## 🚀 Core Features
 
 ### 🌍 **Smart Language Customization**
 - **Separate Settings:** Allows you to set completely different settings for Arabic text (e.g., font, size) vs. English text.

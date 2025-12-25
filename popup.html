@@ -3,134 +3,350 @@
 
 <head>
     <meta charset="UTF-8">
-    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap"
+        rel="stylesheet">
     <style>
         :root {
-            --primary: #f00;
-            --bg: #0a0a0a;
-            --card: #161616;
-            --text: #eee;
+            --primary: #ff0000;
+            --primary-hover: #cc0000;
+            --bg: #0f0f0f;
+            --surface: #1e1e1e;
+            --surface-hover: #2a2a2a;
+            --text: #ffffff;
+            --text-secondary: #aaaaaa;
+            --border: #333333;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            box-sizing: border-box;
         }
 
         body {
-            width: 350px;
-            background: var(--bg);
+            width: 360px;
+            background-color: var(--bg);
             color: var(--text);
             font-family: 'Tajawal', sans-serif;
             margin: 0;
-            padding: 15px;
+            padding: 0;
+            overflow-x: hidden;
         }
 
-        .tabs {
+        /* --- Header & Language Switcher --- */
+        header {
+            background: rgba(30, 30, 30, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 16px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .lang-switcher {
             display: flex;
-            border-bottom: 1px solid #333;
-            margin-bottom: 15px;
+            background: var(--bg);
+            border-radius: var(--radius);
+            padding: 4px;
+            position: relative;
+            border: 1px solid var(--border);
+            direction: rtl;
+            /* Force fixed direction to prevent swapping */
         }
 
-        .tab {
+        .lang-option {
             flex: 1;
-            padding: 10px;
             text-align: center;
+            padding: 8px 0;
             cursor: pointer;
-            color: #888;
-            border-bottom: 2px solid transparent;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--text-secondary);
+            z-index: 2;
+            transition: color 0.3s ease;
+            position: relative;
         }
 
-        .tab.active {
-            color: var(--primary);
-            border-bottom-color: var(--primary);
-            font-weight: bold;
+        .lang-option.active {
+            color: var(--text);
         }
 
-        .section {
-            background: var(--card);
+        .lang-slider {
+            position: absolute;
+            top: 4px;
+            bottom: 4px;
+            width: calc(50% - 4px);
+            background: var(--surface-hover);
+            border-radius: var(--radius-sm);
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1;
+            border: 1px solid #444;
+
+            /* Fixed Position (Start at Right - Arabic) */
+            right: 4px;
+            left: auto;
+            transform: translateX(0);
+        }
+
+        /* Move to Left when English is active */
+        .lang-switcher.en-active .lang-slider {
+            transform: translateX(-100%);
+        }
+
+        /* --- Live Preview Area --- */
+        .preview-box {
+            margin: 16px;
+            height: 100px;
+            background: #000;
+            border-radius: var(--radius);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMCAwaDQwdjQwSDB6IiBmaWxsPSIjMzMzIi8+PC9zdmc+');
+        }
+
+        .preview-text {
+            text-align: center;
+            transition: all 0.1s;
+            padding: 4px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        /* --- Controls Container --- */
+        .controls {
+            padding: 0 16px 16px 16px;
+        }
+
+        .control-group {
+            background: var(--surface);
+            border-radius: var(--radius);
             padding: 12px;
-            border-radius: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #222;
+            margin-bottom: 12px;
+            border: 1px solid var(--border);
+        }
+
+        .group-title {
+            font-size: 12px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        /* --- Inputs --- */
+        .row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            gap: 12px;
+        }
+
+        .row:last-child {
+            margin-bottom: 0;
         }
 
         label {
-            display: block;
-            font-size: 11px;
-            margin-bottom: 5px;
-            color: #888;
-        }
-
-        .grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            font-size: 13px;
+            color: var(--text);
+            flex: 1;
         }
 
         input[type="range"] {
-            width: 100%;
-            accent-color: var(--primary);
+            flex: 2;
+            height: 4px;
+            border-radius: 2px;
+            background: #444;
+            outline: none;
+            appearance: none;
+            cursor: pointer;
         }
 
-        select,
-        input[type="color"] {
-            width: 100%;
-            background: #222;
-            border: 1px solid #333;
-            color: white;
-            padding: 5px;
-            border-radius: 4px;
-            font-family: 'Tajawal';
+        input[type="range"]::-webkit-slider-thumb {
+            appearance: none;
+            width: 16px;
+            height: 16px;
+            background: var(--primary);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        select {
+            background: var(--bg);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 6px 10px;
+            border-radius: 6px;
+            font-family: inherit;
             font-size: 12px;
+            outline: none;
+            cursor: pointer;
+            width: 100%;
         }
 
-        .full {
-            grid-column: span 2;
+        input[type="color"] {
+            width: 30px;
+            height: 30px;
+            border: none;
+            border-radius: 50%;
+            background: none;
+            cursor: pointer;
+            padding: 0;
+            overflow: hidden;
+        }
+
+        input[type="color"]::-webkit-color-swatch-wrapper {
+            padding: 0;
+        }
+
+        input[type="color"]::-webkit-color-swatch {
+            border: 2px solid var(--border);
+            border-radius: 50%;
+        }
+
+        /* --- Footer & Actions --- */
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 10px;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+
+        .btn-secondary {
+            background: var(--surface);
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--surface-hover);
+            color: var(--text);
         }
     </style>
 </head>
 
 <body>
-    <div class="tabs">
-        <div class="tab active" data-lang="ar">العربية</div>
-        <div class="tab" data-lang="en">English</div>
+
+    <header>
+        <div class="lang-switcher" id="langSwitcher">
+            <div class="lang-slider"></div>
+            <div class="lang-option active" data-lang="ar">العربية (AR)</div>
+            <div class="lang-option" data-lang="en">English (EN)</div>
+        </div>
+    </header>
+
+    <div class="preview-box">
+        <div id="previewText" class="preview-text">نص تجريبي</div>
     </div>
 
-    <div id="settings-container">
-        <div class="section grid">
-            <div><label data-i18n="fontSize">حجم الخط</label><input type="range" id="fontSize" min="15" max="100"
-                    value="38"></div>
-            <div><label data-i18n="fontColor">لون النص</label><input type="color" id="fontColor" value="#ffffff"></div>
-        </div>
-
-        <div class="section"><label data-i18n="fontFamily">الخط (Font Family)</label>
-            <select id="fontFamily">
-                <option value="'Tajawal', sans-serif" data-i18n="tajawal">Tajawal (العربي الأفضل)</option>
-                <option value="'Roboto', sans-serif" data-i18n="roboto">Roboto (الافتراضي)</option>
-                <option value="'Arial', sans-serif" data-i18n="arial">Arial</option>
-                <option value="'Courier New', monospace" data-i18n="cinema">Cinema Typewriter</option>
-            </select>
-        </div>
-
-        <div class="section grid">
-            <div><label data-i18n="shadowIntensity">قوة الظل</label><input type="range" id="shadowIntensity" min="0"
-                    max="20" step="1" value="4">
+    <div id="settings-container" class="controls">
+        <!-- Typography Group -->
+        <div class="control-group">
+            <div class="group-title">
+                <span data-i18n="typography">الخط والنصوص</span>
             </div>
-            <div><label data-i18n="fontWeight">سماكة الخط</label>
-                <select id="fontWeight">
-                    <option value="400" data-i18n="normal">عادي</option>
-                    <option value="700" selected data-i18n="bold">Bold</option>
-                    <option value="900" data-i18n="black">Black</option>
+
+            <div class="row">
+                <select id="fontFamily">
+                    <option value="'Tajawal', sans-serif">Tajawal (العربي الأفضل)</option>
+                    <option value="'Roboto', sans-serif">Roboto (Standard)</option>
+                    <option value="'Arial', sans-serif">Arial</option>
+                    <option value="'Courier New', monospace">Cinema Typewriter</option>
+                </select>
+            </div>
+
+            <div class="row">
+                <label data-i18n="fontSize">الحجم</label>
+                <input type="range" id="fontSize" min="15" max="80" value="38">
+            </div>
+
+            <div class="row">
+                <label data-i18n="fontWeight">السماكة</label>
+                <select id="fontWeight" style="flex: 1;">
+                    <option value="400">Normal</option>
+                    <option value="700">Bold</option>
+                    <option value="900">Heavy</option>
                 </select>
             </div>
         </div>
 
-        <div class="section grid">
-            <div class="full"><label data-i18n="bottomPos">الارتفاع عن الأسفل (%)</label><input type="range"
-                    id="bottomPos" min="0" max="95" value="10"></div>
+        <!-- Colors & Effects Group -->
+        <div class="control-group">
+            <div class="group-title">
+                <span data-i18n="appearance">المظهر والألوان</span>
+            </div>
+
+            <div class="row">
+                <label data-i18n="fontColor">لون النص</label>
+                <input type="color" id="fontColor" value="#ffffff">
+            </div>
+
+            <div class="row">
+                <label data-i18n="strokeColor">الحدود</label>
+                <input type="color" id="strokeColor" value="#000000">
+            </div>
+
+            <div class="row">
+                <label data-i18n="shadowIntensity">الظل</label>
+                <input type="range" id="shadowIntensity" min="0" max="20" value="4">
+            </div>
+
+            <div class="row">
+                <label data-i18n="bgOpacity">خلفية النص</label>
+                <input type="range" id="bgOpacity" min="0" max="100" value="0">
+            </div>
         </div>
 
-        <div class="section grid">
-            <div><label data-i18n="bgOpacity">الشفافية</label><input type="range" id="bgOpacity" min="0" max="100"
-                    value="0"></div>
-            <div><label data-i18n="strokeColor">لون التحديد</label><input type="color" id="strokeColor" value="#000000">
+        <!-- Position Group -->
+        <div class="control-group">
+            <div class="group-title">
+                <span data-i18n="position">الموضع</span>
             </div>
+            <div class="row">
+                <label data-i18n="bottomPos">الارتفاع</label>
+                <input type="range" id="bottomPos" min="0" max="50" value="10">
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="actions">
+            <button id="resetBtn" class="btn btn-secondary" data-i18n="reset">استعادة الافتراضي</button>
         </div>
     </div>
 

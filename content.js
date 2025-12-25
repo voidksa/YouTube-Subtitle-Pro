@@ -148,6 +148,11 @@ startObserving();
 chrome.runtime.onMessage.addListener((m) => {
     if (m.action === "update") {
         applyStyles(); // Read from storage (final save)
+    } else if (m.action === "updateSettings") {
+        // Bulk update from new popup
+        if (m.settings.ar) cachedSettings.ar = m.settings.ar;
+        if (m.settings.en) cachedSettings.en = m.settings.en;
+        updateCSS(cachedSettings.ar, cachedSettings.en);
     } else if (m.action === "preview") {
         // Instant update from message without reading from storage
         if (m.lang === 'ar') cachedSettings.ar = m.data;
