@@ -5,8 +5,8 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 let currentLang = 'ar'; // The language currently being EDITED (not the popup UI lang)
-const defaultAr = { fontSize: 38, fontColor: '#ffffff', fontFamily: "'Tajawal', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, strokeColor: '#000000' };
-const defaultEn = { fontSize: 32, fontColor: '#ffffff', fontFamily: "'Roboto', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, strokeColor: '#000000' };
+const defaultAr = { fontSize: 38, fontColor: '#ffffff', fontFamily: "'Tajawal', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, strokeColor: '#000000', strokeWidth: 1, lineHeight: 1.25, letterSpacing: 0, padding: 8, borderRadius: 6, textAlign: 'center' };
+const defaultEn = { fontSize: 32, fontColor: '#ffffff', fontFamily: "'Roboto', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, strokeColor: '#000000', strokeWidth: 1, lineHeight: 1.25, letterSpacing: 0, padding: 8, borderRadius: 6, textAlign: 'center' };
 
 let cachedSettings = {
     ar: { ...defaultAr },
@@ -25,7 +25,13 @@ const inputs = {
     fontWeight: document.getElementById('fontWeight'),
     bottomPos: document.getElementById('bottomPos'),
     bgOpacity: document.getElementById('bgOpacity'),
-    strokeColor: document.getElementById('strokeColor')
+    strokeColor: document.getElementById('strokeColor'),
+    strokeWidth: document.getElementById('strokeWidth'),
+    lineHeight: document.getElementById('lineHeight'),
+    letterSpacing: document.getElementById('letterSpacing'),
+    padding: document.getElementById('padding'),
+    borderRadius: document.getElementById('borderRadius'),
+    textAlign: document.getElementById('textAlign')
 };
 
 // --- Language Switching Logic ---
@@ -58,14 +64,14 @@ langOptions.forEach(option => {
         previewText.style.direction = selectedLang === 'ar' ? 'rtl' : 'ltr';
 
         // 6. Save UI Language Preference
-        chrome.storage.local.set({ uiLanguage: selectedLang });
+        chrome.storage.sync.set({ uiLanguage: selectedLang });
     });
 });
 
 // --- Settings Handling ---
 
 function loadSettings() {
-    chrome.storage.local.get(['ar', 'en', 'uiLanguage'], (result) => {
+    chrome.storage.sync.get(['ar', 'en', 'uiLanguage'], (result) => {
         if (result.ar) cachedSettings.ar = { ...defaultAr, ...result.ar };
         if (result.en) cachedSettings.en = { ...defaultEn, ...result.en };
 
@@ -101,7 +107,7 @@ function saveSetting(key, value) {
     cachedSettings[currentLang][key] = value;
 
     // Save to Storage
-    chrome.storage.local.set({ [currentLang]: cachedSettings[currentLang] });
+    chrome.storage.sync.set({ [currentLang]: cachedSettings[currentLang] });
 
     // Update Preview
     updatePreview();
@@ -125,6 +131,12 @@ function updatePreview() {
     previewText.style.fontSize = (s.fontSize * 0.8) + "px"; // Scale down slightly for preview box
     previewText.style.color = s.fontColor;
     previewText.style.fontWeight = s.fontWeight;
+    previewText.style.lineHeight = s.lineHeight;
+    previewText.style.letterSpacing = s.letterSpacing + "px";
+    previewText.style.padding = (s.padding * 0.6) + "px";
+    previewText.style.borderRadius = s.borderRadius + "px";
+    previewText.style.textAlign = s.textAlign;
+    previewText.style.webkitTextStroke = `${s.strokeWidth}px ${s.strokeColor}`;
 
     // Simulate Text Shadow / Stroke
     const shadow = s.shadowIntensity;
@@ -147,7 +159,13 @@ Object.keys(inputs).forEach(key => {
     inputs[key].addEventListener('input', (e) => {
         let value = e.target.value;
         // Convert numbers
-        if (e.target.type === 'range') value = parseInt(value);
+        if (e.target.type === 'range') {
+            if (e.target.step && e.target.step !== '1') {
+                value = parseFloat(value);
+            } else {
+                value = parseInt(value);
+            }
+        }
         saveSetting(key, value);
     });
 });
@@ -155,7 +173,7 @@ Object.keys(inputs).forEach(key => {
 document.getElementById('resetBtn').addEventListener('click', () => {
     const defaults = currentLang === 'ar' ? defaultAr : defaultEn;
     cachedSettings[currentLang] = { ...defaults };
-    chrome.storage.local.set({ [currentLang]: defaults });
+    chrome.storage.sync.set({ [currentLang]: defaults });
     updateUIValues(currentLang);
     updatePreview();
 
@@ -174,5 +192,123 @@ function applyTranslations(lang) {
     document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         el.textContent = t(key, lang);
+    });
+}
+
+// --- Presets ---
+const presetCinema = document.getElementById('presetCinema');
+const presetMinimal = document.getElementById('presetMinimal');
+const presetContrast = document.getElementById('presetContrast');
+
+function applyPreset(p) {
+    const base = { ...cachedSettings[currentLang] };
+    if (p === 'cinema') {
+        base.strokeWidth = 2;
+        base.shadowIntensity = 6;
+        base.bgOpacity = 12;
+        base.padding = 10;
+        base.borderRadius = 8;
+        base.textAlign = 'center';
+        base.fontWeight = 700;
+        base.lineHeight = 1.25;
+        base.letterSpacing = 0;
+    } else if (p === 'minimal') {
+        base.strokeWidth = 0;
+        base.shadowIntensity = 0;
+        base.bgOpacity = 0;
+        base.padding = 6;
+        base.borderRadius = 0;
+        base.textAlign = 'center';
+        base.fontWeight = 400;
+        base.lineHeight = 1.2;
+        base.letterSpacing = 0;
+    } else if (p === 'contrast') {
+        base.strokeWidth = 3;
+        base.shadowIntensity = 0;
+        base.bgOpacity = 20;
+        base.padding = 12;
+        base.borderRadius = 6;
+        base.textAlign = 'center';
+        base.fontWeight = 900;
+        base.lineHeight = 1.3;
+        base.letterSpacing = 0.2;
+        base.fontColor = '#ffffff';
+        base.strokeColor = '#000000';
+    }
+    cachedSettings[currentLang] = base;
+    chrome.storage.sync.set({ [currentLang]: base });
+    updateUIValues(currentLang);
+    updatePreview();
+    // Notify Content Script
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]?.id) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+                action: "updateSettings",
+                settings: cachedSettings
+            });
+        }
+    });
+}
+
+if (presetCinema) presetCinema.addEventListener('click', () => applyPreset('cinema'));
+if (presetMinimal) presetMinimal.addEventListener('click', () => applyPreset('minimal'));
+if (presetContrast) presetContrast.addEventListener('click', () => applyPreset('contrast'));
+
+// --- Export / Import ---
+const exportBtn = document.getElementById('exportBtn');
+const importBtn = document.getElementById('importBtn');
+const importFile = document.getElementById('importFile');
+
+if (exportBtn) {
+    exportBtn.addEventListener('click', () => {
+        const data = {
+            ar: cachedSettings.ar,
+            en: cachedSettings.en,
+            uiLanguage: currentLang,
+            version: '1.1.0'
+        };
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'youtube-subtitle-pro-settings.json';
+        a.click();
+        URL.revokeObjectURL(url);
+    });
+}
+
+if (importBtn && importFile) {
+    importBtn.addEventListener('click', () => importFile.click());
+    importFile.addEventListener('change', (e) => {
+        const file = e.target.files?.[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = () => {
+            try {
+                const parsed = JSON.parse(reader.result);
+                if (parsed.ar && parsed.en) {
+                    cachedSettings.ar = { ...defaultAr, ...parsed.ar };
+                    cachedSettings.en = { ...defaultEn, ...parsed.en };
+                    currentLang = parsed.uiLanguage || currentLang;
+                    chrome.storage.sync.set({ ar: cachedSettings.ar, en: cachedSettings.en, uiLanguage: currentLang });
+                    updateUIValues(currentLang);
+                    updatePreview();
+                    const opt = document.querySelector(`.lang-option[data-lang="${currentLang}"]`);
+                    if (opt) opt.click();
+                    // Notify Content Script
+                    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+                        if (tabs[0]?.id) {
+                            chrome.tabs.sendMessage(tabs[0].id, {
+                                action: "updateSettings",
+                                settings: cachedSettings
+                            });
+                        }
+                    });
+                }
+            } catch (err) {
+                console.error('Invalid settings file', err);
+            }
+        };
+        reader.readAsText(file);
     });
 }

@@ -30,16 +30,15 @@ function updateCSS(ar, en) {
 
         #ytp-caption-window-container .caption-window {
             position: absolute !important; left: 0 !important; right: 0 !important;
-            margin: 0 auto !important; width: 100% !important; text-align: center !important;
+            margin: 0 auto !important; width: 100% !important;
             top: auto !important; background: transparent !important; pointer-events: none !important;
         }
 
         /* Improve general text appearance without forcing display */
         .ytp-caption-segment {
-            padding: 2px 10px !important;
-            border-radius: 6px !important; 
             box-decoration-break: clone;
             -webkit-box-decoration-break: clone;
+            display: inline-block;
         }
 
         /* Apply Arabic settings */
@@ -49,11 +48,18 @@ function updateCSS(ar, en) {
             color: ${ar.fontColor} !important;
             font-weight: ${ar.fontWeight} !important;
             background-color: rgba(0,0,0, ${ar.bgOpacity / 100}) !important;
-            -webkit-text-stroke: 1px ${ar.strokeColor} !important;
+            -webkit-text-stroke: ${ar.strokeWidth || 1}px ${ar.strokeColor} !important;
             text-shadow: 2px 2px ${ar.shadowIntensity}px rgba(0,0,0,0.8) !important;
             paint-order: stroke fill !important;
+            line-height: ${ar.lineHeight || 1.25} !important;
+            letter-spacing: ${(ar.letterSpacing || 0)}px !important;
+            padding: ${(ar.padding || 8)}px ${(Math.max((ar.padding || 8) + 6, 0))}px !important;
+            border-radius: ${(ar.borderRadius || 6)}px !important;
         }
-        .is-arabic.caption-window { bottom: ${ar.bottomPos}% !important; }
+        .is-arabic.caption-window { 
+            bottom: ${ar.bottomPos}% !important; 
+            text-align: ${ar.textAlign || 'center'} !important;
+        }
 
         /* Apply English settings */
         .is-english .ytp-caption-segment {
@@ -62,11 +68,18 @@ function updateCSS(ar, en) {
             color: ${en.fontColor} !important;
             font-weight: ${en.fontWeight} !important;
             background-color: rgba(0,0,0, ${en.bgOpacity / 100}) !important;
-            -webkit-text-stroke: 1px ${en.strokeColor} !important;
+            -webkit-text-stroke: ${en.strokeWidth || 1}px ${en.strokeColor} !important;
             text-shadow: 2px 2px ${en.shadowIntensity}px rgba(0,0,0,0.8) !important;
             paint-order: stroke fill !important;
+            line-height: ${en.lineHeight || 1.25} !important;
+            letter-spacing: ${(en.letterSpacing || 0)}px !important;
+            padding: ${(en.padding || 8)}px ${(Math.max((en.padding || 8) + 6, 0))}px !important;
+            border-radius: ${(en.borderRadius || 6)}px !important;
         }
-        .is-english.caption-window { bottom: ${en.bottomPos}% !important; }
+        .is-english.caption-window { 
+            bottom: ${en.bottomPos}% !important; 
+            text-align: ${en.textAlign || 'center'} !important;
+        }
     `;
 }
 

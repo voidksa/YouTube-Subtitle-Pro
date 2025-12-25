@@ -220,6 +220,27 @@
             border-radius: 50%;
         }
 
+        /* Preset buttons */
+        .preset-buttons {
+            display: flex;
+            gap: 8px;
+        }
+
+        .preset-btn {
+            flex: 1;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+            background: var(--surface);
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .preset-btn:hover {
+            background: var(--surface-hover);
+            color: var(--text);
+        }
+
         /* --- Footer & Actions --- */
         .actions {
             display: flex;
@@ -333,6 +354,53 @@
             </div>
         </div>
 
+        <!-- Advanced Group -->
+        <div class="control-group">
+            <div class="group-title">
+                <span data-i18n="advanced">متقدم</span>
+            </div>
+            <div class="row">
+                <label data-i18n="strokeWidth">سماكة الحدود</label>
+                <input type="range" id="strokeWidth" min="0" max="6" value="1">
+            </div>
+            <div class="row">
+                <label data-i18n="lineHeight">تباعد الأسطر</label>
+                <input type="range" id="lineHeight" min="1.0" max="2.0" step="0.05" value="1.25">
+            </div>
+            <div class="row">
+                <label data-i18n="letterSpacing">تباعد الحروف</label>
+                <input type="range" id="letterSpacing" min="-1" max="3" step="0.1" value="0">
+            </div>
+            <div class="row">
+                <label data-i18n="padding">حواف داخلية</label>
+                <input type="range" id="padding" min="0" max="20" value="8">
+            </div>
+            <div class="row">
+                <label data-i18n="borderRadius">انحناء الخلفية</label>
+                <input type="range" id="borderRadius" min="0" max="20" value="6">
+            </div>
+            <div class="row">
+                <label data-i18n="textAlign">محاذاة النص</label>
+                <select id="textAlign" style="flex: 1;">
+                    <option value="center" data-i18n="alignCenter">وسط</option>
+                    <option value="left" data-i18n="alignLeft">يسار</option>
+                    <option value="right" data-i18n="alignRight">يمين</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- Presets Group -->
+        <div class="control-group">
+            <div class="group-title">
+                <span data-i18n="presets">القوالب السريعة</span>
+            </div>
+            <div class="preset-buttons">
+                <button id="presetCinema" class="preset-btn" data-i18n="presetCinema">سينمائي</button>
+                <button id="presetMinimal" class="preset-btn" data-i18n="presetMinimal">بسيط</button>
+                <button id="presetContrast" class="preset-btn" data-i18n="presetContrast">تباين عالي</button>
+            </div>
+        </div>
+
         <!-- Position Group -->
         <div class="control-group">
             <div class="group-title">
@@ -347,6 +415,9 @@
         <!-- Actions -->
         <div class="actions">
             <button id="resetBtn" class="btn btn-secondary" data-i18n="reset">استعادة الافتراضي</button>
+            <button id="exportBtn" class="btn btn-secondary" data-i18n="export">تصدير الإعدادات</button>
+            <button id="importBtn" class="btn btn-primary" data-i18n="import">استيراد</button>
+            <input id="importFile" type="file" accept="application/json" style="display:none" />
         </div>
     </div>
 
