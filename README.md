@@ -2,103 +2,111 @@
   <img src="icons/icon128.png" width="100" height="100" alt="YouTube Subtitle Pro Icon">
   <h1>YouTube Subtitle Pro</h1>
   <p>
-    <b>حول ترجمة يوتيوب إلى تجربة سينمائية احترافية</b>
+    <b>Turn YouTube Subtitles into a Cinematic Experience</b>
   </p>
 
-  [![Version](https://img.shields.io/badge/Version-1.2.0-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
+  [![Version](https://img.shields.io/badge/Version-1.3.0-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
   [![Download](https://img.shields.io/badge/Download-ZIP-success?style=for-the-badge&logo=google-chrome&logoColor=white)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest)
   
   <br>
   
   <h3>
-    <a href="README.en.md">🇺🇸 English</a>
+    <a href="README.md">🇺🇸 English</a>
     &nbsp;&nbsp;|&nbsp;&nbsp;
-    <a href="README.md">🇸🇦 العربية</a>
+    <a href="README.ar.md">🇸🇦 العربية</a>
   </h3>
 </div>
 
 ---
 
-## 🌟 نظرة عامة
-**YouTube Subtitle Pro** هي إضافة قوية ومفتوحة المصدر مصممة لتعطيك تحكماً كاملاً في مظهر ترجمات يوتيوب. سواء كنت تشاهد فيلماً أو درساً تعليمياً، يمكنك الآن تخصيص الخطوط، الألوان، والأحجام لكل لغة (العربية والإنجليزية) بشكل منفصل وتلقائي، لتحصل على تجربة مشاهدة مريحة وعصرية.
+## 🌟 Overview
+**YouTube Subtitle Pro** is a powerful, open-source extension designed to give you full control over YouTube subtitle appearance. Whether you're watching a movie or a tutorial, you can now customize fonts, colors, and sizes for each language (Arabic and English) separately and automatically, ensuring a comfortable and modern viewing experience.
 
 <div align="center">
   <table>
     <tr>
-      <td align="center">🎨 <b>تصميم سينمائي</b></td>
-      <td align="center">⚡ <b>أداء فائق السرعة</b></td>
-      <td align="center">🌍 <b>دعم ثنائي اللغة</b></td>
-      <td align="center">💾 <b>حفظ تلقائي</b></td>
+      <td align="center">🎨 <b>Cinematic Look</b></td>
+      <td align="center">⚡ <b>Blazing Fast</b></td>
+      <td align="center">🌍 <b>Bilingual Support</b></td>
+      <td align="center">💾 <b>Auto-Save</b></td>
     </tr>
   </table>
 </div>
 
 ---
 
-## � ما الجديد في الإصدار (v1.2.0)
-> **تحديث ضخم:** تحسينات شاملة في التصميم والأداء.
+## 🚀 What's New in Version (v1.3.0)
+> **Feature Update:** Custom Templates & Fullscreen Assistant!
 
-- **🎨 أيقونة وهوية جديدة:** تصميم عصري ومميز للإضافة.
-- **🛠 تحكم متقدم:** تحكم في سماكة الحدود (Stroke)، تباعد الأسطر، وتباعد الحروف.
-- **⚡ قوالب جاهزة:** اختر بين الوضع السينمائي، البسيط، أو التباين العالي بضغطة زر.
-- **📥 تصدير واستيراد:** شارك إعداداتك المفضلة أو احفظ نسخة احتياطية منها.
-- **🌙 واجهة داكنة:** تصميم جديد للنافذة المنبثقة مع دعم الوضع الليلي ومعاينة حية.
+- **💾 Custom Templates:** Save your own personalized settings as templates and apply them anytime.
+- **✈ Fullscreen Assistant:** A floating button in fullscreen mode for quick access to templates without leaving cinematic view.
+- **🔒 Persistent Choices:** Your selected template (even custom ones) is remembered and restored automatically after browser restart.
+- **🛠 Full Control:** Option to hide the fullscreen assistant and restore it from the main menu.
 
----
+## 🌟 What's New in Version (v1.2.0)
+> **Major Update:** Comprehensive design and performance improvements.
 
-## ✨ المميزات الرئيسية
-
-### 🌍 تخصيص ذكي لكل لغة
-- **إعدادات منفصلة:** خصص خطاً وحجماً للغة العربية يختلف عن اللغة الإنجليزية.
-- **خطوط مدمجة:** يأتي مع خط "Tajawal" للعربية و "Roboto" للإنجليزية لضمان أفضل قراءة.
-- **كشف تلقائي:** تتعرف الإضافة على لغة الترجمة وتطبق التنسيق المناسب فوراً.
-
-### 🎨 تحكم كامل في المظهر
-- **الخطوط:** نوع الخط، الحجم، اللون، وسمك الخط.
-- **الخلفية:** لون الخلفية، الشفافية، والظل.
-- **الموضع:** التحكم في ارتفاع الترجمة عن أسفل الفيديو.
-- **التأثيرات:** إضافة حدود (Stroke) وظلال للنص لزيادة الوضوح.
-
-### 🚫 ميزات يوتيوب الأصلية
-- **منع التعارض:** تم تعطيل خاصية **"سحب الترجمة"** وزر **"خيارات الترجمة"** الأصلي في يوتيوب لضمان أن تكون الإضافة هي المتحكم الوحيد في الشكل والمظهر دون أي تداخل.
+- **🎨 New Icon & Identity:** Modern and distinct design for the extension.
+- **🛠 Advanced Control:** Adjust stroke width, line height, and letter spacing.
+- **⚡ Quick Presets:** Switch between Cinema, Minimal, or High Contrast modes instantly.
+- **📥 Export & Import:** Share your favorite settings or backup your configuration.
+- **🌙 Dark UI:** Brand new popup design with dark mode support and live preview.
 
 ---
 
-## 📦 خطوات التثبيت السريع
+## ✨ Key Features
 
-بما أن الإضافة غير متوفرة حالياً في متجر كروم الرسمي، يمكنك تثبيتها يدوياً في ثوانٍ:
+### 🌍 Smart Language Customization
+- **Separate Settings:** Customize font and size for Arabic differently from English.
+- **Built-in Fonts:** Comes with "Tajawal" for Arabic and "Roboto" for English for optimal readability.
+- **Auto Detection:** The extension detects the subtitle language and applies the appropriate formatting instantly.
 
-1. **تحميل الملف:**
-   - حمل ملف [**YouTube-Subtitle-Pro-v1.2.0.zip**](https://github.com/voidksa/YouTube-Subtitle-Pro/releases) وقم بفك الضغط عنه في مجلد.
+### 🎨 Full Visual Control
+- **Fonts:** Font type, size, color, and weight.
+- **Background:** Background color, opacity, and shadow.
+- **Positioning:** Control subtitle height from the bottom of the video.
+- **Effects:** Add stroke and drop shadows for better clarity.
 
-2. **فتح صفحة الإضافات:**
-   - افتح متصفح Chrome أو Edge.
-   - اكتب في شريط العنوان: `chrome://extensions` واضغط Enter.
-
-3. **تفعيل وضع المطور:**
-   - فعل خيار **"Developer mode"** في الزاوية العلوية (يمين أو يسار حسب لغة المتصفح).
-
-4. **تحميل الإضافة:**
-   - اضغط على زر **"Load unpacked"**.
-   - اختر المجلد الذي قمت بفك الضغط عنه (يجب أن يحتوي على ملف `manifest.json`).
-
-✅ **تم التثبيت!** استمتع بمشاهدة يوتيوب بشكل جديد.
+### 🚫 Native Features Disabled
+- **Conflict Prevention:** Native YouTube **Subtitle Dragging** and **Subtitle Options Button** have been disabled to ensure the extension has full control over styling without any conflicts.
 
 ---
 
-## 🔒 الخصوصية والأمان
-نحن نؤمن بالخصوصية التامة.
-- **لا يوجد تتبع:** الإضافة لا تجمع أي بيانات عنك أو عن الفيديوهات التي تشاهدها.
-- **عمل محلي:** جميع الإعدادات والعمليات تتم داخل متصفحك فقط.
-- **مفتوحة المصدر:** يمكنك مراجعة الكود البرمجي بالكامل في هذا المستودع.
+## 📦 Quick Installation Steps
+
+Since the extension is currently not on the official Chrome Store, you can install it manually in seconds:
+
+1. **Download:**
+   - Download the [**YouTube-Subtitle-Pro-v1.3.0.zip**](https://github.com/voidksa/YouTube-Subtitle-Pro/releases) file and extract it to a folder.
+
+2. **Open Extensions Page:**
+   - Open Chrome or Edge.
+   - Type `chrome://extensions` in the address bar and hit Enter.
+
+3. **Enable Developer Mode:**
+   - Toggle **"Developer mode"** in the top corner (right or left depending on language).
+
+4. **Load Extension:**
+   - Click the **"Load unpacked"** button.
+   - Select the folder you extracted (it must contain the `manifest.json` file).
+
+✅ **Installed!** Enjoy your new YouTube experience.
+
+---
+
+## 🔒 Privacy & Security
+We believe in total privacy.
+- **No Tracking:** The extension collects no data about you or the videos you watch.
+- **Local Operation:** All settings and processing happen entirely within your browser.
+- **Open Source:** You can review the entire source code in this repository.
 
 ---
 
 <div align="center">
   <p>
-    صنع بحب ❤️ بواسطة <a href="https://github.com/voidksa">voidksa</a>
+    Made with ❤️ by <a href="https://github.com/voidksa">voidksa</a>
   </p>
   <p>
-    <a href="https://github.com/voidksa/YouTube-Subtitle-Pro/issues">الإبلاغ عن مشكلة</a> • <a href="https://github.com/voidksa/YouTube-Subtitle-Pro/pulls">المساهمة</a>
+    <a href="https://github.com/voidksa/YouTube-Subtitle-Pro/issues">Report Issue</a> • <a href="https://github.com/voidksa/YouTube-Subtitle-Pro/pulls">Contribute</a>
   </p>
 </div>

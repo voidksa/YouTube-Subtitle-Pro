@@ -65,20 +65,21 @@ langOptions.forEach(option => {
 
         // 6. Save UI Language Preference
         chrome.storage.sync.set({ uiLanguage: selectedLang });
+        loadCustomTemplates();
     });
 });
 
 // --- Settings Handling ---
 
 function loadSettings() {
-    chrome.storage.sync.get(['ar', 'en', 'uiLanguage'], (result) => {
+    chrome.storage.sync.get(['ar', 'en', 'uiLanguage', 'fullscreenAssistant'], (result) => {
         if (result.ar) cachedSettings.ar = { ...defaultAr, ...result.ar };
         if (result.en) cachedSettings.en = { ...defaultEn, ...result.en };
 
         // Restore UI Language
         if (result.uiLanguage) {
             currentLang = result.uiLanguage;
-            
+
             // Trigger click on saved language to update UI/Slider
             const savedOption = document.querySelector(`.lang-option[data-lang="${currentLang}"]`);
             if (savedOption) {
@@ -89,6 +90,11 @@ function loadSettings() {
             applyTranslations('ar');
             updateUIValues('ar');
             updatePreview();
+        }
+
+        if (fullscreenAssistantToggle) {
+            const val = result.fullscreenAssistant === undefined ? true : !!result.fullscreenAssistant;
+            fullscreenAssistantToggle.checked = val;
         }
     });
 }
@@ -193,6 +199,12 @@ function applyTranslations(lang) {
         const key = el.getAttribute('data-i18n');
         el.textContent = t(key, lang);
     });
+
+    // Translate placeholder manually
+    const tmplInput = document.getElementById('templateNameInput');
+    if (tmplInput) {
+        tmplInput.placeholder = currentLang === 'ar' ? 'نمطي الخاص' : 'My Style';
+    }
 }
 
 // --- Presets ---
@@ -258,6 +270,7 @@ if (presetContrast) presetContrast.addEventListener('click', () => applyPreset('
 const exportBtn = document.getElementById('exportBtn');
 const importBtn = document.getElementById('importBtn');
 const importFile = document.getElementById('importFile');
+const fullscreenAssistantToggle = document.getElementById('fullscreenAssistant');
 
 if (exportBtn) {
     exportBtn.addEventListener('click', () => {
@@ -310,5 +323,17 @@ if (importBtn && importFile) {
             }
         };
         reader.readAsText(file);
+    });
+}
+
+if (fullscreenAssistantToggle) {
+    fullscreenAssistantToggle.addEventListener('change', (e) => {
+        const enabled = !!e.target.checked;
+        chrome.storage.sync.set({ fullscreenAssistant: enabled });
+        chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+            if (tabs[0]?.id) {
+                chrome.tabs.sendMessage(tabs[0].id, { action: "toggleFullscreenAssistant" });
+            }
+        });
     });
 }

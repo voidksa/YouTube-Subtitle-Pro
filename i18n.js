@@ -28,6 +28,8 @@ const translations = {
         export: "تصدير الإعدادات",
         import: "استيراد",
         reset: "استعادة الافتراضي",
+        fullscreenOptions: "خيارات ملء الشاشة",
+        fullscreenAssistant: "إظهار علامة التخصيص في ملء الشاشة",
 
         // Values
         normal: "عادي",
@@ -36,7 +38,13 @@ const translations = {
         tajawal: "Tajawal (العربي الأفضل)",
         roboto: "Roboto (الافتراضي)",
         arial: "Arial",
-        cinema: "Cinema Typewriter"
+        cinema: "Cinema Typewriter",
+        customTemplates: "القوالب الخاصة",
+        templateName: "اسم القالب",
+        saveTemplate: "حفظ القالب",
+        deleteTemplate: "حذف",
+        noTemplates: "لا توجد قوالب محفوظة",
+        loadTemplate: "تطبيق"
     },
     en: {
         typography: "Typography",
@@ -67,6 +75,14 @@ const translations = {
         export: "Export Settings",
         import: "Import",
         reset: "Reset to Default",
+        fullscreenOptions: "Fullscreen Options",
+        fullscreenAssistant: "Show customization icon in fullscreen",
+        customTemplates: "Custom Templates",
+        templateName: "Template Name",
+        saveTemplate: "Save Template",
+        deleteTemplate: "Delete",
+        noTemplates: "No saved templates",
+        loadTemplate: "Load",
 
         // Values
         normal: "Normal",

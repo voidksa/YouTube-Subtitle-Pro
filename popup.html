@@ -401,6 +401,23 @@
             </div>
         </div>
 
+        <!-- Custom Templates Group -->
+        <div class="control-group">
+            <div class="group-title">
+                <span data-i18n="customTemplates">القوالب الخاصة</span>
+            </div>
+            <div class="row">
+                <input type="text" id="templateNameInput" placeholder="My Style"
+                    style="flex:2; padding:6px; border-radius:4px; border:1px solid #333; background:#1e1e1e; color:white; font-family:inherit;">
+                <button id="saveTemplateBtn" class="btn btn-primary"
+                    style="padding:6px 12px; margin-right:8px; margin-left:8px;" data-i18n="saveTemplate">حفظ</button>
+            </div>
+            <div id="customTemplatesList"
+                style="margin-top:12px; max-height:150px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;">
+                <!-- Templates will be injected here -->
+            </div>
+        </div>
+
         <!-- Position Group -->
         <div class="control-group">
             <div class="group-title">
@@ -418,6 +435,19 @@
             <button id="exportBtn" class="btn btn-secondary" data-i18n="export">تصدير الإعدادات</button>
             <button id="importBtn" class="btn btn-primary" data-i18n="import">استيراد</button>
             <input id="importFile" type="file" accept="application/json" style="display:none" />
+        </div>
+    </div>
+
+    <div class="controls">
+        <div class="control-group">
+            <div class="group-title">
+                <span data-i18n="fullscreenOptions">خيارات ملء الشاشة</span>
+            </div>
+            <div class="row">
+                <label for="fullscreenAssistant" data-i18n="fullscreenAssistant">إظهار علامة التخصيص في ملء
+                    الشاشة</label>
+                <input type="checkbox" id="fullscreenAssistant" checked style="width:auto;">
+            </div>
         </div>
     </div>
 
