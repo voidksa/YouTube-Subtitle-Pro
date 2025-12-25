@@ -1,31 +1,31 @@
-// تحميل الخطوط من Google Fonts
+// Load fonts from Google Fonts
 const fontLink = document.createElement('link');
 fontLink.rel = 'stylesheet';
 fontLink.href = 'https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700;900&family=Roboto:wght@400;700;900&display=swap';
 document.head.appendChild(fontLink);
 
-// إنشاء عنصر الستايل
+// Create style element
 const styleTag = document.createElement('style');
 document.head.appendChild(styleTag);
 
-// المتغيرات الافتراضية
+// Default variables
 const defaultAr = { fontSize: 38, fontColor: '#ffffff', fontFamily: "'Tajawal', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, strokeColor: '#000000' };
 const defaultEn = { fontSize: 32, fontColor: '#ffffff', fontFamily: "'Roboto', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, strokeColor: '#000000' };
 
-// متغيرات لتخزين الإعدادات الحالية لتجنب القراءة المتكررة من التخزين
+// Variables to cache current settings to avoid repeated storage reads
 let cachedSettings = {
     ar: { ...defaultAr },
     en: { ...defaultEn }
 };
 
-// تحديث الـ CSS بناءً على الإعدادات الممررة
+// Update CSS based on passed settings
 function updateCSS(ar, en) {
-    // التأكد من وجود قيمة افتراضية في حال كانت غير موجودة (للمستخدمين القدامى)
+    // Ensure default value exists if missing (for legacy users)
     if (ar.shadowIntensity === undefined) ar.shadowIntensity = 4;
     if (en.shadowIntensity === undefined) en.shadowIntensity = 4;
 
     styleTag.innerHTML = `
-        /* حجب خيارات يوتيوب لمنع التداخل */
+        /* Hide YouTube options to prevent interference */
         .ytp-settings-menu .ytp-panel-header, .ytp-button[aria-label="Options"] { display: none !important; }
 
         #ytp-caption-window-container .caption-window {
@@ -34,7 +34,7 @@ function updateCSS(ar, en) {
             top: auto !important; background: transparent !important; pointer-events: none !important;
         }
 
-        /* تحسين مظهر النص العام دون إجبار العرض */
+        /* Improve general text appearance without forcing display */
         .ytp-caption-segment {
             padding: 2px 10px !important;
             border-radius: 6px !important; 
@@ -42,7 +42,7 @@ function updateCSS(ar, en) {
             -webkit-box-decoration-break: clone;
         }
 
-        /* تطبيق إعدادات العربي */
+        /* Apply Arabic settings */
         .is-arabic .ytp-caption-segment {
             font-family: ${ar.fontFamily} !important;
             font-size: ${ar.fontSize}px !important;
@@ -55,7 +55,7 @@ function updateCSS(ar, en) {
         }
         .is-arabic.caption-window { bottom: ${ar.bottomPos}% !important; }
 
-        /* تطبيق إعدادات الإنجليزي */
+        /* Apply English settings */
         .is-english .ytp-caption-segment {
             font-family: ${en.fontFamily} !important;
             font-size: ${en.fontSize}px !important;
@@ -70,7 +70,7 @@ function updateCSS(ar, en) {
     `;
 }
 
-// دالة لتطبيق الستايلات (تقرأ من التخزين إذا لم يتم تمرير إعدادات)
+// Function to apply styles (reads from storage if no settings passed)
 function applyStyles() {
     chrome.storage.sync.get(['ar', 'en'], (res) => {
         cachedSettings.ar = res.ar || defaultAr;
@@ -79,7 +79,7 @@ function applyStyles() {
     });
 }
 
-// دالة لاكتشاف اللغة في النص
+// Function to detect language in text
 function detectLanguage() {
     const segments = document.querySelectorAll('.ytp-caption-segment');
     if (segments.length === 0) return;
@@ -89,8 +89,8 @@ function detectLanguage() {
         const container = seg.closest('.caption-window');
         if (!container) return;
 
-        // التحقق من وجود حروف عربية
-        // النطاق يشمل الحروف العربية الأساسية والممتدة
+        // Check for Arabic characters
+        // Range includes basic and extended Arabic characters
         if (/[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF]/.test(text)) {
             if (!container.classList.contains('is-arabic')) {
                 container.classList.add('is-arabic');
@@ -98,7 +98,7 @@ function detectLanguage() {
                 container.dir = "rtl";
             }
         } else {
-            // إذا لم يكن عربي، نعتبره إنجليزي (أو لغة لاتينية أخرى)
+            // If not Arabic, consider it English (or other Latin language)
             if (!container.classList.contains('is-english')) {
                 container.classList.add('is-english');
                 container.classList.remove('is-arabic');
@@ -108,9 +108,9 @@ function detectLanguage() {
     });
 }
 
-// مراقب التغييرات في الصفحة (أكثر كفاءة من setInterval)
+// Page mutation observer (more efficient than setInterval)
 const observer = new MutationObserver((mutations) => {
-    // نتحقق فقط إذا كانت التغييرات تتعلق بالترجمة
+    // Check only if changes relate to subtitles
     let shouldUpdate = false;
     for (const mutation of mutations) {
         if (mutation.target.classList &&
@@ -120,17 +120,17 @@ const observer = new MutationObserver((mutations) => {
             shouldUpdate = true;
             break;
         }
-        // التحقق من تغيير النص داخل العقد
+        // Check for text changes inside nodes
         if (mutation.type === 'characterData' || mutation.type === 'childList') {
-            shouldUpdate = true; // تبسيط للتحقق، يمكن تحسينه
+            shouldUpdate = true; // Simplified check, can be improved
         }
     }
 
-    // تشغيل الكشف دائمًا للتأكد لأن يوتيوب يقوم بتحديثات كثيرة
+    // Always run detection to ensure because YouTube updates frequently
     detectLanguage();
 });
 
-// بدء المراقبة
+// Start observing
 function startObserving() {
     const target = document.getElementById('movie_player') || document.body;
     observer.observe(target, {
@@ -140,28 +140,28 @@ function startObserving() {
     });
 }
 
-// التشغيل الأولي
+// Initial run
 applyStyles();
 startObserving();
 
-// الاستماع لرسائل التحديث من النافذة المنبثقة
+// Listen for update messages from popup
 chrome.runtime.onMessage.addListener((m) => {
     if (m.action === "update") {
-        applyStyles(); // قراءة من التخزين (حفظ نهائي)
+        applyStyles(); // Read from storage (final save)
     } else if (m.action === "preview") {
-        // تحديث لحظي من الرسالة دون القراءة من التخزين
+        // Instant update from message without reading from storage
         if (m.lang === 'ar') cachedSettings.ar = m.data;
         else if (m.lang === 'en') cachedSettings.en = m.data;
         updateCSS(cachedSettings.ar, cachedSettings.en);
     }
 });
 
-// إعادة تشغيل المراقبة بشكل دوري خفيف للتأكد من عدم فقدان العنصر عند التنقل
+// Periodic lightweight check to ensure element isn't lost during navigation
 setInterval(() => {
     detectLanguage();
-    // إذا توقف المراقب لسبب ما أو تغيرت الصفحة
+    // If observer stops for some reason or page changes
     const player = document.getElementById('movie_player');
     if (player) {
-        // يمكن إعادة ربط المراقب إذا لزم الأمر، لكن عادة يكفي تركه يعمل على body
+        // Can re-attach observer if needed, but usually leaving it on body is enough
     }
 }, 1000);

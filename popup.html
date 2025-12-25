@@ -94,42 +94,47 @@
 
     <div id="settings-container">
         <div class="section grid">
-            <div><label>حجم الخط</label><input type="range" id="fontSize" min="15" max="100" value="38"></div>
-            <div><label>لون النص</label><input type="color" id="fontColor" value="#ffffff"></div>
+            <div><label data-i18n="fontSize">حجم الخط</label><input type="range" id="fontSize" min="15" max="100"
+                    value="38"></div>
+            <div><label data-i18n="fontColor">لون النص</label><input type="color" id="fontColor" value="#ffffff"></div>
         </div>
 
-        <div class="section"><label>الخط (Font Family)</label>
+        <div class="section"><label data-i18n="fontFamily">الخط (Font Family)</label>
             <select id="fontFamily">
-                <option value="'Tajawal', sans-serif">Tajawal (العربي الأفضل)</option>
-                <option value="'Roboto', sans-serif">Roboto (الافتراضي)</option>
-                <option value="'Arial', sans-serif">Arial</option>
-                <option value="'Courier New', monospace">Cinema Typewriter</option>
+                <option value="'Tajawal', sans-serif" data-i18n="tajawal">Tajawal (العربي الأفضل)</option>
+                <option value="'Roboto', sans-serif" data-i18n="roboto">Roboto (الافتراضي)</option>
+                <option value="'Arial', sans-serif" data-i18n="arial">Arial</option>
+                <option value="'Courier New', monospace" data-i18n="cinema">Cinema Typewriter</option>
             </select>
         </div>
 
         <div class="section grid">
-            <div><label>قوة الظل</label><input type="range" id="shadowIntensity" min="0" max="20" step="1" value="4">
+            <div><label data-i18n="shadowIntensity">قوة الظل</label><input type="range" id="shadowIntensity" min="0"
+                    max="20" step="1" value="4">
             </div>
-            <div><label>سماكة الخط</label>
+            <div><label data-i18n="fontWeight">سماكة الخط</label>
                 <select id="fontWeight">
-                    <option value="400">عادي</option>
-                    <option value="700" selected>Bold</option>
-                    <option value="900">Black</option>
+                    <option value="400" data-i18n="normal">عادي</option>
+                    <option value="700" selected data-i18n="bold">Bold</option>
+                    <option value="900" data-i18n="black">Black</option>
                 </select>
             </div>
         </div>
 
         <div class="section grid">
-            <div class="full"><label>الارتفاع عن الأسفل (%)</label><input type="range" id="bottomPos" min="0" max="95"
-                    value="10"></div>
+            <div class="full"><label data-i18n="bottomPos">الارتفاع عن الأسفل (%)</label><input type="range"
+                    id="bottomPos" min="0" max="95" value="10"></div>
         </div>
 
         <div class="section grid">
-            <div><label>الشفافية</label><input type="range" id="bgOpacity" min="0" max="100" value="0"></div>
-            <div><label>لون التحديد</label><input type="color" id="strokeColor" value="#000000"></div>
+            <div><label data-i18n="bgOpacity">الشفافية</label><input type="range" id="bgOpacity" min="0" max="100"
+                    value="0"></div>
+            <div><label data-i18n="strokeColor">لون التحديد</label><input type="color" id="strokeColor" value="#000000">
+            </div>
         </div>
     </div>
 
+    <script src="i18n.js"></script>
     <script src="popup.js"></script>
 </body>
 
