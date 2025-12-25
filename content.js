@@ -132,6 +132,7 @@ function updateCSS(ar, en) {
             cursor: pointer;
             text-align: left;
             transition: background 0.2s;
+            font-family: inherit;
         }
         .ysp-fs-menu button:hover {
             background: #333;

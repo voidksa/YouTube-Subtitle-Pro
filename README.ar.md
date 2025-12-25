@@ -5,7 +5,7 @@
     <b>حول ترجمة يوتيوب إلى تجربة سينمائية احترافية</b>
   </p>
 
-  [![Version](https://img.shields.io/badge/Version-1.3.1-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
+  [![Version](https://img.shields.io/badge/Version-1.3.2-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
   [![Download](https://img.shields.io/badge/Download-ZIP-success?style=for-the-badge&logo=google-chrome&logoColor=white)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest)
   
   <br>
@@ -71,7 +71,7 @@
 بما أن الإضافة غير متوفرة حالياً في متجر كروم الرسمي، يمكنك تثبيتها يدوياً في ثوانٍ:
 
 1. **تحميل الملف:**
-   - حمل ملف [**YouTube-Subtitle-Pro-v1.3.1.zip**](https://github.com/voidksa/YouTube-Subtitle-Pro/releases) وقم بفك الضغط عنه في مجلد.
+   - حمل ملف [**YouTube-Subtitle-Pro-v1.3.2.zip**](https://github.com/voidksa/YouTube-Subtitle-Pro/releases) وقم بفك الضغط عنه في مجلد.
 
 2. **فتح صفحة الإضافات:**
    - افتح متصفح Chrome أو Edge.

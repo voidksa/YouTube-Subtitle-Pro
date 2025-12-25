@@ -5,7 +5,7 @@
     <b>Turn YouTube Subtitles into a Cinematic Experience</b>
   </p>
 
-  [![Version](https://img.shields.io/badge/Version-1.3.1-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
+  [![Version](https://img.shields.io/badge/Version-1.3.2-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
   [![Download](https://img.shields.io/badge/Download-ZIP-success?style=for-the-badge&logo=google-chrome&logoColor=white)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest)
   
   <br>
@@ -51,7 +51,7 @@
 Since the extension is currently not on the official Chrome Store, you can install it manually in seconds:
 
 1. **Download:**
-   - Download the [**YouTube-Subtitle-Pro-v1.3.1.zip**](https://github.com/voidksa/YouTube-Subtitle-Pro/releases) file and extract it to a folder.
+   - Download the [**YouTube-Subtitle-Pro-v1.3.2.zip**](https://github.com/voidksa/YouTube-Subtitle-Pro/releases) file and extract it to a folder.
 
 2. **Open Extensions Page:**
    - Open Chrome or Edge.
