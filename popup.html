@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #f00;
+            --bg: #0a0a0a;
+            --card: #161616;
+            --text: #eee;
+        }
+
+        body {
+            width: 350px;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 15px;
+        }
+
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid #333;
+            margin-bottom: 15px;
+        }
+
+        .tab {
+            flex: 1;
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            color: #888;
+            border-bottom: 2px solid transparent;
+        }
+
+        .tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+            font-weight: bold;
+        }
+
+        .section {
+            background: var(--card);
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #222;
+        }
+
+        label {
+            display: block;
+            font-size: 11px;
+            margin-bottom: 5px;
+            color: #888;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: var(--primary);
+        }
+
+        select,
+        input[type="color"] {
+            width: 100%;
+            background: #222;
+            border: 1px solid #333;
+            color: white;
+            padding: 5px;
+            border-radius: 4px;
+            font-family: 'Tajawal';
+            font-size: 12px;
+        }
+
+        .full {
+            grid-column: span 2;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tabs">
+        <div class="tab active" data-lang="ar">العربية</div>
+        <div class="tab" data-lang="en">English</div>
+    </div>
+
+    <div id="settings-container">
+        <div class="section grid">
+            <div><label>حجم الخط</label><input type="range" id="fontSize" min="15" max="100" value="38"></div>
+            <div><label>لون النص</label><input type="color" id="fontColor" value="#ffffff"></div>
+        </div>
+
+        <div class="section"><label>الخط (Font Family)</label>
+            <select id="fontFamily">
+                <option value="'Tajawal', sans-serif">Tajawal (العربي الأفضل)</option>
+                <option value="'Roboto', sans-serif">Roboto (الافتراضي)</option>
+                <option value="'Arial', sans-serif">Arial</option>
+                <option value="'Courier New', monospace">Cinema Typewriter</option>
+            </select>
+        </div>
+
+        <div class="section grid">
+            <div><label>قوة الظل</label><input type="range" id="shadowIntensity" min="0" max="20" step="1" value="4">
+            </div>
+            <div><label>سماكة الخط</label>
+                <select id="fontWeight">
+                    <option value="400">عادي</option>
+                    <option value="700" selected>Bold</option>
+                    <option value="900">Black</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="section grid">
+            <div class="full"><label>الارتفاع عن الأسفل (%)</label><input type="range" id="bottomPos" min="0" max="95"
+                    value="10"></div>
+        </div>
+
+        <div class="section grid">
+            <div><label>الشفافية</label><input type="range" id="bgOpacity" min="0" max="100" value="0"></div>
+            <div><label>لون التحديد</label><input type="color" id="strokeColor" value="#000000"></div>
+        </div>
+    </div>
+
+    <script src="popup.js"></script>
+</body>
+
+</html>
