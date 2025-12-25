@@ -5,7 +5,7 @@
     <b>حول ترجمة يوتيوب إلى تجربة سينمائية احترافية</b>
   </p>
 
-  [![Version](https://img.shields.io/badge/Version-1.3.2-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
+  [![Version](https://img.shields.io/badge/Version-1.3.3-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
   [![Download](https://img.shields.io/badge/Download-ZIP-success?style=for-the-badge&logo=google-chrome&logoColor=white)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest)
   
   <br>

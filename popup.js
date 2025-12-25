@@ -2,6 +2,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     applyTranslations('ar'); // Default popup language
     loadSettings();
+    loadCustomTemplates(); // Initial load of templates
 });
 
 let currentLang = 'ar'; // The language currently being EDITED (not the popup UI lang)
@@ -330,4 +331,99 @@ if (fullscreenAssistantToggle) {
             }
         });
     });
+}
+
+// --- Custom Templates Logic ---
+
+const saveTemplateBtn = document.getElementById('saveTemplateBtn');
+const templateNameInput = document.getElementById('templateNameInput');
+const customTemplatesList = document.getElementById('customTemplatesList');
+
+function loadCustomTemplates() {
+    chrome.storage.sync.get(['customTemplates'], (result) => {
+        const templates = result.customTemplates || [];
+        renderTemplates(templates);
+    });
+}
+
+function renderTemplates(templates) {
+    if (!customTemplatesList) return;
+    customTemplatesList.innerHTML = '';
+
+    templates.forEach((tmpl, index) => {
+        const div = document.createElement('div');
+        div.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:#1e1e1e; padding:6px; border-radius:4px; border:1px solid #333;";
+
+        const nameSpan = document.createElement('span');
+        nameSpan.textContent = tmpl.name;
+        nameSpan.style.cssText = "flex:1; cursor:pointer; font-size:13px; color:#ddd;";
+        nameSpan.addEventListener('click', () => applyCustomTemplate(tmpl));
+
+        const deleteBtn = document.createElement('span');
+        deleteBtn.textContent = '✕';
+        deleteBtn.style.cssText = "cursor:pointer; color:#ff5555; padding:0 4px; font-weight:bold;";
+        deleteBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            deleteTemplate(index);
+        });
+
+        div.appendChild(nameSpan);
+        div.appendChild(deleteBtn);
+        customTemplatesList.appendChild(div);
+    });
+}
+
+function saveCustomTemplate() {
+    const name = templateNameInput.value.trim() || (currentLang === 'ar' ? 'قالب مخصص' : 'Custom Template');
+
+    chrome.storage.sync.get(['customTemplates'], (result) => {
+        const templates = result.customTemplates || [];
+        templates.push({
+            name: name,
+            ar: cachedSettings.ar,
+            en: cachedSettings.en
+        });
+
+        chrome.storage.sync.set({ customTemplates: templates }, () => {
+            renderTemplates(templates);
+            templateNameInput.value = ''; // Clear input
+        });
+    });
+}
+
+function deleteTemplate(index) {
+    chrome.storage.sync.get(['customTemplates'], (result) => {
+        const templates = result.customTemplates || [];
+        if (index >= 0 && index < templates.length) {
+            templates.splice(index, 1);
+            chrome.storage.sync.set({ customTemplates: templates }, () => {
+                renderTemplates(templates);
+            });
+        }
+    });
+}
+
+function applyCustomTemplate(tmpl) {
+    if (tmpl.ar) cachedSettings.ar = { ...tmpl.ar };
+    if (tmpl.en) cachedSettings.en = { ...tmpl.en };
+
+    chrome.storage.sync.set({ ar: cachedSettings.ar, en: cachedSettings.en });
+    updateUIValues(currentLang);
+    updatePreview();
+
+    // Notify Content Script
+    chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        if (tabs[0]?.id) {
+            chrome.tabs.sendMessage(tabs[0].id, {
+                action: "updateSettings",
+                settings: cachedSettings
+            });
+            // Also force update templates list in content if needed
+            chrome.tabs.sendMessage(tabs[0].id, { action: "updateTemplates" });
+        }
+    });
+}
+
+if (saveTemplateBtn) {
+    saveTemplateBtn.addEventListener('click', saveCustomTemplate);
 }
