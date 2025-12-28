@@ -16,8 +16,13 @@ let cachedSettings = {
 
 // UI Elements
 const langSwitcher = document.getElementById('langSwitcher');
-const langOptions = document.querySelectorAll('.lang-option');
+const langOptions = document.querySelectorAll('.lang-btn'); // Updated selector
 const previewText = document.getElementById('previewText');
+
+// Tabs
+const tabBtns = document.querySelectorAll('.tab-btn');
+const tabContents = document.querySelectorAll('.tab-content');
+
 const inputs = {
     fontSize: document.getElementById('fontSize'),
     fontColor: document.getElementById('fontColor'),
@@ -35,6 +40,24 @@ const inputs = {
     textAlign: document.getElementById('textAlign')
 };
 
+function clearActivePresets() {
+    document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
+}
+
+// --- Tab Switching Logic ---
+tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        // Remove active class from all
+        tabBtns.forEach(b => b.classList.remove('active'));
+        tabContents.forEach(c => c.classList.remove('active'));
+
+        // Add active class to clicked
+        btn.classList.add('active');
+        const tabId = btn.getAttribute('data-tab');
+        document.getElementById(tabId).classList.add('active');
+    });
+});
+
 // --- Language Switching Logic ---
 langOptions.forEach(option => {
     option.addEventListener('click', () => {
@@ -44,27 +67,20 @@ langOptions.forEach(option => {
 
         const selectedLang = option.dataset.lang;
 
-        // 2. Handle Slider Animation (CSS Class based)
-        if (selectedLang === 'en') {
-            langSwitcher.classList.add('en-active');
-        } else {
-            langSwitcher.classList.remove('en-active');
-        }
-
-        // 3. Logic Update
+        // 2. Logic Update
         currentLang = selectedLang;
         updateUIValues(currentLang);
         updatePreview();
 
-        // 4. Update UI Text Direction & Language
+        // 3. Update UI Text Direction & Language
         document.documentElement.setAttribute('dir', selectedLang === 'ar' ? 'rtl' : 'ltr');
         applyTranslations(selectedLang);
 
-        // 5. Update Preview Text Content
+        // 4. Update Preview Text Content
         previewText.textContent = selectedLang === 'ar' ? 'نص تجريبي' : 'Preview Text';
         previewText.style.direction = selectedLang === 'ar' ? 'rtl' : 'ltr';
 
-        // 6. Save UI Language Preference
+        // 5. Save UI Language Preference
         chrome.storage.sync.set({ uiLanguage: selectedLang });
         loadCustomTemplates();
     });
@@ -82,7 +98,7 @@ function loadSettings() {
             currentLang = result.uiLanguage;
 
             // Trigger click on saved language to update UI/Slider
-            const savedOption = document.querySelector(`.lang-option[data-lang="${currentLang}"]`);
+            const savedOption = document.querySelector(`.lang-btn[data-lang="${currentLang}"]`);
             if (savedOption) {
                 savedOption.click();
             }
@@ -110,6 +126,7 @@ function updateUIValues(lang) {
 }
 
 function saveSetting(key, value) {
+    clearActivePresets();
     // Update Cache
     cachedSettings[currentLang][key] = value;
 
@@ -172,6 +189,7 @@ Object.keys(inputs).forEach(key => {
 });
 
 document.getElementById('resetBtn').addEventListener('click', () => {
+    clearActivePresets();
     const defaults = currentLang === 'ar' ? defaultAr : defaultEn;
     cachedSettings[currentLang] = { ...defaults };
     chrome.storage.sync.set({ [currentLang]: defaults });
@@ -198,7 +216,7 @@ function applyTranslations(lang) {
     // Translate placeholder manually
     const tmplInput = document.getElementById('templateNameInput');
     if (tmplInput) {
-        tmplInput.placeholder = currentLang === 'ar' ? 'نمطي الخاص' : 'My Style';
+        tmplInput.placeholder = currentLang === 'ar' ? 'اسم القالب' : 'Template Name';
     }
 }
 
@@ -246,6 +264,13 @@ function applyPreset(p) {
     chrome.storage.sync.set({ [currentLang]: base });
     updateUIValues(currentLang);
     updatePreview();
+
+    // Add visual feedback to preset cards
+    document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
+    if (p === 'cinema') presetCinema.classList.add('active');
+    if (p === 'minimal') presetMinimal.classList.add('active');
+    if (p === 'contrast') presetContrast.classList.add('active');
+
     // Notify Content Script
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs[0]?.id) {
@@ -273,7 +298,7 @@ if (exportBtn) {
             ar: cachedSettings.ar,
             en: cachedSettings.en,
             uiLanguage: currentLang,
-            version: '1.1.0'
+            version: '1.4.0'
         };
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
@@ -301,7 +326,7 @@ if (importBtn && importFile) {
                     chrome.storage.sync.set({ ar: cachedSettings.ar, en: cachedSettings.en, uiLanguage: currentLang });
                     updateUIValues(currentLang);
                     updatePreview();
-                    const opt = document.querySelector(`.lang-option[data-lang="${currentLang}"]`);
+                    const opt = document.querySelector(`.lang-btn[data-lang="${currentLang}"]`);
                     if (opt) opt.click();
                     // Notify Content Script
                     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
@@ -352,16 +377,16 @@ function renderTemplates(templates) {
 
     templates.forEach((tmpl, index) => {
         const div = document.createElement('div');
-        div.style.cssText = "display:flex; justify-content:space-between; align-items:center; background:#1e1e1e; padding:6px; border-radius:4px; border:1px solid #333;";
+        div.className = 'template-item';
 
         const nameSpan = document.createElement('span');
         nameSpan.textContent = tmpl.name;
-        nameSpan.style.cssText = "flex:1; cursor:pointer; font-size:13px; color:#ddd;";
+        nameSpan.className = 'template-name';
         nameSpan.addEventListener('click', () => applyCustomTemplate(tmpl));
 
         const deleteBtn = document.createElement('span');
         deleteBtn.textContent = '✕';
-        deleteBtn.style.cssText = "cursor:pointer; color:#ff5555; padding:0 4px; font-weight:bold;";
+        deleteBtn.className = 'template-delete';
         deleteBtn.addEventListener('click', (e) => {
             e.stopPropagation();
             deleteTemplate(index);
@@ -404,6 +429,7 @@ function deleteTemplate(index) {
 }
 
 function applyCustomTemplate(tmpl) {
+    clearActivePresets();
     if (tmpl.ar) cachedSettings.ar = { ...tmpl.ar };
     if (tmpl.en) cachedSettings.en = { ...tmpl.en };
 

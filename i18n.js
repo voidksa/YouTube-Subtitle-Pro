@@ -30,6 +30,9 @@ const translations = {
         reset: "استعادة الافتراضي",
         fullscreenOptions: "خيارات ملء الشاشة",
         fullscreenAssistant: "إظهار علامة التخصيص في ملء الشاشة",
+        tabMain: "رئيسي",
+        tabStyle: "المظهر",
+        tabAdvanced: "متقدم",
 
         // Values
         normal: "عادي",
@@ -77,6 +80,9 @@ const translations = {
         reset: "Reset to Default",
         fullscreenOptions: "Fullscreen Options",
         fullscreenAssistant: "Show customization icon in fullscreen",
+        tabMain: "Main",
+        tabStyle: "Style",
+        tabAdvanced: "Pro",
         customTemplates: "Custom Templates",
         templateName: "Template Name",
         saveTemplate: "Save Template",

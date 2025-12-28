@@ -6,450 +6,188 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&family=Roboto:wght@400;500;700&display=swap"
         rel="stylesheet">
-    <style>
-        :root {
-            --primary: #ff0000;
-            --primary-hover: #cc0000;
-            --bg: #0f0f0f;
-            --surface: #1e1e1e;
-            --surface-hover: #2a2a2a;
-            --text: #ffffff;
-            --text-secondary: #aaaaaa;
-            --border: #333333;
-            --radius: 12px;
-            --radius-sm: 8px;
-            --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body {
-            width: 360px;
-            background-color: var(--bg);
-            color: var(--text);
-            font-family: 'Tajawal', sans-serif;
-            margin: 0;
-            padding: 0;
-            overflow-x: hidden;
-        }
-
-        /* --- Header & Language Switcher --- */
-        header {
-            background: rgba(30, 30, 30, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 16px;
-            position: sticky;
-            top: 0;
-            z-index: 10;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .lang-switcher {
-            display: flex;
-            background: var(--bg);
-            border-radius: var(--radius);
-            padding: 4px;
-            position: relative;
-            border: 1px solid var(--border);
-            direction: rtl;
-            /* Force fixed direction to prevent swapping */
-        }
-
-        .lang-option {
-            flex: 1;
-            text-align: center;
-            padding: 8px 0;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: 700;
-            color: var(--text-secondary);
-            z-index: 2;
-            transition: color 0.3s ease;
-            position: relative;
-        }
-
-        .lang-option.active {
-            color: var(--text);
-        }
-
-        .lang-slider {
-            position: absolute;
-            top: 4px;
-            bottom: 4px;
-            width: calc(50% - 4px);
-            background: var(--surface-hover);
-            border-radius: var(--radius-sm);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1;
-            border: 1px solid #444;
-
-            /* Fixed Position (Start at Right - Arabic) */
-            right: 4px;
-            left: auto;
-            transform: translateX(0);
-        }
-
-        /* Move to Left when English is active */
-        .lang-switcher.en-active .lang-slider {
-            transform: translateX(-100%);
-        }
-
-        /* --- Live Preview Area --- */
-        .preview-box {
-            margin: 16px;
-            height: 100px;
-            background: #000;
-            border-radius: var(--radius);
-            position: relative;
-            overflow: hidden;
-            border: 1px solid var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgb3BhY2l0eT0iMC4xIj48cGF0aCBkPSJNMCAwaDQwdjQwSDB6IiBmaWxsPSIjMzMzIi8+PC9zdmc+');
-        }
-
-        .preview-text {
-            text-align: center;
-            transition: all 0.1s;
-            padding: 4px 8px;
-            border-radius: 4px;
-            white-space: nowrap;
-        }
-
-        /* --- Controls Container --- */
-        .controls {
-            padding: 0 16px 16px 16px;
-        }
-
-        .control-group {
-            background: var(--surface);
-            border-radius: var(--radius);
-            padding: 12px;
-            margin-bottom: 12px;
-            border: 1px solid var(--border);
-        }
-
-        .group-title {
-            font-size: 12px;
-            color: var(--text-secondary);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: 12px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        /* --- Inputs --- */
-        .row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 12px;
-            gap: 12px;
-        }
-
-        .row:last-child {
-            margin-bottom: 0;
-        }
-
-        label {
-            font-size: 13px;
-            color: var(--text);
-            flex: 1;
-        }
-
-        input[type="range"] {
-            flex: 2;
-            height: 4px;
-            border-radius: 2px;
-            background: #444;
-            outline: none;
-            appearance: none;
-            cursor: pointer;
-        }
-
-        input[type="range"]::-webkit-slider-thumb {
-            appearance: none;
-            width: 16px;
-            height: 16px;
-            background: var(--primary);
-            border-radius: 50%;
-            cursor: pointer;
-            transition: transform 0.1s;
-        }
-
-        input[type="range"]::-webkit-slider-thumb:hover {
-            transform: scale(1.2);
-        }
-
-        select {
-            background: var(--bg);
-            border: 1px solid var(--border);
-            color: var(--text);
-            padding: 6px 10px;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 12px;
-            outline: none;
-            cursor: pointer;
-            width: 100%;
-        }
-
-        input[type="color"] {
-            width: 30px;
-            height: 30px;
-            border: none;
-            border-radius: 50%;
-            background: none;
-            cursor: pointer;
-            padding: 0;
-            overflow: hidden;
-        }
-
-        input[type="color"]::-webkit-color-swatch-wrapper {
-            padding: 0;
-        }
-
-        input[type="color"]::-webkit-color-swatch {
-            border: 2px solid var(--border);
-            border-radius: 50%;
-        }
-
-        /* Preset buttons */
-        .preset-buttons {
-            display: flex;
-            gap: 8px;
-        }
-
-        .preset-btn {
-            flex: 1;
-            padding: 8px;
-            border-radius: 8px;
-            border: 1px solid var(--border);
-            background: var(--surface);
-            color: var(--text-secondary);
-            cursor: pointer;
-            font-family: inherit;
-        }
-
-        .preset-btn:hover {
-            background: var(--surface-hover);
-            color: var(--text);
-        }
-
-        /* --- Footer & Actions --- */
-        .actions {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 10px;
-            border: none;
-            border-radius: var(--radius-sm);
-            font-family: inherit;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: var(--transition);
-        }
-
-        .btn-primary {
-            background: var(--primary);
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background: var(--primary-hover);
-        }
-
-        .btn-secondary {
-            background: var(--surface);
-            color: var(--text-secondary);
-            border: 1px solid var(--border);
-        }
-
-        .btn-secondary:hover {
-            background: var(--surface-hover);
-            color: var(--text);
-        }
-    </style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
     <header>
-        <div class="lang-switcher" id="langSwitcher">
-            <div class="lang-slider"></div>
-            <div class="lang-option active" data-lang="ar">العربية (AR)</div>
-            <div class="lang-option" data-lang="en">English (EN)</div>
+        <div class="brand">
+            <span>YouTube</span> Subtitle Pro
+        </div>
+        <div class="lang-toggle" id="langSwitcher">
+            <div class="lang-btn active" data-lang="ar">AR</div>
+            <div class="lang-btn" data-lang="en">EN</div>
         </div>
     </header>
 
-    <div class="preview-box">
+    <div class="preview-container">
+        <div class="preview-overlay"></div>
         <div id="previewText" class="preview-text">نص تجريبي</div>
     </div>
 
-    <div id="settings-container" class="controls">
-        <!-- Typography Group -->
-        <div class="control-group">
-            <div class="group-title">
-                <span data-i18n="typography">الخط والنصوص</span>
-            </div>
+    <div class="tabs-nav">
+        <div class="tab-btn active" data-tab="tab-main" data-i18n="tabMain">رئيسي</div>
+        <div class="tab-btn" data-tab="tab-style" data-i18n="tabStyle">المظهر</div>
+        <div class="tab-btn" data-tab="tab-advanced" data-i18n="tabAdvanced">متقدم</div>
+    </div>
 
-            <div class="row">
-                <select id="fontFamily">
-                    <option value="'Tajawal', sans-serif">Tajawal (العربي الأفضل)</option>
-                    <option value="'Roboto', sans-serif">Roboto (Standard)</option>
-                    <option value="'Arial', sans-serif">Arial</option>
-                    <option value="'Courier New', monospace">Cinema Typewriter</option>
-                </select>
-            </div>
+    <!-- TAB 1: MAIN (Presets, Size, Pos) -->
+    <div id="tab-main" class="tab-content active">
 
-            <div class="row">
-                <label data-i18n="fontSize">الحجم</label>
+        <div class="control-section">
+            <div class="section-title" data-i18n="presets">القوالب السريعة</div>
+            <div class="presets-grid">
+                <div id="presetCinema" class="preset-card">
+                    <div class="preset-preview style-cinema">Aa</div>
+                    <span data-i18n="presetCinema">سينمائي</span>
+                </div>
+                <div id="presetMinimal" class="preset-card">
+                    <div class="preset-preview style-minimal">Aa</div>
+                    <span data-i18n="presetMinimal">بسيط</span>
+                </div>
+                <div id="presetContrast" class="preset-card">
+                    <div class="preset-preview style-contrast">Aa</div>
+                    <span data-i18n="presetContrast">تباين عالي</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="control-section">
+            <div class="section-title" data-i18n="typography">الخط والنصوص</div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="fontSize">الحجم</label>
                 <input type="range" id="fontSize" min="15" max="80" value="38">
             </div>
-
-            <div class="row">
-                <label data-i18n="fontWeight">السماكة</label>
-                <select id="fontWeight" style="flex: 1;">
-                    <option value="400">Normal</option>
-                    <option value="700">Bold</option>
-                    <option value="900">Heavy</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Colors & Effects Group -->
-        <div class="control-group">
-            <div class="group-title">
-                <span data-i18n="appearance">المظهر والألوان</span>
-            </div>
-
-            <div class="row">
-                <label data-i18n="fontColor">لون النص</label>
-                <input type="color" id="fontColor" value="#ffffff">
-            </div>
-
-            <div class="row">
-                <label data-i18n="strokeColor">الحدود</label>
-                <input type="color" id="strokeColor" value="#000000">
-            </div>
-
-            <div class="row">
-                <label data-i18n="shadowIntensity">الظل</label>
-                <input type="range" id="shadowIntensity" min="0" max="20" value="4">
-            </div>
-
-            <div class="row">
-                <label data-i18n="bgOpacity">خلفية النص</label>
-                <input type="range" id="bgOpacity" min="0" max="100" value="0">
-            </div>
-        </div>
-
-        <!-- Advanced Group -->
-        <div class="control-group">
-            <div class="group-title">
-                <span data-i18n="advanced">متقدم</span>
-            </div>
-            <div class="row">
-                <label data-i18n="strokeWidth">سماكة الحدود</label>
-                <input type="range" id="strokeWidth" min="0" max="6" value="1">
-            </div>
-            <div class="row">
-                <label data-i18n="lineHeight">تباعد الأسطر</label>
-                <input type="range" id="lineHeight" min="1.0" max="2.0" step="0.05" value="1.25">
-            </div>
-            <div class="row">
-                <label data-i18n="letterSpacing">تباعد الحروف</label>
-                <input type="range" id="letterSpacing" min="-1" max="3" step="0.1" value="0">
-            </div>
-            <div class="row">
-                <label data-i18n="padding">حواف داخلية</label>
-                <input type="range" id="padding" min="0" max="20" value="8">
-            </div>
-            <div class="row">
-                <label data-i18n="borderRadius">انحناء الخلفية</label>
-                <input type="range" id="borderRadius" min="0" max="20" value="6">
-            </div>
-            <div class="row">
-                <label data-i18n="textAlign">محاذاة النص</label>
-                <select id="textAlign" style="flex: 1;">
-                    <option value="center" data-i18n="alignCenter">وسط</option>
-                    <option value="left" data-i18n="alignLeft">يسار</option>
-                    <option value="right" data-i18n="alignRight">يمين</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Presets Group -->
-        <div class="control-group">
-            <div class="group-title">
-                <span data-i18n="presets">القوالب السريعة</span>
-            </div>
-            <div class="preset-buttons">
-                <button id="presetCinema" class="preset-btn" data-i18n="presetCinema">سينمائي</button>
-                <button id="presetMinimal" class="preset-btn" data-i18n="presetMinimal">بسيط</button>
-                <button id="presetContrast" class="preset-btn" data-i18n="presetContrast">تباين عالي</button>
-            </div>
-        </div>
-
-        <!-- Custom Templates Group -->
-        <div class="control-group">
-            <div class="group-title">
-                <span data-i18n="customTemplates">القوالب الخاصة</span>
-            </div>
-            <div class="row">
-                <input type="text" id="templateNameInput" placeholder="My Style"
-                    style="flex:2; padding:6px; border-radius:4px; border:1px solid #333; background:#1e1e1e; color:white; font-family:inherit;">
-                <button id="saveTemplateBtn" class="btn btn-primary"
-                    style="padding:6px 12px; margin-right:8px; margin-left:8px;" data-i18n="saveTemplate">حفظ</button>
-            </div>
-            <div id="customTemplatesList"
-                style="margin-top:12px; max-height:150px; overflow-y:auto; display:flex; flex-direction:column; gap:6px;">
-                <!-- Templates will be injected here -->
-            </div>
-        </div>
-
-        <!-- Position Group -->
-        <div class="control-group">
-            <div class="group-title">
-                <span data-i18n="position">الموضع</span>
-            </div>
-            <div class="row">
-                <label data-i18n="bottomPos">الارتفاع</label>
+            <div class="control-row">
+                <label class="control-label" data-i18n="bottomPos">الارتفاع</label>
                 <input type="range" id="bottomPos" min="0" max="50" value="10">
             </div>
         </div>
 
-        <!-- Actions -->
-        <div class="actions">
-            <button id="resetBtn" class="btn btn-secondary" data-i18n="reset">استعادة الافتراضي</button>
-            <button id="exportBtn" class="btn btn-secondary" data-i18n="export">تصدير الإعدادات</button>
-            <button id="importBtn" class="btn btn-primary" data-i18n="import">استيراد</button>
-            <input id="importFile" type="file" accept="application/json" style="display:none" />
+        <div class="control-section">
+            <div class="section-title" data-i18n="fullscreenOptions">خيارات ملء الشاشة</div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="fullscreenAssistant" style="flex:3">مساعد ملء الشاشة</label>
+                <label class="switch">
+                    <input type="checkbox" id="fullscreenAssistant" checked>
+                    <span class="slider"></span>
+                </label>
+            </div>
         </div>
+
     </div>
 
-    <div class="controls">
-        <div class="control-group">
-            <div class="group-title">
-                <span data-i18n="fullscreenOptions">خيارات ملء الشاشة</span>
+    <!-- TAB 2: STYLE (Colors, Font, Effects) -->
+    <div id="tab-style" class="tab-content">
+
+        <div class="control-section">
+            <div class="section-title" data-i18n="typography">الخط</div>
+            <div class="control-row">
+                <select id="fontFamily">
+                    <option value="'Tajawal', sans-serif" data-i18n="tajawal">Tajawal</option>
+                    <option value="'Roboto', sans-serif" data-i18n="roboto">Roboto</option>
+                    <option value="'Arial', sans-serif" data-i18n="arial">Arial</option>
+                    <option value="'Courier New', monospace" data-i18n="cinema">Cinema</option>
+                </select>
             </div>
-            <div class="row">
-                <label for="fullscreenAssistant" data-i18n="fullscreenAssistant">إظهار علامة التخصيص في ملء
-                    الشاشة</label>
-                <input type="checkbox" id="fullscreenAssistant" checked style="width:auto;">
+            <div class="control-row">
+                <label class="control-label" data-i18n="fontWeight">السماكة</label>
+                <select id="fontWeight">
+                    <option value="400" data-i18n="normal">Normal</option>
+                    <option value="700" data-i18n="bold">Bold</option>
+                    <option value="900" data-i18n="black">Heavy</option>
+                </select>
             </div>
         </div>
+
+        <div class="control-section">
+            <div class="section-title" data-i18n="appearance">الألوان</div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="fontColor">لون النص</label>
+                <div class="color-wrapper">
+                    <input type="color" id="fontColor" value="#ffffff">
+                </div>
+            </div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="strokeColor">لون الحدود</label>
+                <div class="color-wrapper">
+                    <input type="color" id="strokeColor" value="#000000">
+                </div>
+            </div>
+        </div>
+
+        <div class="control-section">
+            <div class="section-title" data-i18n="appearance">التأثيرات</div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="shadowIntensity">الظل</label>
+                <input type="range" id="shadowIntensity" min="0" max="20" value="4">
+            </div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="bgOpacity">خلفية النص</label>
+                <input type="range" id="bgOpacity" min="0" max="100" value="0">
+            </div>
+        </div>
+
+    </div>
+
+    <!-- TAB 3: ADVANCED (Pro, Templates, Actions) -->
+    <div id="tab-advanced" class="tab-content">
+
+        <div class="control-section">
+            <div class="section-title" data-i18n="customTemplates">القوالب الخاصة</div>
+            <div style="display:flex; gap:8px; margin-bottom:12px;">
+                <input type="text" id="templateNameInput" class="template-input" placeholder="اسم القالب">
+                <button id="saveTemplateBtn" class="btn btn-primary" data-i18n="saveTemplate">حفظ</button>
+            </div>
+            <div id="customTemplatesList">
+                <!-- Templates Injected Here -->
+            </div>
+        </div>
+
+        <div class="control-section">
+            <div class="section-title" data-i18n="advanced">تفاصيل دقيقة</div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="strokeWidth">سماكة الحدود</label>
+                <input type="range" id="strokeWidth" min="0" max="6" value="1">
+            </div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="lineHeight">تباعد الأسطر</label>
+                <input type="range" id="lineHeight" min="1.0" max="2.0" step="0.05" value="1.25">
+            </div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="letterSpacing">تباعد الحروف</label>
+                <input type="range" id="letterSpacing" min="-1" max="3" step="0.1" value="0">
+            </div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="padding">حواف داخلية</label>
+                <input type="range" id="padding" min="0" max="20" value="8">
+            </div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="borderRadius">انحناء الخلفية</label>
+                <input type="range" id="borderRadius" min="0" max="20" value="6">
+            </div>
+            <div class="control-row">
+                <label class="control-label" data-i18n="textAlign">محاذاة</label>
+                <select id="textAlign">
+                    <option value="center" data-i18n="alignCenter">Center</option>
+                    <option value="left" data-i18n="alignLeft">Left</option>
+                    <option value="right" data-i18n="alignRight">Right</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="control-section">
+            <div class="section-title">Actions</div>
+            <div class="actions-row">
+                <button id="exportBtn" class="btn btn-secondary" data-i18n="export">Export</button>
+                <button id="importBtn" class="btn btn-secondary" data-i18n="import">Import</button>
+            </div>
+            <button id="resetBtn" class="btn btn-secondary full-width"
+                style="margin-top:10px; color:#ff5555; border-color:#ff5555;" data-i18n="reset">Reset Default</button>
+            <input id="importFile" type="file" accept="application/json" style="display:none" />
+        </div>
+
     </div>
 
     <script src="i18n.js"></script>

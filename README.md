@@ -17,6 +17,10 @@
   </h3>
 </div>
 
+<div align="center">
+  <img src="screenshots/preview-en.png" alt="YouTube Subtitle Pro Preview" width="800">
+</div>
+
 ---
 
 ## 🌟 Overview
@@ -36,15 +40,14 @@
 ---
 
 ## 🚀 What's New
-> **Feature Update:** Custom Templates, Fullscreen Assistant & Bug Fixes!
+> **Major Update v1.4.0:** Brand New UI, Visual Presets & Enhanced Customization!
 
-- **💾 Custom Templates:** Save your own personalized settings as templates and apply them anytime.
-- **✈ Fullscreen Assistant:** A floating button in fullscreen mode for quick access to templates without leaving cinematic view.
-- **🔒 Persistent Choices:** Your selected template (even custom ones) is remembered and restored automatically after browser restart.
-- **� Bug Fixes:**
-  - Fixed preview text visibility in popup.
-  - Fixed fullscreen assistant icon behavior (hides correctly when not in fullscreen).
-- **🛠 Full Control:** Option to hide the fullscreen assistant and restore it from the main menu.
+- **🎨 Modern Tabbed Interface:** Completely redesigned popup with "Main", "Style", and "Advanced" tabs for easier navigation.
+- **👁️ Visual Quick Presets:** New live "Aa" previews for Cinema, Minimal, and Contrast presets.
+- **💾 Advanced Custom Templates:** Save, load, and manage your custom styles with cross-session sync.
+- **🅰️ Typography Upgrade:** Added "Tajawal" font support for Arabic UI elements and subtitles.
+- **✈ Fullscreen Assistant:** Optimized floating button behavior for seamless control in fullscreen mode.
+- **🛠 UI Polish:** Glassmorphism effects, smoother animations, and better responsiveness.
 
 ## 📦 Quick Installation Steps
 

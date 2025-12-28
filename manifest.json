@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "YouTube Subtitle Pro",
-  "version": "1.3.3",
+  "version": "1.4.0",
   "description": "Professional Cinema Subtitles for Arabic & English",
   "permissions": [
     "storage"
