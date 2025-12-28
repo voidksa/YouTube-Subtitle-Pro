@@ -7,6 +7,7 @@
 
   [![Version](https://img.shields.io/badge/Version-Latest-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
   [![Download](https://img.shields.io/badge/Download-ZIP-success?style=for-the-badge&logo=google-chrome&logoColor=white)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest)
+  [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey?style=for-the-badge)](LICENSE)
   
   <br>
   
