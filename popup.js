@@ -317,7 +317,7 @@ if (exportBtn) {
             ar: cachedSettings.ar,
             en: cachedSettings.en,
             uiLanguage: currentLang,
-            version: '1.4.0'
+            version: chrome.runtime.getManifest().version
         };
         const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
