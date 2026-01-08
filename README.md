@@ -5,8 +5,8 @@
     <b>Turn YouTube Subtitles into a Cinematic Experience</b>
   </p>
 
-  [![Version](https://img.shields.io/badge/Version-Latest-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
-  [![Download](https://img.shields.io/badge/Download-ZIP-success?style=for-the-badge&logo=google-chrome&logoColor=white)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest)
+  [![Version](https://img.shields.io/badge/Version-v2.0.0-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
+  [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Coming_Soon-chrome?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chrome.google.com/webstore)
   [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey?style=for-the-badge)](LICENSE)
   
   <br>
@@ -19,72 +19,64 @@
 </div>
 
 <div align="center">
-  <img src="screenshots/preview-en.png" alt="YouTube Subtitle Pro Preview" width="800">
+  <img src="screenshots/main-en.png" alt="YouTube Subtitle Pro Preview" width="800">
 </div>
 
 ---
 
 ## 🌟 Overview
-**YouTube Subtitle Pro** is a powerful, open-source extension designed to give you full control over YouTube subtitle appearance. Whether you're watching a movie or a tutorial, you can now customize fonts, colors, and sizes for each language (Arabic and English) separately and automatically, ensuring a comfortable and modern viewing experience.
+**YouTube Subtitle Pro** transforms standard YouTube captions into professional, easy-to-read subtitles. It fixes Arabic spacing issues and adds cinematic blur effects.
+
+---
+
+## 🚀 New in v2.0.0
+
+| Feature | Description |
+| :--- | :--- |
+| **🎥 In-Player Settings** | A control panel injected directly over the video for instant changes. |
+| **💾 Smart Templates** | Save your custom styles (e.g., Night Mode) and switch instantly. |
+| **🅰️ Arabic Fixes** | Exclusive "Smart Spacing" technology for perfect Arabic rendering. |
 
 <div align="center">
-  <table>
-    <tr>
-      <td align="center">🎨 <b>Cinematic Look</b></td>
-      <td align="center">⚡ <b>Blazing Fast</b></td>
-      <td align="center">🌍 <b>Bilingual Support</b></td>
-      <td align="center">💾 <b>Auto-Save</b></td>
-    </tr>
-  </table>
+  <img src="screenshots/appearance-en.png" alt="Appearance Settings" width="700">
 </div>
 
 ---
 
-## 🚀 What's New
-> **Major Update v1.4.0:** Brand New UI, Visual Presets & Enhanced Customization!
+## 📦 Installation Guide (Easy)
 
-- **🎨 Modern Tabbed Interface:** Completely redesigned popup with "Main", "Style", and "Advanced" tabs for easier navigation.
-- **👁️ Visual Quick Presets:** New live "Aa" previews for Cinema, Minimal, and Contrast presets.
-- **💾 Advanced Custom Templates:** Save, load, and manage your custom styles with cross-session sync.
-- **🅰️ Typography Upgrade:** Added "Tajawal" font support for Arabic UI elements and subtitles.
-- **✈ Fullscreen Assistant:** Optimized floating button behavior for seamless control in fullscreen mode.
-- **🛠 UI Polish:** Glassmorphism effects, smoother animations, and better responsiveness.
+While the extension is under review in the Web Store, you can install it manually in 1 minute:
 
-## 📦 Quick Installation Steps
+### 1️⃣ Download
+Download the **`YouTube-Subtitle-Pro-v2.0.0.zip`** file from the [Releases](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest) page.
 
-Since the extension is currently not on the official Chrome Store, you can install it manually in seconds:
+### 2️⃣ Unzip
+- Right-click the downloaded file.
+- Select **Extract All** to get the normal folder.
 
-1. **Download:**
-   - Download the latest [**Release ZIP**](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest) file and extract it to a folder.
+### 3️⃣ Install in Browser
+1. Open Chrome (or Edge).
+2. In the address bar, type and enter:
+   `chrome://extensions`
+3. Enable **Developer mode** in the top right corner (toggle switch).
+4. **Drag and drop** the unzipped folder directly into the browser window.
 
-2. **Open Extensions Page:**
-   - Open Chrome or Edge.
-   - Type `chrome://extensions` in the address bar and hit Enter.
-
-3. **Enable Developer Mode:**
-   - Toggle **"Developer mode"** in the top corner (right or left depending on language).
-
-4. **Load Extension:**
-   - Click the **"Load unpacked"** button.
-   - Select the folder you extracted (it must contain the `manifest.json` file).
-
-✅ **Installed!** Enjoy your new YouTube experience.
+✅ **Done!** Open any YouTube video to start using it.
 
 ---
 
-## 🔒 Privacy & Security
-We believe in total privacy.
-- **No Tracking:** The extension collects no data about you or the videos you watch.
-- **Local Operation:** All settings and processing happen entirely within your browser.
-- **Open Source:** You can review the entire source code in this repository.
+## ✨ Key Features
+
+### 🌍 Bilingual Support
+- **Dual Settings:** Separate styles for English and Arabic.
+- **Auto-Detect:** Automatically applies the correct style based on the language.
+
+### 🎨 Full Control
+- **Typography:** Font family, size, weight, and color.
+- **Background:** Color, opacity, and **Blur** effect.
 
 ---
 
-<div align="center">
-  <p>
-    Made with ❤️ by <a href="https://github.com/voidksa">voidksa</a>
-  </p>
-  <p>
-    <a href="https://github.com/voidksa/YouTube-Subtitle-Pro/issues">Report Issue</a> • <a href="https://github.com/voidksa/YouTube-Subtitle-Pro/pulls">Contribute</a>
-  </p>
-</div>
+## ⚖️ License
+Licensed under **CC BY-NC-SA 4.0**.
+*For personal use only. Redistribution on stores is prohibited.*

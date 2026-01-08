@@ -1,19 +1,23 @@
 {
   "manifest_version": 3,
-  "name": "YouTube Subtitle Pro",
-  "version": "1.4.0",
-  "description": "Professional Cinema Subtitles for Arabic & English",
+  "name": "__MSG_appName__",
+  "default_locale": "en",
+  "version": "2.0.0",
+  "description": "__MSG_appDesc__",
   "permissions": [
     "storage"
   ],
+  "background": {
+    "service_worker": "background.js"
+  },
   "icons": {
     "16": "icons/icon16.png",
     "48": "icons/icon48.png",
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_popup": "popup.html",
-    "default_icon": "icons/icon.png"
+    "default_icon": "icons/icon.png",
+    "default_title": "__MSG_actionTitle__"
   },
   "content_scripts": [
     {

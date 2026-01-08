@@ -1,0 +1,18 @@
+{
+  "appName": {
+    "message": "YouTube Subtitle Pro - Cinema Mode",
+    "description": "The name of the extension as it appears in the Chrome Web Store."
+  },
+  "appDesc": {
+    "message": "Cinematic YouTube subtitles with customizable fonts, blur effects, and templates. Fixes Arabic spacing issues.",
+    "description": "A detailed description of the extension's features and benefits."
+  },
+  "actionTitle": {
+    "message": "Subtitle Settings",
+    "description": "The tooltip text displayed when hovering over the extension icon in the browser toolbar."
+  },
+  "commandOpen": {
+    "message": "Open Settings Panel",
+    "description": "The description of the keyboard shortcut action found in the Chrome extensions shortcuts menu."
+  }
+}

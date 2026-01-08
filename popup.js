@@ -1,3 +1,10 @@
+/**
+ * YouTube Subtitle Pro
+ * Copyright (c) 2024. All Rights Reserved.
+ * 
+ * Redistribution on Chrome Web Store is strictly prohibited.
+ */
+
 // Initialize i18n
 document.addEventListener('DOMContentLoaded', () => {
     applyTranslations('ar'); // Default popup language
@@ -81,7 +88,7 @@ langOptions.forEach(option => {
         previewText.style.direction = selectedLang === 'ar' ? 'rtl' : 'ltr';
 
         // 5. Save UI Language Preference
-        chrome.storage.sync.set({ uiLanguage: selectedLang });
+        chrome.storage.local.set({ uiLanguage: selectedLang });
         loadCustomTemplates();
     });
 });
@@ -89,7 +96,7 @@ langOptions.forEach(option => {
 // --- Settings Handling ---
 
 function loadSettings() {
-    chrome.storage.sync.get(['ar', 'en', 'uiLanguage', 'fullscreenAssistant'], (result) => {
+    chrome.storage.local.get(['ar', 'en', 'uiLanguage', 'fullscreenAssistant'], (result) => {
         if (result.ar) cachedSettings.ar = { ...defaultAr, ...result.ar };
         if (result.en) cachedSettings.en = { ...defaultEn, ...result.en };
 
@@ -131,7 +138,7 @@ function saveSetting(key, value) {
     cachedSettings[currentLang][key] = value;
 
     // Save to Storage
-    chrome.storage.sync.set({ [currentLang]: cachedSettings[currentLang] });
+    chrome.storage.local.set({ [currentLang]: cachedSettings[currentLang] });
 
     // Update Preview
     updatePreview();
@@ -157,6 +164,18 @@ function updatePreview() {
     previewText.style.fontWeight = s.fontWeight;
     previewText.style.lineHeight = s.lineHeight;
     previewText.style.letterSpacing = s.letterSpacing + "px";
+
+    // Match content.js: Apply word-spacing for Arabic and disable ligatures
+    if (currentLang === 'ar') {
+        previewText.style.wordSpacing = s.letterSpacing + "px";
+        previewText.style.fontVariantLigatures = "none";
+        previewText.style.fontFeatureSettings = '"liga" 0';
+    } else {
+        previewText.style.wordSpacing = "normal";
+        previewText.style.fontVariantLigatures = "normal";
+        previewText.style.fontFeatureSettings = "normal";
+    }
+
     previewText.style.padding = (s.padding * 0.6) + "px";
     previewText.style.borderRadius = s.borderRadius + "px";
     previewText.style.textAlign = s.textAlign;
@@ -192,7 +211,7 @@ document.getElementById('resetBtn').addEventListener('click', () => {
     clearActivePresets();
     const defaults = currentLang === 'ar' ? defaultAr : defaultEn;
     cachedSettings[currentLang] = { ...defaults };
-    chrome.storage.sync.set({ [currentLang]: defaults });
+    chrome.storage.local.set({ [currentLang]: defaults });
     updateUIValues(currentLang);
     updatePreview();
 
@@ -261,7 +280,7 @@ function applyPreset(p) {
         base.strokeColor = '#000000';
     }
     cachedSettings[currentLang] = base;
-    chrome.storage.sync.set({ [currentLang]: base });
+    chrome.storage.local.set({ [currentLang]: base });
     updateUIValues(currentLang);
     updatePreview();
 
@@ -323,7 +342,7 @@ if (importBtn && importFile) {
                     cachedSettings.ar = { ...defaultAr, ...parsed.ar };
                     cachedSettings.en = { ...defaultEn, ...parsed.en };
                     currentLang = parsed.uiLanguage || currentLang;
-                    chrome.storage.sync.set({ ar: cachedSettings.ar, en: cachedSettings.en, uiLanguage: currentLang });
+                    chrome.storage.local.set({ ar: cachedSettings.ar, en: cachedSettings.en, uiLanguage: currentLang });
                     updateUIValues(currentLang);
                     updatePreview();
                     const opt = document.querySelector(`.lang-btn[data-lang="${currentLang}"]`);
@@ -349,7 +368,7 @@ if (importBtn && importFile) {
 if (fullscreenAssistantToggle) {
     fullscreenAssistantToggle.addEventListener('change', (e) => {
         const enabled = !!e.target.checked;
-        chrome.storage.sync.set({ fullscreenAssistant: enabled });
+        chrome.storage.local.set({ fullscreenAssistant: enabled });
         chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
             if (tabs[0]?.id) {
                 chrome.tabs.sendMessage(tabs[0].id, { action: "toggleFullscreenAssistant" });
@@ -365,7 +384,7 @@ const templateNameInput = document.getElementById('templateNameInput');
 const customTemplatesList = document.getElementById('customTemplatesList');
 
 function loadCustomTemplates() {
-    chrome.storage.sync.get(['customTemplates'], (result) => {
+    chrome.storage.local.get(['customTemplates'], (result) => {
         const templates = result.customTemplates || [];
         renderTemplates(templates);
     });
@@ -401,7 +420,7 @@ function renderTemplates(templates) {
 function saveCustomTemplate() {
     const name = templateNameInput.value.trim() || (currentLang === 'ar' ? 'قالب مخصص' : 'Custom Template');
 
-    chrome.storage.sync.get(['customTemplates'], (result) => {
+    chrome.storage.local.get(['customTemplates'], (result) => {
         const templates = result.customTemplates || [];
         templates.push({
             name: name,
@@ -409,7 +428,7 @@ function saveCustomTemplate() {
             en: cachedSettings.en
         });
 
-        chrome.storage.sync.set({ customTemplates: templates }, () => {
+        chrome.storage.local.set({ customTemplates: templates }, () => {
             renderTemplates(templates);
             templateNameInput.value = ''; // Clear input
         });
@@ -417,11 +436,11 @@ function saveCustomTemplate() {
 }
 
 function deleteTemplate(index) {
-    chrome.storage.sync.get(['customTemplates'], (result) => {
+    chrome.storage.local.get(['customTemplates'], (result) => {
         const templates = result.customTemplates || [];
         if (index >= 0 && index < templates.length) {
             templates.splice(index, 1);
-            chrome.storage.sync.set({ customTemplates: templates }, () => {
+            chrome.storage.local.set({ customTemplates: templates }, () => {
                 renderTemplates(templates);
             });
         }
@@ -433,7 +452,7 @@ function applyCustomTemplate(tmpl) {
     if (tmpl.ar) cachedSettings.ar = { ...tmpl.ar };
     if (tmpl.en) cachedSettings.en = { ...tmpl.en };
 
-    chrome.storage.sync.set({ ar: cachedSettings.ar, en: cachedSettings.en });
+    chrome.storage.local.set({ ar: cachedSettings.ar, en: cachedSettings.en });
     updateUIValues(currentLang);
     updatePreview();
 
