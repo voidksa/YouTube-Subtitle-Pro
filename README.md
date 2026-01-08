@@ -77,6 +77,17 @@ Download the **`YouTube-Subtitle-Pro-v2.0.0.zip`** file from the [Releases](http
 
 ---
 
+## ⌨️ Keyboard Shortcuts
+Control the extension quickly without opening the menu:
+
+| Shortcut | Action |
+| :--- | :--- |
+| **`Alt + S`** | ⚙️ Toggle Quick Settings Panel |
+| **`Alt + ⬆️`** | ➕ Increase Font Size |
+| **`Alt + ⬇️`** | ➖ Decrease Font Size |
+
+---
+
 ## ⚖️ License
 Licensed under **CC BY-NC-SA 4.0**.
 *For personal use only. Redistribution on stores is prohibited.*
