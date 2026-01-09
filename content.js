@@ -168,7 +168,7 @@ const panelCSS = `
         --ysp-font-ar: 'Tajawal', sans-serif;
         --ysp-font-en: 'Roboto', sans-serif;
         
-        position: fixed;
+        position: absolute;
         top: 0;
         right: -420px; /* Hidden by default */
         width: 400px;
@@ -684,7 +684,15 @@ const getPanelHTML = () => `
 // --- 5. LOGIC: PANEL UI ---
 
 function createPanel() {
-    if (document.getElementById('ysp-panel-container')) return;
+    if (document.getElementById('ysp-panel-container')) {
+        // Ensure it's in the right parent if fullscreen changed
+        const panel = document.getElementById('ysp-panel-container');
+        const idealParent = document.fullscreenElement || document.getElementById('movie_player') || document.body;
+        if (panel.parentElement !== idealParent) {
+            idealParent.appendChild(panel);
+        }
+        return;
+    }
 
     // Inject CSS
     const styleEl = document.createElement('style');
@@ -703,7 +711,10 @@ function createPanel() {
     const container = document.createElement('div');
     container.id = 'ysp-panel-container';
     container.innerHTML = getPanelHTML();
-    document.body.appendChild(container);
+
+    // Append to movie_player if in fullscreen to be visible, or body
+    const idealParent = document.fullscreenElement || document.getElementById('movie_player') || document.body;
+    idealParent.appendChild(container);
 
     bindPanelEvents(container);
     updatePanelTexts(); // Translate
@@ -1190,7 +1201,7 @@ function updateSubtitleStyles(ar, en) {
             padding: ${ar.padding}px ${ar.padding + 6}px !important;
             border-radius: ${ar.borderRadius}px !important;
         }
-        .is-arabic.caption-window, .is-arabic .ytp-caption-window-container {
+        .is-arabic.caption-window, .is-arabic.ytp-caption-window-container, .is-arabic.ytp-caption-window, .is-arabic .ytp-caption-window-container {
             bottom: ${ar.bottomPos}% !important;
             text-align: ${ar.textAlign || 'center'} !important;
             direction: rtl !important;
@@ -1213,7 +1224,7 @@ function updateSubtitleStyles(ar, en) {
             padding: ${en.padding}px ${en.padding + 6}px !important;
             border-radius: ${en.borderRadius}px !important;
         }
-        .is-english.caption-window, .is-english .ytp-caption-window-container {
+        .is-english.caption-window, .is-english.ytp-caption-window-container, .is-english.ytp-caption-window, .is-english .ytp-caption-window-container {
             bottom: ${en.bottomPos}% !important;
             text-align: ${en.textAlign || 'center'} !important;
         }
@@ -1222,7 +1233,7 @@ function updateSubtitleStyles(ar, en) {
 }
 
 function detectLanguage() {
-    const windows = document.querySelectorAll('.caption-window');
+    const windows = document.querySelectorAll('.caption-window, .ytp-caption-window-container, .ytp-caption-window');
     windows.forEach(win => {
         const segments = win.querySelectorAll('.ytp-caption-segment');
         let fullText = "";

@@ -5,7 +5,7 @@
     <b>Turn YouTube Subtitles into a Cinematic Experience</b>
   </p>
 
-  [![Version](https://img.shields.io/badge/Version-v2.0.0-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
+  [![Version](https://img.shields.io/badge/Version-v2.0.1-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
   [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Coming_Soon-chrome?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chrome.google.com/webstore)
   [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey?style=for-the-badge)](LICENSE)
   
@@ -29,7 +29,7 @@
 
 ---
 
-## 🚀 New in v2.0.0
+## 🚀 New in v2.0.1
 
 | Feature | Description |
 | :--- | :--- |
@@ -48,7 +48,7 @@
 While the extension is under review in the Web Store, you can install it manually in 1 minute:
 
 ### 1️⃣ Download
-Download the **`YouTube-Subtitle-Pro-v2.0.0.zip`** file from the [Releases](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest) page.
+Download the **`YouTube-Subtitle-Pro-v2.0.1.zip`** file from the [Releases](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest) page.
 
 ### 2️⃣ Unzip
 - Right-click the downloaded file.
@@ -85,6 +85,19 @@ Control the extension quickly without opening the menu:
 | **`Alt + S`** | ⚙️ Toggle Quick Settings Panel |
 | **`Alt + ⬆️`** | ➕ Increase Font Size |
 | **`Alt + ⬇️`** | ➖ Decrease Font Size |
+
+---
+
+## 📜 Changelog
+
+### [2.0.1] - 2026-01-09
+ - Fixed extension not working on embedded YouTube videos (iframes).
+ - Added support for YouTube Privacy-Enhanced Mode (`youtube-nocookie.com`).
+ - Fixed hardcoded version in settings export.
+ - Improved subtitle detection for different player types.
+
+### [2.0.0] - 2026-01-08
+- Initial Pro release with cinematic blur and Arabic fixes.
 
 ---
 
