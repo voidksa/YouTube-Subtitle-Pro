@@ -1,106 +1,69 @@
 <div align="center">
   <img src="icons/icon128.png" width="100" height="100" alt="YouTube Subtitle Pro Icon">
   <h1>YouTube Subtitle Pro</h1>
-  <p>
-    <b>Turn YouTube Subtitles into a Cinematic Experience</b>
-  </p>
+  <p><b>Elevate Your YouTube Viewing with Cinematic Subtitles</b></p>
 
   [![Version](https://img.shields.io/badge/Version-v2.0.1-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
   [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Coming_Soon-chrome?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chrome.google.com/webstore)
   [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey?style=for-the-badge)](LICENSE)
-  
+
   <br>
-  
-  <h3>
-    <a href="README.md">🇺🇸 English</a>
-    &nbsp;&nbsp;|&nbsp;&nbsp;
-    <a href="README.ar.md">🇸🇦 العربية</a>
-  </h3>
-</div>
 
-<div align="center">
-  <img src="screenshots/main-en.png" alt="YouTube Subtitle Pro Preview" width="800">
-</div>
+  [🇺🇸 English](README.md) | [🇸🇦 العربية](README.ar.md)
 
----
+  <img src="screenshots/main-en.png" alt="YouTube Subtitle Pro Preview" width="800" style="margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+</div>
 
 ## 🌟 Overview
-**YouTube Subtitle Pro** transforms standard YouTube captions into professional, easy-to-read subtitles. It fixes Arabic spacing issues and adds cinematic blur effects.
+**YouTube Subtitle Pro** transforms standard YouTube captions into professional, easy-to-read subtitles. Designed for language learners and cinephiles, it fixes Arabic spacing issues and adds stunning cinematic blur effects.
 
----
-
-## 🚀 New in v2.0.1
-
+## 🚀 What's New in v2.0.1
 | Feature | Description |
 | :--- | :--- |
-| **🎥 In-Player Settings** | A control panel injected directly over the video for instant changes. |
-| **💾 Smart Templates** | Save your custom styles (e.g., Night Mode) and switch instantly. |
-| **🅰️ Arabic Fixes** | Exclusive "Smart Spacing" technology for perfect Arabic rendering. |
+| **📺 Universal Embeds** | Full support for YouTube videos on any website (iframes). |
+| **🔒 Privacy Mode** | Compatible with YouTube's Privacy-Enhanced Mode (`youtube-nocookie.com`). |
+| **💾 Smart Templates** | Save custom styles and switch between them instantly. |
+| **🅰️ Arabic Precision** | "Smart Spacing" technology for flawless Arabic rendering. |
 
 <div align="center">
-  <img src="screenshots/appearance-en.png" alt="Appearance Settings" width="700">
+  <img src="screenshots/appearance-en.png" alt="Appearance Settings" width="700" style="border-radius: 8px;">
 </div>
 
----
+## 📦 Installation Guide
+Since the extension is currently under review in the Web Store, you can install it manually in less than a minute:
 
-## 📦 Installation Guide (Easy)
-
-While the extension is under review in the Web Store, you can install it manually in 1 minute:
-
-### 1️⃣ Download
-Download the **`YouTube-Subtitle-Pro-v2.0.1.zip`** file from the [Releases](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest) page.
-
-### 2️⃣ Unzip
-- Right-click the downloaded file.
-- Select **Extract All** to get the normal folder.
-
-### 3️⃣ Install in Browser
-1. Open Chrome (or Edge).
-2. In the address bar, type and enter:
-   `chrome://extensions`
-3. Enable **Developer mode** in the top right corner (toggle switch).
-4. **Drag and drop** the unzipped folder directly into the browser window.
-
-✅ **Done!** Open any YouTube video to start using it.
-
----
+1.  **Download:** Get **`YouTube-Subtitle-Pro-v2.0.1.zip`** from the [Releases](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest) page.
+2.  **Unzip:** Extract the downloaded file to a normal folder.
+3.  **Install:**
+    *   Open `chrome://extensions` in your browser.
+    *   Enable **Developer mode** (top right corner).
+    *   **Drag and drop** the unzipped folder into the page.
 
 ## ✨ Key Features
+### 🌍 Bilingual Intelligence
+*   **Dual Profiles:** Separate font styles and sizes for English and Arabic.
+*   **Auto-Detection:** Automatically detects the subtitle language and applies your preferred style.
 
-### 🌍 Bilingual Support
-- **Dual Settings:** Separate styles for English and Arabic.
-- **Auto-Detect:** Automatically applies the correct style based on the language.
-
-### 🎨 Full Control
-- **Typography:** Font family, size, weight, and color.
-- **Background:** Color, opacity, and **Blur** effect.
-
----
+### 🎨 Total Customization
+*   **Typography:** Choose your font family, size, weight, and color.
+*   **Aesthetics:** Adjust background opacity, padding, and cinematic **Background Blur**.
 
 ## ⌨️ Keyboard Shortcuts
-Control the extension quickly without opening the menu:
-
 | Shortcut | Action |
 | :--- | :--- |
 | **`Alt + S`** | ⚙️ Toggle Quick Settings Panel |
 | **`Alt + ⬆️`** | ➕ Increase Font Size |
 | **`Alt + ⬇️`** | ➖ Decrease Font Size |
 
----
-
 ## 📜 Changelog
-
 ### [2.0.1] - 2026-01-09
- - Fixed extension not working on embedded YouTube videos (iframes).
- - Added support for YouTube Privacy-Enhanced Mode (`youtube-nocookie.com`).
- - Fixed hardcoded version in settings export.
- - Improved subtitle detection for different player types.
+- Added support for embedded YouTube videos (iframes) and Privacy Mode.
+- Improved subtitle detection logic across all player types.
+- Fixed hardcoded versioning in settings export.
 
 ### [2.0.0] - 2026-01-08
-- Initial Pro release with cinematic blur and Arabic fixes.
-
----
+- Initial Pro release featuring cinematic blur and advanced Arabic support.
 
 ## ⚖️ License
 Licensed under **CC BY-NC-SA 4.0**.
-*For personal use only. Redistribution on stores is prohibited.*
+*For personal use only. Redistribution or commercial use is strictly prohibited.*
