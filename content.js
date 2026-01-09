@@ -168,26 +168,30 @@ const panelCSS = `
         --ysp-font-ar: 'Tajawal', sans-serif;
         --ysp-font-en: 'Roboto', sans-serif;
         
-        position: absolute;
-        top: 0;
-        right: -420px; /* Hidden by default */
-        width: 400px;
-        height: 100vh;
-        background-color: var(--ysp-bg);
-        color: var(--ysp-text);
-        z-index: 2147483647; /* Max Z-Index */
-        box-shadow: -5px 0 20px rgba(0,0,0,0.5);
-        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        font-family: var(--ysp-font-ar);
-        display: flex;
-        flex-direction: column;
+        position: fixed !important;
+        top: 0 !important;
+        right: -420px !important; /* Hidden by default */
+        width: 400px !important;
+        height: 100vh !important;
+        max-height: 100vh !important;
+        background-color: var(--ysp-bg) !important;
+        opacity: 1 !important;
+        visibility: visible !important;
+        color: var(--ysp-text) !important;
+        z-index: 2147483647 !important; /* Max Z-Index */
+        box-shadow: -5px 0 20px rgba(0,0,0,0.5) !important;
+        transition: right 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+        font-family: var(--ysp-font-ar) !important;
+        display: flex !important;
+        flex-direction: column !important;
         direction: rtl; /* Default, will be toggled */
-        font-size: 14px;
-        line-height: 1.5;
+        font-size: 14px !important;
+        line-height: 1.5 !important;
+        overscroll-behavior: contain !important;
     }
 
     #ysp-panel-container.ysp-open {
-        right: 0;
+        right: 0 !important;
     }
 
     #ysp-panel-container * {
@@ -684,10 +688,16 @@ const getPanelHTML = () => `
 // --- 5. LOGIC: PANEL UI ---
 
 function createPanel() {
+    const getIdealParent = () => {
+        // If in fullscreen, must append to the fullscreen element to be visible
+        if (document.fullscreenElement) return document.fullscreenElement;
+        // Otherwise, always append to body to avoid player transforms/clipping
+        return document.body;
+    };
+
     if (document.getElementById('ysp-panel-container')) {
-        // Ensure it's in the right parent if fullscreen changed
         const panel = document.getElementById('ysp-panel-container');
-        const idealParent = document.fullscreenElement || document.getElementById('movie_player') || document.body;
+        const idealParent = getIdealParent();
         if (panel.parentElement !== idealParent) {
             idealParent.appendChild(panel);
         }
@@ -696,6 +706,7 @@ function createPanel() {
 
     // Inject CSS
     const styleEl = document.createElement('style');
+    styleEl.id = 'ysp-panel-styles';
     styleEl.textContent = panelCSS;
     document.head.appendChild(styleEl);
 
@@ -712,17 +723,22 @@ function createPanel() {
     container.id = 'ysp-panel-container';
     container.innerHTML = getPanelHTML();
 
-    // Append to movie_player if in fullscreen to be visible, or body
-    const idealParent = document.fullscreenElement || document.getElementById('movie_player') || document.body;
+    const idealParent = getIdealParent();
     idealParent.appendChild(container);
 
     bindPanelEvents(container);
     updatePanelTexts(); // Translate
     updatePanelValues(); // Set initial values
-
-    // Default Edit Target to match current detected or fallback
-    // We keep editTarget default 'ar' unless changed
 }
+
+// Add observer for fullscreen changes to move the panel
+document.addEventListener('fullscreenchange', () => {
+    const panel = document.getElementById('ysp-panel-container');
+    if (panel) {
+        // Just call createPanel to trigger parent re-evaluation
+        createPanel();
+    }
+});
 
 function togglePanel() {
     createPanel(); // Ensure exists
@@ -754,6 +770,22 @@ function closePanel() {
 }
 
 function bindPanelEvents(panel) {
+    // Prevent YouTube keyboard shortcuts when typing in inputs
+    const preventShortcuts = (e) => {
+        if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
+            e.stopPropagation();
+            e.stopImmediatePropagation();
+        }
+    };
+    panel.addEventListener('keydown', preventShortcuts, true);
+    panel.addEventListener('keyup', preventShortcuts, true);
+    panel.addEventListener('keypress', preventShortcuts, true);
+
+    // Prevent background scrolling when scrolling the panel
+    panel.addEventListener('wheel', (e) => {
+        e.stopPropagation();
+    }, { passive: false });
+
     // Close Button
     panel.querySelector('#ysp-close').addEventListener('click', closePanel);
 
