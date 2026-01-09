@@ -4,7 +4,7 @@
   <p><b>ارتقِ بمشاهدة يوتيوب إلى تجربة سينمائية احترافية</b></p>
 
   [![Version](https://img.shields.io/badge/Version-v2.0.1-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
-  [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Coming_Soon-chrome?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chrome.google.com/webstore)
+  [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Available_Now-chrome?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-subtitle-pro-cine/clhoadlllpmdeakgigbbbammfapclcfi)
   [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey?style=for-the-badge)](LICENSE)
 
   <br>
