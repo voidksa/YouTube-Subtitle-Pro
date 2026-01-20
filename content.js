@@ -873,6 +873,7 @@ function bindPanelEvents(panel) {
             chrome.storage.local.set({ uiLanguage: uiLang });
             updatePanelTexts();
             updateAllRangeBackgrounds();
+            loadCustomTemplates();
         });
     });
 
@@ -1010,6 +1011,12 @@ function updatePanelTexts() {
     const previewText = panel.querySelector('#ysp-preview-text');
     previewText.textContent = uiLang === 'ar' ? 'نص تجريبي' : 'Preview Text';
     previewText.style.direction = uiLang === 'ar' ? 'rtl' : 'ltr';
+
+    // Update Template Input Placeholder
+    const tmplInput = panel.querySelector('#templateNameInput');
+    if (tmplInput) {
+        tmplInput.placeholder = translations[uiLang].templateName;
+    }
 }
 
 function updatePanelValues() {

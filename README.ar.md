@@ -11,7 +11,7 @@
 
   [🇺🇸 English](README.md) | [🇸🇦 العربية](README.ar.md)
 
-  <img src="screenshots/main-ar.png" alt="YouTube Subtitle Pro Preview" width="800" style="margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+  <img src="screenshots/preview-ar.png" alt="YouTube Subtitle Pro Preview" width="800" style="margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
 </div>
 
 <h2 align="right">🌟 نظرة عامة</h2>
@@ -31,10 +31,6 @@
 | **📺 إصلاح المعاينات** | تصغير حجم الترجمة في معاينات يوتيوب لتجنب تغطية الصورة. |
 | **✨ دعم ذكي** | تحسين التعامل مع الفيديوهات ذات التأثيرات الخاصة لمنع التعارض. |
 
-</div>
-
-<div align="center">
-  <img src="screenshots/appearance-ar.png" alt="Appearance Settings" width="700" style="border-radius: 8px;">
 </div>
 
 <h2 align="right">📦 طريقة التثبيت</h2>

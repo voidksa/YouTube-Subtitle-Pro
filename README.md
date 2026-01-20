@@ -11,7 +11,7 @@
 
   [🇺🇸 English](README.md) | [🇸🇦 العربية](README.ar.md)
 
-  <img src="screenshots/main-en.png" alt="YouTube Subtitle Pro Preview" width="800" style="margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+  <img src="screenshots/preview-en.png" alt="YouTube Subtitle Pro Preview" width="800" style="margin-top: 20px; border-radius: 10px; box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
 </div>
 
 ## 🌟 Overview
@@ -25,10 +25,6 @@
 | **🛠️ RTL Perfection** | Fixed gradient directions and dropdown layouts for Arabic users. |
 | **📺 Preview Fix** | Subtitles in YouTube preview thumbnails are now correctly scaled down. |
 | **✨ Smart Support** | Improved handling of videos with custom creator effects to prevent conflicts. |
-
-<div align="center">
-  <img src="screenshots/appearance-en.png" alt="Appearance Settings" width="700" style="border-radius: 8px;">
-</div>
 
 ## 📦 Installation Guide
 Since the extension is currently under review in the Web Store, you can install it manually in less than a minute:
@@ -57,12 +53,6 @@ Since the extension is currently under review in the Web Store, you can install 
 | **`Alt + ⬇️`** | ➖ Decrease Font Size |
 
 ## 📜 Changelog
-### [2.2.0] - 2026-01-20
-- **Cinematic Dark UI:** A completely new, professional solid dark theme designed for high contrast and readability.
-- **Studio Design:** Removed glass effects in favor of a clean, matte finish inspired by professional video editing software.
-- **Community Hub:** Prominent access to support and rating options.
-- **Enhanced Precision:** Sharper controls and clearer typography.
-
 ### [2.1.0] - 2026-01-20
 - **Visual Transformation:** Introduced a professional **Solid Dark UI** for a distraction-free, cinematic experience.
 - **Smart Engine:** Enhanced detection algorithm that perfectly distinguishes between standard and creator-styled captions.
