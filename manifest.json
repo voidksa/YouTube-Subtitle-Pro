@@ -2,11 +2,32 @@
   "manifest_version": 3,
   "name": "__MSG_appName__",
   "default_locale": "en",
-  "version": "2.0.2",
+  "version": "2.1.0",
   "description": "__MSG_appDesc__",
   "permissions": [
-    "storage"
+    "storage",
+    "activeTab"
   ],
+  "commands": {
+    "toggle-panel": {
+      "suggested_key": {
+        "default": "Alt+S"
+      },
+      "description": "Toggle Settings Panel"
+    },
+    "font-size-up": {
+      "suggested_key": {
+        "default": "Alt+Up"
+      },
+      "description": "Increase Font Size"
+    },
+    "font-size-down": {
+      "suggested_key": {
+        "default": "Alt+Down"
+      },
+      "description": "Decrease Font Size"
+    }
+  },
   "background": {
     "service_worker": "background.js"
   },
