@@ -150,8 +150,8 @@ let cachedSettings = {
     ar: { ...defaultAr },
     en: { ...defaultEn }
 };
-let uiLang = 'ar';
-let editTarget = 'ar'; // 'ar' or 'en'
+let uiLang = 'en';
+let editTarget = 'en'; // 'ar' or 'en'
 let showFullscreenAssistant = true;
 let customTemplates = [];
 let selectedTemplateName = null;
@@ -177,27 +177,54 @@ const panelCSS = `
         --ysp-transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
+    @media (prefers-color-scheme: light) {
+        :root {
+            --ysp-bg: #ffffff;
+            --ysp-bg-sec: #f2f2f2;
+            --ysp-border: rgba(0, 0, 0, 0.1);
+            --ysp-text: #121212;
+            --ysp-text-sec: #666666;
+            --ysp-shadow: 0 8px 32px rgba(0,0,0,0.15);
+        }
+    }
+
     #ysp-panel-container {
         position: fixed !important;
         top: 0 !important;
-        right: -420px !important;
         width: 400px !important;
         height: 100vh !important;
         background: var(--ysp-bg) !important;
-        border-left: 1px solid var(--ysp-border) !important;
         box-shadow: var(--ysp-shadow) !important;
         z-index: 2147483647 !important;
-        transition: right 0.3s cubic-bezier(0.2, 0, 0.2, 1) !important;
         font-family: var(--ysp-font-ar) !important;
         display: flex !important;
         flex-direction: column !important;
-        direction: rtl;
         color: var(--ysp-text);
         box-sizing: border-box;
+        
+        /* Default LTR (Right Side) */
+        right: -420px !important;
+        left: auto !important;
+        border-left: 1px solid var(--ysp-border) !important;
+        border-right: none !important;
+        transition: right 0.3s cubic-bezier(0.2, 0, 0.2, 1), left 0.3s cubic-bezier(0.2, 0, 0.2, 1) !important;
     }
 
-    #ysp-panel-container.ysp-open {
+    /* RTL Mode (Left Side) */
+    #ysp-panel-container.ysp-rtl {
+        left: -420px !important;
+        right: auto !important;
+        border-right: 1px solid var(--ysp-border) !important;
+        border-left: none !important;
+    }
+
+    /* Open States */
+    #ysp-panel-container.ysp-open { /* Default LTR Open */
         right: 0 !important;
+    }
+    #ysp-panel-container.ysp-rtl.ysp-open { /* RTL Open */
+        left: 0 !important;
+        right: auto !important;
     }
 
     #ysp-panel-container * {
@@ -494,8 +521,41 @@ const panelCSS = `
         padding: 6px 10px; font-size: 11px; font-weight: 700; color: var(--ysp-text-sec);
         cursor: pointer; background: transparent; transition: var(--ysp-transition);
     }
-    .ysp-ui-lang-btn:hover { color: white; }
+    .ysp-ui-lang-btn:hover { color: var(--ysp-text); }
     .ysp-ui-lang-btn.active { background: rgba(255,255,255,0.1); color: white; }
+    
+    @media (prefers-color-scheme: light) {
+        .ysp-ui-lang-btn { color: #666666; }
+        .ysp-ui-lang-btn:hover { color: #000000; background: rgba(0,0,0,0.05); }
+        .ysp-ui-lang-btn.active { background: #000000; color: #ffffff; }
+
+        /* Fix Switch / Slider */
+        .ysp-slider { background-color: rgba(0,0,0,0.15); }
+        .ysp-slider:before { background-color: #ffffff; box-shadow: 0 1px 3px rgba(0,0,0,0.2); }
+        
+        /* Fix Range Slider Track */
+        .ysp-input-range { background: rgba(0,0,0,0.1); }
+        
+        /* Fix Buttons */
+        .ysp-btn:hover { background: rgba(0,0,0,0.05); }
+        .ysp-tmpl-apply { background: rgba(0,0,0,0.1); color: #000; }
+        .ysp-tmpl-del { color: #d00000; border-color: rgba(200,0,0,0.3); }
+        
+        /* Fix Target Buttons */
+        .ysp-target-btn:hover { border-color: rgba(0,0,0,0.3); color: #000; }
+        .ysp-target-btn.active { background: rgba(0,0,0,0.05); border-color: var(--ysp-accent); color: var(--ysp-accent); }
+        
+        /* Fix Footer Buttons */
+        .ysp-footer-btn-support { background: rgba(255, 153, 102, 0.1); color: #d45d2a; border-color: rgba(255, 153, 102, 0.3); }
+        .ysp-footer-btn-rate { background: rgba(79, 172, 254, 0.1); color: #0070c9; border-color: rgba(79, 172, 254, 0.3); }
+
+        /* Fix Presets */
+        .ysp-preset:hover { border-color: rgba(0,0,0,0.3); }
+        .ysp-preset.active { background: rgba(255, 0, 51, 0.05); }
+        
+        /* Fix Close Button */
+        .ysp-close-btn:hover { background: rgba(0,0,0,0.1); color: #000; }
+    }
     
     /* FOOTER */
     .ysp-footer {
@@ -551,7 +611,7 @@ const getPanelHTML = () => `
         </div>
         <div style="display:flex; align-items:center;">
             <div class="ysp-ui-lang">
-                <div class="ysp-ui-lang-btn active" data-lang="ar">AR</div>
+                <div class="ysp-ui-lang-btn" data-lang="ar">AR</div>
                 <div class="ysp-ui-lang-btn" data-lang="en">EN</div>
             </div>
             <button class="ysp-close-btn" id="ysp-close">
@@ -700,7 +760,7 @@ const getPanelHTML = () => `
              <div class="ysp-section">
                 <div class="ysp-section-title" data-i18n="customTemplates">Templates</div>
                 <div class="ysp-tmpl-input-group">
-                    <input type="text" class="ysp-input-text" id="templateNameInput" placeholder="Template Name">
+                    <input type="text" class="ysp-input-text" id="templateNameInput">
                     <button class="ysp-btn ysp-btn-primary" id="saveTemplateBtn" data-i18n="saveTemplate">Save</button>
                 </div>
                 <div id="templateMsg" style="font-size:11px; margin-top:5px; min-height:15px; text-align:center;"></div>
@@ -802,6 +862,18 @@ function createPanel() {
     const container = document.createElement('div');
     container.id = 'ysp-panel-container';
     container.innerHTML = getPanelHTML();
+
+    // Set Active Language Button
+    const activeLangBtn = container.querySelector(`.ysp-ui-lang-btn[data-lang="${uiLang}"]`);
+    if (activeLangBtn) activeLangBtn.classList.add('active');
+
+    // Firefox Rating Link Override
+    if (navigator.userAgent.includes("Firefox")) {
+        const rateLink = container.querySelector('.ysp-footer-btn-rate');
+        if (rateLink) {
+            rateLink.href = "https://addons.mozilla.org/en-US/firefox/addon/youtube-subtitle-pro/";
+        }
+    }
 
     const idealParent = getIdealParent();
     idealParent.appendChild(container);
@@ -969,7 +1041,10 @@ function updateRangeBackground(el) {
     // In RTL (min=right), we want to fill from Right.
     // linear-gradient(to left, color X%, transparent X%) fills from Right.
 
-    const isRTL = uiLang === 'ar';
+    // Determine direction based on BROWSER language (same as panel direction)
+    const browserLang = chrome.i18n.getUILanguage();
+    const isRTL = browserLang.startsWith('ar') || browserLang.startsWith('he') || browserLang.startsWith('fa');
+
     const direction = isRTL ? 'to left' : 'to right';
 
     el.style.background = `linear-gradient(${direction}, var(--ysp-accent) ${percentage}%, rgba(255,255,255,0.1) ${percentage}%)`;
@@ -987,10 +1062,18 @@ function updatePanelTexts() {
     const panel = document.getElementById('ysp-panel-container');
     if (!panel) return;
 
-    // Direction
+    // Determine Panel Position/Direction based on BROWSER Language (not extension language)
+    const browserLang = chrome.i18n.getUILanguage();
+    const isBrowserRTL = browserLang.startsWith('ar') || browserLang.startsWith('he') || browserLang.startsWith('fa');
+
+    // Panel Position & Slider Direction (Fixed based on Browser)
+    panel.classList.toggle('ysp-rtl', isBrowserRTL);
+    panel.classList.toggle('ysp-ltr', !isBrowserRTL);
+
+    // Internal UI Text Direction (Based on Extension Language Preference)
+    // We want the text inside to follow the extension language (ar/en)
+    // But the panel *position* stays fixed.
     panel.style.direction = uiLang === 'ar' ? 'rtl' : 'ltr';
-    panel.classList.toggle('ysp-rtl', uiLang === 'ar');
-    panel.classList.toggle('ysp-ltr', uiLang !== 'ar');
     panel.querySelector('.ysp-brand').style.textAlign = uiLang === 'ar' ? 'right' : 'left';
 
     // Translate all data-i18n

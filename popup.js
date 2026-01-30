@@ -7,12 +7,12 @@
 
 // Initialize i18n
 document.addEventListener('DOMContentLoaded', () => {
-    applyTranslations('ar'); // Default popup language
+    applyTranslations('en'); // Default popup language
     loadSettings();
     loadCustomTemplates(); // Initial load of templates
 });
 
-let currentLang = 'ar'; // The language currently being EDITED (not the popup UI lang)
+let currentLang = 'en'; // The language currently being EDITED (not the popup UI lang)
 const defaultAr = { fontSize: 38, fontColor: '#ffffff', fontFamily: "'Tajawal', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, strokeColor: '#000000', strokeWidth: 1, lineHeight: 1.25, letterSpacing: 0, padding: 8, borderRadius: 6, textAlign: 'center' };
 const defaultEn = { fontSize: 32, fontColor: '#ffffff', fontFamily: "'Roboto', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, strokeColor: '#000000', strokeWidth: 1, lineHeight: 1.25, letterSpacing: 0, padding: 8, borderRadius: 6, textAlign: 'center' };
 
@@ -104,15 +104,26 @@ function loadSettings() {
         if (result.uiLanguage) {
             currentLang = result.uiLanguage;
 
-            // Trigger click on saved language to update UI/Slider
+            // Visual Update
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             const savedOption = document.querySelector(`.lang-btn[data-lang="${currentLang}"]`);
-            if (savedOption) {
-                savedOption.click();
-            }
+            if (savedOption) savedOption.classList.add('active');
+
+            // Logic Update
+            updateUIValues(currentLang);
+            updatePreview();
+
+            // UI Direction
+            document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
+            applyTranslations(currentLang);
+
+            // Preview Text
+            previewText.textContent = currentLang === 'ar' ? 'نص تجريبي' : 'Preview Text';
+            previewText.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr';
         } else {
             // Default Fallback
-            applyTranslations('ar');
-            updateUIValues('ar');
+            applyTranslations('en');
+            updateUIValues('en');
             updatePreview();
         }
 
