@@ -18,19 +18,17 @@
 ## 🌟 Overview
 **YouTube Subtitle Pro** transforms standard YouTube captions into professional, easy-to-read subtitles. Designed for language learners and cinephiles, it fixes Arabic spacing issues and adds stunning cinematic blur effects.
 
-## 🚀 What's New in v2.1.0
+## 🚀 What's New in v2.1.1
 | Feature | Description |
 | :--- | :--- |
-| **🎨 UI Overhaul** | A completely new **Solid Dark Theme** replaces the glass effect for better visibility. Includes new SVG icons and improved spacing. |
-| **🌍 Font Expansion** | Added new premium fonts: **Tajawal, Noto Kufi, Almarai** (Arabic) and **Inter, Montserrat** (English). |
-| **🛠️ RTL Perfection** | Fixed gradient directions and dropdown layouts for Arabic users. |
-| **📺 Preview Fix** | Subtitles in YouTube preview thumbnails are now correctly scaled down. |
-| **✨ Smart Support** | Improved handling of videos with custom creator effects to prevent conflicts. |
+| **✨ Smart Custom Support** | A new dedicated toggle to enable advanced custom effects for creator-styled subtitles. |
+| **🎨 UI Polish** | Fixed invisible toggle buttons and sliders in **Light Mode** and improved overall color contrast. |
+| **🦊 Firefox Support** | Ensured consistent styling and functionality across both Chrome and Firefox versions. |
 
 ## 📦 Installation Guide
 Since the extension is currently under review in the Web Store, you can install it manually in less than a minute:
 
-1.  **Download:** Get **`YouTube-Subtitle-Pro-v2.1.0.zip`** from the [Releases](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest) page.
+1.  **Download:** Get **`YouTube-Subtitle-Pro-v2.1.1.zip`** from the [Releases](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest) page.
 2.  **Unzip:** Extract the downloaded file to a normal folder.
 3.  **Install:**
     *   Open `chrome://extensions` in your browser.
@@ -54,6 +52,11 @@ Since the extension is currently under review in the Web Store, you can install 
 | **`Alt + ⬇️`** | ➖ Decrease Font Size |
 
 ## 📜 Changelog
+### [2.1.1] - 2026-01-30
+- **Smart Custom Support:** Added a new toggle to enable advanced custom effects for subtitles.
+- **Light Mode Fixes:** Resolved invisible toggle buttons, sliders, and color contrast issues in Light Mode.
+- **Firefox Compatibility:** Ensured consistent UI styling across Chrome and Firefox.
+
 ### [2.1.0] - 2026-01-20
 - **Visual Transformation:** Introduced a professional **Solid Dark UI** for a distraction-free, cinematic experience.
 - **Smart Engine:** Enhanced detection algorithm that perfectly distinguishes between standard and creator-styled captions.
