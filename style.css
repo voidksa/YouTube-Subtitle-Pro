@@ -1,9 +1,27 @@
+/**
+ * ============================================================================
+ *  YouTube Subtitle Pro
+ *  Copyright (c) VoidKSA. All rights reserved.
+ * ============================================================================
+ *
+ *  ðŸŒ Website:     https://voidksa.com
+ *  âœ–ï¸ X (Twitter): https://x.com/voidksa2
+ *  ðŸ™ GitHub:      https://github.com/voidksa
+ *
+ * ============================================================================
+ *  âš ï¸ LEGAL NOTICE:
+ *  This code is the intellectual property of VoidKSA.
+ *  It is strictly PROHIBITED to remove, modify, or hide this copyright header.
+ *  Redistribution or commercial use without permission is not allowed.
+ * ============================================================================
+ */
 :root {
-    --primary: #ff3b30;
-    --primary-hover: #ff5b4d;
-    --bg: #0b0b0f;
-    --surface: #16161a;
-    --surface-hover: #1e1e24;
+    --primary: #FC0235;
+    --primary-hover: #C9012A;
+    --accent: #FFD700;
+    --bg: #101010;
+    --surface: #1F1F1F;
+    --surface-hover: #2a2a2a;
     --text: #ffffff;
     --text-muted: #c5c7d0;
     --border: #2a2a31;
@@ -42,7 +60,6 @@ body {
     overflow: hidden;
 }
 
-/* --- Header --- */
 header {
     background: var(--surface);
     backdrop-filter: blur(12px);
@@ -57,17 +74,11 @@ header {
 .brand {
     display: flex;
     align-items: center;
-    gap: 10px;
     font-weight: 800;
     font-size: 17px;
     color: var(--text);
 }
 
-.brand span {
-    color: var(--primary);
-}
-
-/* --- Language Switcher (Compact) --- */
 .lang-toggle {
     display: flex;
     background: var(--surface-hover);
@@ -110,7 +121,6 @@ header {
     }
 }
 
-/* --- Preview Area --- */
 .preview-container {
     height: 150px;
     background: #0b0b0f;
@@ -125,7 +135,6 @@ header {
     border-bottom: 1px solid var(--border);
 }
 
-/* Simulated Video Overlay */
 .preview-overlay {
     position: absolute;
     inset: 0;
@@ -135,13 +144,12 @@ header {
 .preview-text {
     z-index: 10;
     transition: all 0.1s ease-out;
-    /* Faster for sliders */
+    
     white-space: nowrap;
     cursor: default;
     max-width: 90%;
 }
 
-/* --- Tabs Navigation --- */
 .tabs-nav {
     display: flex;
     background: var(--surface);
@@ -176,12 +184,12 @@ header {
 }
 
 .tab-btn.active {
-    color: var(--primary);
+    color: var(--accent);
     font-weight: 700;
 }
 
 .tab-btn.active .tab-icon {
-    color: var(--primary);
+    color: var(--accent);
 }
 
 .tab-btn.active::after {
@@ -191,11 +199,10 @@ header {
     left: 16%;
     right: 16%;
     height: 2px;
-    background: var(--primary);
+    background: var(--accent);
     border-radius: 3px 3px 0 0;
 }
 
-/* --- Tab Content --- */
 .tab-content {
     height: 400px;
     overflow-y: auto;
@@ -220,7 +227,6 @@ header {
     }
 }
 
-/* --- Controls --- */
 .control-section {
     margin-bottom: 16px;
     background: linear-gradient(180deg, rgba(22, 22, 26, 0.88), rgba(18, 18, 22, 0.88));
@@ -250,7 +256,6 @@ header {
     opacity: 0.5;
 }
 
-/* Rows & Inputs */
 .control-row {
     display: flex;
     align-items: center;
@@ -265,7 +270,6 @@ header {
     flex: 1;
 }
 
-/* Modern Range Slider */
 input[type="range"] {
     -webkit-appearance: none;
     width: 100%;
@@ -290,10 +294,9 @@ input[type="range"]::-webkit-slider-thumb {
 
 input[type="range"]::-webkit-slider-thumb:hover {
     transform: scale(1.1);
-    box-shadow: 0 0 0 4px rgba(229, 9, 20, 0.2);
+    box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.3);
 }
 
-/* Select */
 select {
     background: var(--surface);
     color: var(--text);
@@ -312,7 +315,6 @@ select:focus {
     border-color: var(--primary);
 }
 
-/* Color Input */
 .color-wrapper {
     position: relative;
     width: 32px;
@@ -340,7 +342,6 @@ input[type="color"] {
     cursor: pointer;
 }
 
-/* Presets Grid */
 .presets-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -406,7 +407,6 @@ input[type="color"] {
     border: 2px solid #ffff00;
 }
 
-/* Custom Templates List */
 .template-input {
     flex: 1;
     background: var(--surface);
@@ -453,7 +453,6 @@ input[type="color"] {
     opacity: 1;
 }
 
-/* Actions Footer */
 .actions-row {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -519,7 +518,6 @@ input[type="color"] {
     }
 }
 
-/* Scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
 }
@@ -537,7 +535,6 @@ input[type="color"] {
     background: #555;
 }
 
-/* Toggle Switch */
 .switch {
     position: relative;
     display: inline-block;
@@ -583,7 +580,6 @@ input:checked+.slider:before {
     transform: translateX(16px);
 }
 
-/* Light Mode Overrides */
 @media (prefers-color-scheme: light) {
     .control-section {
         background: var(--surface);

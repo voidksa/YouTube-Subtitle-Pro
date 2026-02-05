@@ -1,15 +1,20 @@
-
 /**
- * YouTube Subtitle Pro
- * Copyright (c) 2024. All Rights Reserved.
- * 
- * This extension is provided for personal use only.
- * Redistribution on Chrome Web Store or other extension marketplaces is strictly prohibited.
- * Commercial use is not allowed without prior written permission.
+ * ============================================================================
+ *  YouTube Subtitle Pro
+ *  Copyright (c) VoidKSA. All rights reserved.
+ * ============================================================================
+ *
+ *  ðŸŒ Website:     https://voidksa.com
+ *  âœ–ï¸ X (Twitter): https://x.com/voidksa2
+ *  ðŸ™ GitHub:      https://github.com/voidksa
+ *
+ * ============================================================================
+ *  âš ï¸ LEGAL NOTICE:
+ *  This code is the intellectual property of VoidKSA.
+ *  It is strictly PROHIBITED to remove, modify, or hide this copyright header.
+ *  Redistribution or commercial use without permission is not allowed.
+ * ============================================================================
  */
-
-// --- 1. CONFIGURATION & TRANSLATIONS ---
-
 const translations = {
     ar: {
         typography: "الخط والنصوص",
@@ -73,7 +78,18 @@ const translations = {
         supportCustomEffects: "دعم التأثيرات المخصصة (ذكي)",
         supportCustomEffectsInfo: "عند التفعيل، سيتم دمج خط الإضافة مع ألوان وتأثيرات صاحب الفيديو. عند التعطيل، سيتم تجاهل الفيديوهات ذات التأثيرات الخاصة.",
         supportUs: "دعم المشروع",
-        rateUs: "قيم الإضافة"
+        rateUs: "قيم الإضافة",
+        smartTiming: "توقيت ذكي (إخفاء المؤثرات والصمت)",
+        smartTimingInfo: "يخفي نصوص مثل [موسيقى]، (تصفيق)، والأسطر الفارغة تلقائياً.",
+        playbackSpeed: "سرعة الفيديو",
+        subDelay: "تأخير الترجمة (ثواني)",
+        subDelayInfo: "يؤخر ظهور النص لإصلاح المشاكل عندما تسبق الترجمة الصوت.",
+        uploadFont: "رفع خط مخصص (من جهازك)",
+        uploadFontBtn: "اختر ملف الخط",
+        fontUploaded: "تم رفع الخط بنجاح!",
+        fontError: "خطأ في رفع الخط. تأكد من الصيغة (ttf, otf, woff).",
+        playbackTiming: "التحكم والوقت",
+        newBadge: "جديد"
     },
     en: {
         typography: "Typography",
@@ -137,37 +153,44 @@ const translations = {
         supportCustomEffects: "Smart Custom Support",
         supportCustomEffectsInfo: "When enabled, it merges our font with the creator's colors/effects. When disabled, custom subtitles are skipped entirely.",
         supportUs: "Support Project",
-        rateUs: "Rate Extension"
-    }
+        rateUs: "Rate Extension",
+        smartTiming: "Smart Timing (Hide Effects & Silence)",
+        smartTimingInfo: "Hides tags like [Music], (Applause), and empty lines automatically.",
+        playbackSpeed: "Playback Speed",
+        subDelay: "Subtitle Delay (Seconds)",
+        subDelayInfo: "Delays subtitle appearance to fix sync issues where text appears too early.",
+        uploadFont: "Upload Custom Font (Local)",
+        uploadFontBtn: "Choose Font File",
+        fontUploaded: "Font uploaded successfully!",
+        fontError: "Error uploading font. Check format (ttf, otf, woff).",
+        playbackTiming: "Playback & Timing",
+        newBadge: "NEW"
+    },
 };
 
-const defaultAr = { fontSize: 38, fontColor: '#ffffff', fontFamily: "'Tajawal', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, bgBlur: 0, strokeColor: '#000000', strokeWidth: 1, strokeOpacity: 100, lineHeight: 1.25, letterSpacing: 0, padding: 8, borderRadius: 6, textAlign: 'center', supportCustomEffects: false };
-const defaultEn = { fontSize: 32, fontColor: '#ffffff', fontFamily: "'Roboto', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, bgBlur: 0, strokeColor: '#000000', strokeWidth: 1, strokeOpacity: 100, lineHeight: 1.25, letterSpacing: 0, padding: 8, borderRadius: 6, textAlign: 'center', supportCustomEffects: false };
-
-// --- 2. STATE ---
+const defaultAr = { fontSize: 38, fontColor: '#ffffff', fontFamily: "'Tajawal', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, bgBlur: 0, strokeColor: '#000000', strokeWidth: 1, strokeOpacity: 100, lineHeight: 1.25, letterSpacing: 0, padding: 8, borderRadius: 6, textAlign: 'center', supportCustomEffects: false, smartTiming: false, subDelay: 0, customFont: null };
+const defaultEn = { fontSize: 32, fontColor: '#ffffff', fontFamily: "'Roboto', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, bgBlur: 0, strokeColor: '#000000', strokeWidth: 1, strokeOpacity: 100, lineHeight: 1.25, letterSpacing: 0, padding: 8, borderRadius: 6, textAlign: 'center', supportCustomEffects: false, smartTiming: false, subDelay: 0, customFont: null };
 
 let cachedSettings = {
     ar: { ...defaultAr },
     en: { ...defaultEn }
 };
 let uiLang = 'en';
-let editTarget = 'en'; // 'ar' or 'en'
+let editTarget = 'en';
 let showFullscreenAssistant = true;
 let customTemplates = [];
 let selectedTemplateName = null;
 let panelVisible = false;
 
-// --- 3. STYLES (Injected Panel CSS) ---
-
 const panelCSS = `
     @import url('https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&family=Roboto:wght@400;500;700;900&family=Cairo:wght@400;600;700;900&family=Almarai:wght@300;400;700;800&family=Noto+Kufi+Arabic:wght@400;600;700&family=Open+Sans:wght@400;600;700&family=Montserrat:wght@400;600;700;900&family=Lato:wght@400;700;900&display=swap');
 
     :root {
-        --ysp-bg: #121212;
+        --ysp-bg: #101010;
         --ysp-bg-sec: #1e1e1e;
         --ysp-border: rgba(255, 255, 255, 0.1);
-        --ysp-accent: #ff0033;
-        --ysp-accent-glow: rgba(255, 0, 51, 0.4);
+        --ysp-accent: #FC0235;
+        --ysp-accent-glow: rgba(252, 2, 53, 0.4);
         --ysp-text: #ffffff;
         --ysp-text-sec: #a0a0a0;
         --ysp-radius: 12px;
@@ -428,11 +451,43 @@ const panelCSS = `
         background-repeat: no-repeat;
         background-position: right 12px top 50%;
         background-size: 10px auto;
+        padding-right: 30px; /* Space for arrow in LTR */
     }
     .ysp-rtl .ysp-select {
         background-position: left 12px top 50%;
+        padding-left: 30px !important; /* Space for arrow in RTL */
+        padding-right: 12px !important; /* Reset right padding */
+        text-align: right;
     }
     .ysp-select:hover { border-color: rgba(255,255,255,0.3); }
+
+    /* New Badge */
+    .ysp-badge-new {
+        background: var(--ysp-accent);
+        color: #fff;
+        font-size: 9px;
+        padding: 2px 5px;
+        border-radius: 4px;
+        margin-left: 8px;
+        vertical-align: middle;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        box-shadow: 0 2px 4px rgba(255,0,0,0.3);
+    }
+    .ysp-rtl .ysp-badge-new {
+        margin-left: 0;
+        margin-right: 8px;
+    }
+    
+    /* Highlight Row */
+    .ysp-highlight-row {
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 8px;
+        padding: 12px 10px;
+        margin: 0 -10px 24px -10px; /* Negative margin to expand bg */
+    }
     .ysp-select:focus { border-color: var(--ysp-accent); }
     .ysp-select option {
         background-color: var(--ysp-bg);
@@ -555,6 +610,12 @@ const panelCSS = `
         
         /* Fix Close Button */
         .ysp-close-btn:hover { background: rgba(0,0,0,0.1); color: #000; }
+
+        /* Fix Highlight Row */
+        .ysp-highlight-row {
+            background: rgba(0, 0, 0, 0.05);
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
     }
     
     /* FOOTER */
@@ -601,12 +662,10 @@ const panelCSS = `
     }
 `;
 
-// --- 4. PANEL HTML TEMPLATE ---
-
 const getPanelHTML = () => `
     <div class="ysp-header">
         <div class="ysp-brand">
-            <svg class="ysp-icon" style="color:var(--ysp-accent);" viewBox="0 0 24 24"><path d="M21.582,6.186c-0.23-0.86-0.908-1.538-1.768-1.768C18.254,4,12,4,12,4S5.746,4,4.186,4.418 c-0.86,0.23-1.538,0.908-1.768,1.768C2,7.746,2,12,2,12s0,4.254,0.418,5.814c0.23,0.86,0.908,1.538,1.768,1.768 C5.746,20,12,20,12,20s6.254,0,7.814-0.418c0.86-0.23,1.538-0.908,1.768-1.768C22,16.254,22,12,22,12S22,7.746,21.582,6.186z M10,15.464V8.536L16,12L10,15.464z" fill="currentColor"/></svg>
+            <img src="${chrome.runtime.getURL('icons/icon_48x48.png')}" width="24" height="24" style="margin-inline-end:8px;">
             <span>Subtitle</span> Pro
         </div>
         <div style="display:flex; align-items:center;">
@@ -707,6 +766,18 @@ const getPanelHTML = () => `
                         <option value="'Courier New', monospace" data-i18n="cinema">Cinema</option>
                     </select>
                 </div>
+
+                <div class="ysp-row">
+                    <label class="ysp-label">
+                        <span data-i18n="uploadFont">Upload Custom Font</span>
+                        <span class="ysp-badge-new" data-i18n="newBadge">NEW</span>
+                    </label>
+                    <div style="flex: 2; display: flex; gap: 5px; align-items: center;">
+                        <input type="file" id="fontUpload" accept=".ttf,.otf,.woff,.woff2" style="display: none;">
+                        <button id="fontUploadBtn" class="ysp-select" style="text-align: center; font-size: 11px; padding: 8px;" data-i18n="uploadFontBtn">Choose File</button>
+                    </div>
+                </div>
+
                 <div class="ysp-row">
                     <label class="ysp-label" data-i18n="fontWeight">Weight</label>
                     <select class="ysp-select" id="fontWeight">
@@ -768,6 +839,43 @@ const getPanelHTML = () => `
             </div>
 
             <div class="ysp-section">
+                <div class="ysp-section-title" data-i18n="playbackTiming">Playback & Timing</div>
+                
+                <div class="ysp-highlight-row">
+                    <div class="ysp-row">
+                        <label class="ysp-label">
+                            <span data-i18n="smartTiming">Smart Timing</span>
+                            <span class="ysp-badge-new" data-i18n="newBadge">NEW</span>
+                        </label>
+                        <label class="ysp-switch">
+                            <input type="checkbox" id="smartTiming">
+                            <span class="ysp-slider"></span>
+                        </label>
+                    </div>
+                    <div style="font-size:10px; color:#888; margin-bottom:15px;" data-i18n="smartTimingInfo">Hides subtitles automatically.</div>
+
+                    <div class="ysp-row">
+                        <label class="ysp-label">
+                            <span data-i18n="playbackSpeed">Playback Speed</span>
+                            <span class="ysp-badge-new" data-i18n="newBadge">NEW</span>
+                        </label>
+                        <input type="range" class="ysp-input-range" id="playbackSpeed" min="0.25" max="3.0" step="0.25" value="1">
+                        <span id="playbackSpeedVal" style="font-size:11px; font-weight:700; width:30px; text-align:right;">1x</span>
+                    </div>
+
+                    <div class="ysp-row" style="margin-bottom: 0;">
+                        <label class="ysp-label">
+                            <span data-i18n="subDelay">Subtitle Delay</span>
+                            <span class="ysp-badge-new" data-i18n="newBadge">NEW</span>
+                        </label>
+                        <input type="range" class="ysp-input-range" id="subDelay" min="0" max="5.0" step="0.1" value="0">
+                        <span id="subDelayVal" style="font-size:11px; font-weight:700; width:30px; text-align:right;">0s</span>
+                    </div>
+                    <div style="font-size:10px; color:#888; margin-top:5px;" data-i18n="subDelayInfo">Delays subtitle appearance.</div>
+                </div>
+            </div>
+
+            <div class="ysp-section">
                 <div class="ysp-section-title" data-i18n="advanced">Details</div>
                 <div class="ysp-row">
                     <label class="ysp-label" data-i18n="supportCustomEffects">Support Custom Subtitles</label>
@@ -818,20 +926,18 @@ const getPanelHTML = () => `
             <svg class="ysp-icon" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z" fill="currentColor"/></svg>
             <span data-i18n="supportUs">Support Project</span>
         </a>
-        <a href="https://chromewebstore.google.com/detail/youtube-subtitle-pro-cine/clhoadlllpmdeakgigbbbammfapclcfi" class="ysp-footer-btn ysp-footer-btn-rate" target="_blank">
+        <a href="https://chromewebstore.google.com/detail/youtube-subtitle-pro-cine/clhoadlllpmdeakgigbbbammfapclcfi/reviews" class="ysp-footer-btn ysp-footer-btn-rate" target="_blank">
             <svg class="ysp-icon" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" fill="currentColor"/></svg>
             <span data-i18n="rateUs">Rate Extension</span>
         </a>
     </div>
 `;
 
-// --- 5. LOGIC: PANEL UI ---
-
 function createPanel() {
     const getIdealParent = () => {
-        // If in fullscreen, must append to the fullscreen element to be visible
+
         if (document.fullscreenElement) return document.fullscreenElement;
-        // Otherwise, always append to body to avoid player transforms/clipping
+
         return document.body;
     };
 
@@ -844,13 +950,11 @@ function createPanel() {
         return;
     }
 
-    // Inject CSS
     const styleEl = document.createElement('style');
     styleEl.id = 'ysp-panel-styles';
     styleEl.textContent = panelCSS;
     document.head.appendChild(styleEl);
 
-    // Inject Font Link
     if (!document.querySelector('link[href*="fonts.googleapis.com/css2?family=Tajawal"]')) {
         const fontLink = document.createElement('link');
         fontLink.rel = 'stylesheet';
@@ -858,16 +962,13 @@ function createPanel() {
         document.head.appendChild(fontLink);
     }
 
-    // Inject HTML
     const container = document.createElement('div');
     container.id = 'ysp-panel-container';
     container.innerHTML = getPanelHTML();
 
-    // Set Active Language Button
     const activeLangBtn = container.querySelector(`.ysp-ui-lang-btn[data-lang="${uiLang}"]`);
     if (activeLangBtn) activeLangBtn.classList.add('active');
 
-    // Firefox Rating Link Override
     if (navigator.userAgent.includes("Firefox")) {
         const rateLink = container.querySelector('.ysp-footer-btn-rate');
         if (rateLink) {
@@ -879,35 +980,32 @@ function createPanel() {
     idealParent.appendChild(container);
 
     bindPanelEvents(container);
-    updatePanelTexts(); // Translate
-    updatePanelValues(); // Set initial values
+    updatePanelTexts();
+    updatePanelValues();
 }
 
-// Add observer for fullscreen changes to move the panel
 document.addEventListener('fullscreenchange', () => {
     const panel = document.getElementById('ysp-panel-container');
     if (panel) {
-        // Just call createPanel to trigger parent re-evaluation
+
         createPanel();
     }
 });
 
 function togglePanel() {
-    createPanel(); // Ensure exists
+    createPanel();
     const panel = document.getElementById('ysp-panel-container');
     panelVisible = !panelVisible;
     if (panelVisible) {
         panel.classList.add('ysp-open');
 
-        // Auto-detect current language to set editTarget
         const arWin = document.querySelector('.caption-window.is-arabic');
         const enWin = document.querySelector('.caption-window.is-english');
 
         if (arWin) editTarget = 'ar';
         else if (enWin) editTarget = 'en';
-        // If neither, keep previous or default
 
-        updatePanelValues(); // Refresh with correct target
+        updatePanelValues();
     } else {
         panel.classList.remove('ysp-open');
     }
@@ -922,7 +1020,7 @@ function closePanel() {
 }
 
 function bindPanelEvents(panel) {
-    // Prevent YouTube keyboard shortcuts when typing in inputs
+
     const preventShortcuts = (e) => {
         if (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT' || e.target.tagName === 'TEXTAREA') {
             e.stopPropagation();
@@ -933,10 +1031,8 @@ function bindPanelEvents(panel) {
     panel.addEventListener('keyup', preventShortcuts, true);
     panel.addEventListener('keypress', preventShortcuts, true);
 
-    // Close Button
     panel.querySelector('#ysp-close').addEventListener('click', closePanel);
 
-    // Language Toggle (UI)
     panel.querySelectorAll('.ysp-ui-lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             panel.querySelectorAll('.ysp-ui-lang-btn').forEach(b => b.classList.remove('active'));
@@ -949,15 +1045,13 @@ function bindPanelEvents(panel) {
         });
     });
 
-    // Target Toggle (What to edit) - NEW BUTTONS
     panel.querySelectorAll('.ysp-target-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             editTarget = btn.dataset.target;
-            updatePanelValues(); // Reload inputs
+            updatePanelValues();
         });
     });
 
-    // Tabs
     panel.querySelectorAll('.ysp-tab').forEach(tab => {
         tab.addEventListener('click', () => {
             panel.querySelectorAll('.ysp-tab').forEach(t => t.classList.remove('active'));
@@ -967,8 +1061,7 @@ function bindPanelEvents(panel) {
         });
     });
 
-    // Inputs
-    const inputs = ['fontSize', 'bottomPos', 'shadowIntensity', 'bgOpacity', 'bgBlur', 'fontFamily', 'fontWeight', 'fontColor', 'strokeColor', 'strokeWidth', 'strokeOpacity', 'lineHeight', 'letterSpacing', 'padding', 'borderRadius', 'textAlign', 'fullscreenAssistant', 'supportCustomEffects'];
+    const inputs = ['fontSize', 'bottomPos', 'shadowIntensity', 'bgOpacity', 'bgBlur', 'fontFamily', 'fontWeight', 'fontColor', 'strokeColor', 'strokeWidth', 'strokeOpacity', 'lineHeight', 'letterSpacing', 'padding', 'borderRadius', 'textAlign', 'fullscreenAssistant', 'supportCustomEffects', 'smartTiming', 'subDelay'];
 
     inputs.forEach(id => {
         const el = panel.querySelector(`#${id}`);
@@ -976,13 +1069,16 @@ function bindPanelEvents(panel) {
         el.addEventListener('input', (e) => {
             let val = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
 
-            // Number conversion
             if (e.target.type === 'range') {
                 val = parseFloat(val);
                 updateRangeBackground(e.target);
             }
 
-            // Special case: Fullscreen Assistant is Global, not per-language
+            if (id === 'subDelay') {
+                const disp = panel.querySelector('#subDelayVal');
+                if (disp) disp.textContent = val + 's';
+            }
+
             if (id === 'fullscreenAssistant') {
                 showFullscreenAssistant = val;
                 chrome.storage.local.set({ fullscreenAssistant: val });
@@ -990,24 +1086,33 @@ function bindPanelEvents(panel) {
                 return;
             }
 
-            // Save to Cache
             cachedSettings[editTarget][id] = val;
 
-            // Save to Storage (Local for speed/persistence)
             chrome.storage.local.set({ [editTarget]: cachedSettings[editTarget] });
 
-            // Update Realtime
             updateSubtitleStyles(cachedSettings.ar, cachedSettings.en);
             updatePreview();
         });
     });
 
-    // Presets
+    const pbSpeed = panel.querySelector('#playbackSpeed');
+    if (pbSpeed) {
+        pbSpeed.addEventListener('input', (e) => {
+            const val = parseFloat(e.target.value);
+            const video = document.querySelector('video');
+            if (video) video.playbackRate = val;
+
+            const disp = panel.querySelector('#playbackSpeedVal');
+            if (disp) disp.textContent = val + 'x';
+
+            updateRangeBackground(e.target);
+        });
+    }
+
     panel.querySelectorAll('.ysp-preset').forEach(p => {
         p.addEventListener('click', () => applyPreset(p.dataset.preset));
     });
 
-    // Reset
     panel.querySelector('#resetBtn').addEventListener('click', () => {
         cachedSettings[editTarget] = editTarget === 'ar' ? { ...defaultAr } : { ...defaultEn };
         chrome.storage.local.set({ [editTarget]: cachedSettings[editTarget] });
@@ -1015,15 +1120,70 @@ function bindPanelEvents(panel) {
         updateSubtitleStyles(cachedSettings.ar, cachedSettings.en);
     });
 
-    // Template Save
     panel.querySelector('#saveTemplateBtn').addEventListener('click', saveCustomTemplate);
 
-    // Template Input Listener for Update State
     const tmplInput = panel.querySelector('#templateNameInput');
     if (tmplInput) {
         tmplInput.addEventListener('input', () => {
             updateSaveButtonState();
         });
+    }
+
+    const fontUploadBtn = panel.querySelector('#fontUploadBtn');
+    const fontUploadInput = panel.querySelector('#fontUpload');
+
+    if (fontUploadBtn && fontUploadInput) {
+        fontUploadBtn.addEventListener('click', () => fontUploadInput.click());
+
+        fontUploadInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function (event) {
+                const fontData = event.target.result;
+                const fontName = "CustomFont_" + Date.now();
+
+                const fontFace = new FontFace(fontName, `url(${fontData})`);
+                fontFace.load().then(function (loadedFace) {
+                    document.fonts.add(loadedFace);
+
+                    cachedSettings[editTarget].customFont = { name: fontName, data: fontData, fileName: file.name };
+                    cachedSettings[editTarget].fontFamily = `'${fontName}', sans-serif`;
+
+                    chrome.storage.local.set({ [editTarget]: cachedSettings[editTarget] });
+
+                    updateFontSelect(fontName, file.name);
+                    updatePanelValues();
+                    updateSubtitleStyles(cachedSettings.ar, cachedSettings.en);
+
+                    alert(translations[uiLang].fontUploaded);
+                }).catch(function (error) {
+                    console.error("Font load error:", error);
+                    alert(translations[uiLang].fontError);
+                });
+            };
+            reader.readAsDataURL(file);
+        });
+    }
+}
+
+function updateFontSelect(customFontName, customFontDisplayName) {
+    const panel = document.getElementById('ysp-panel-container');
+    if (!panel) return;
+    const select = panel.querySelector('#fontFamily');
+    if (!select) return;
+
+    const oldOpt = select.querySelector('option[data-custom="true"]');
+    if (oldOpt) oldOpt.remove();
+
+    if (customFontName && customFontDisplayName) {
+        const option = document.createElement('option');
+        option.value = `'${customFontName}', sans-serif`;
+        option.textContent = "📂 " + customFontDisplayName;
+        option.dataset.custom = "true";
+        option.selected = true;
+        select.insertBefore(option, select.firstChild);
     }
 }
 
@@ -1034,16 +1194,7 @@ function updateRangeBackground(el) {
     const val = parseFloat(el.value) || 0;
     const percentage = ((val - min) / (max - min)) * 100;
 
-    // Check direction (RTL or LTR)
-    // If the panel is in RTL mode, we fill from Right to Left.
-    // However, if the slider itself FLIPS (min on right), then 0% is right.
-    // Standard CSS linear-gradient(to right, color X%, transparent X%) fills from Left.
-    // In RTL (min=right), we want to fill from Right.
-    // linear-gradient(to left, color X%, transparent X%) fills from Right.
-
-    // Determine direction based on BROWSER language (same as panel direction)
-    const browserLang = chrome.i18n.getUILanguage();
-    const isRTL = browserLang.startsWith('ar') || browserLang.startsWith('he') || browserLang.startsWith('fa');
+    const isRTL = uiLang === 'ar';
 
     const direction = isRTL ? 'to left' : 'to right';
 
@@ -1062,21 +1213,15 @@ function updatePanelTexts() {
     const panel = document.getElementById('ysp-panel-container');
     if (!panel) return;
 
-    // Determine Panel Position/Direction based on BROWSER Language (not extension language)
     const browserLang = chrome.i18n.getUILanguage();
     const isBrowserRTL = browserLang.startsWith('ar') || browserLang.startsWith('he') || browserLang.startsWith('fa');
 
-    // Panel Position & Slider Direction (Fixed based on Browser)
     panel.classList.toggle('ysp-rtl', isBrowserRTL);
     panel.classList.toggle('ysp-ltr', !isBrowserRTL);
 
-    // Internal UI Text Direction (Based on Extension Language Preference)
-    // We want the text inside to follow the extension language (ar/en)
-    // But the panel *position* stays fixed.
     panel.style.direction = uiLang === 'ar' ? 'rtl' : 'ltr';
     panel.querySelector('.ysp-brand').style.textAlign = uiLang === 'ar' ? 'right' : 'left';
 
-    // Translate all data-i18n
     panel.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
         if (translations[uiLang][key]) {
@@ -1084,18 +1229,15 @@ function updatePanelTexts() {
         }
     });
 
-    // Update Support Link
     const supportLink = panel.querySelector('#link-support');
     if (supportLink) {
         supportLink.href = uiLang === 'ar' ? 'https://creators.sa/voidksa' : 'https://creators.sa/en/voidksa';
     }
 
-    // Update Preview Text
     const previewText = panel.querySelector('#ysp-preview-text');
     previewText.textContent = uiLang === 'ar' ? 'نص تجريبي' : 'Preview Text';
     previewText.style.direction = uiLang === 'ar' ? 'rtl' : 'ltr';
 
-    // Update Template Input Placeholder
     const tmplInput = panel.querySelector('#templateNameInput');
     if (tmplInput) {
         tmplInput.placeholder = translations[uiLang].templateName;
@@ -1108,25 +1250,39 @@ function updatePanelValues() {
 
     const s = cachedSettings[editTarget];
 
-    // Update all inputs
+    if (s.customFont && s.customFont.name && s.customFont.fileName) {
+        updateFontSelect(s.customFont.name, s.customFont.fileName);
+    }
+
     Object.keys(s).forEach(key => {
         const el = panel.querySelector(`#${key}`);
         if (el) {
             if (el.type === 'checkbox') el.checked = s[key];
             else el.value = s[key];
 
-            // Update range background
             if (el.type === 'range') {
                 updateRangeBackground(el);
             }
         }
     });
 
-    // Fullscreen Assistant (Global)
     const fa = panel.querySelector('#fullscreenAssistant');
     if (fa) fa.checked = showFullscreenAssistant;
 
-    // Target Select (Update Active Button)
+    const video = document.querySelector('video');
+    const speedInput = panel.querySelector('#playbackSpeed');
+    const speedVal = panel.querySelector('#playbackSpeedVal');
+    if (video && speedInput && speedVal) {
+        speedInput.value = video.playbackRate;
+        speedVal.textContent = video.playbackRate + 'x';
+        updateRangeBackground(speedInput);
+    }
+
+    const subDelayVal = panel.querySelector('#subDelayVal');
+    if (subDelayVal) {
+        subDelayVal.textContent = (s.subDelay || 0) + 's';
+    }
+
     panel.querySelectorAll('.ysp-target-btn').forEach(btn => {
         if (btn.dataset.target === editTarget) {
             btn.classList.add('active');
@@ -1136,7 +1292,7 @@ function updatePanelValues() {
     });
 
     updatePreview();
-    loadCustomTemplates(); // Refresh templates list
+    loadCustomTemplates();
 }
 
 function updatePreview() {
@@ -1238,9 +1394,6 @@ function selectTemplate(name) {
     // but here we are calling it from event, so it's fine.
     updatePanelValues();
 
-    // Highlight UI is handled by updatePanelValues -> loadCustomTemplates re-render
-
-    // Fill Name Input
     const nameInput = document.getElementById('templateNameInput');
     if (nameInput) nameInput.value = name;
 
@@ -1251,10 +1404,8 @@ function applyTemplate(tmpl) {
     cachedSettings.ar = { ...tmpl.ar };
     cachedSettings.en = { ...tmpl.en };
 
-    // Save and Apply
     chrome.storage.local.set({ ar: cachedSettings.ar, en: cachedSettings.en });
 
-    // Select it as well
     selectedTemplateName = tmpl.name;
 
     updatePanelValues();
@@ -1281,15 +1432,12 @@ function updateSaveButtonState() {
     const input = document.getElementById('templateNameInput');
     if (!btn || !input) return;
 
-    // Use current input value to check against selected template
-    // If input matches selected template name, it's an update
     if (selectedTemplateName && input.value.trim() === selectedTemplateName) {
         btn.textContent = translations[uiLang].updateTemplate;
         btn.classList.add('ysp-btn-primary');
     } else {
         btn.textContent = translations[uiLang].saveTemplate;
-        // Keep primary style for save as well, or toggle? 
-        // Original was primary. Let's keep it primary.
+
         btn.classList.add('ysp-btn-primary');
     }
 }
@@ -1303,7 +1451,6 @@ function saveCustomTemplate() {
 
     if (!name) return;
 
-    // Check if we are updating the CURRENTLY SELECTED template
     if (selectedTemplateName && name === selectedTemplateName) {
         const idx = customTemplates.findIndex(t => t.name === name);
         if (idx !== -1) {
@@ -1322,7 +1469,6 @@ function saveCustomTemplate() {
         }
     }
 
-    // New or Overwrite different name
     const existingIdx = customTemplates.findIndex(t => t.name === name);
 
     if (existingIdx !== -1) {
@@ -1346,15 +1492,8 @@ function saveCustomTemplate() {
     }
 
     chrome.storage.local.set({ customTemplates }, () => {
-        // If we just saved a new one, select it
-        selectedTemplateName = name;
 
-        // Don't clear input if we want to stay in "Update" mode for this template
-        // But user might want to create another.
-        // Usually save -> clear. But here user said "Update method is hard".
-        // If I keep the name, they can keep updating.
-        // Let's keep the name in input so they can update immediately if they tweak.
-        // input.value = ''; 
+        selectedTemplateName = name;
 
         msg.textContent = translations[uiLang].templateSaved;
         msg.style.color = '#4caf50';
@@ -1366,8 +1505,6 @@ function saveCustomTemplate() {
         setTimeout(() => { if (msg) msg.textContent = ''; }, 3000);
     });
 }
-
-// --- 7. LOGIC: SUBTITLES (CORE) ---
 
 const styleTag = document.createElement('style');
 document.head.appendChild(styleTag);
@@ -1381,12 +1518,7 @@ function hexToRgba(hex, alpha) {
 }
 
 function updateSubtitleStyles(ar, en) {
-    // Check if we should skip custom subtitles (videos with special effects)
-    // If the user disabled supportCustomEffects and we detect a video with special styling, we skip.
-    // However, the request is: "It should work even with custom texts... and can be enabled/disabled".
-    // This means if ENABLED, we force our styles. If DISABLED, we let YouTube's custom styles stay.
 
-    // Generate CSS
     const arStroke = hexToRgba(ar.strokeColor, ar.strokeOpacity !== undefined ? ar.strokeOpacity : 100);
     const enStroke = hexToRgba(en.strokeColor, en.strokeOpacity !== undefined ? en.strokeOpacity : 100);
 
@@ -1404,7 +1536,6 @@ function updateSubtitleStyles(ar, en) {
             overflow-wrap: anywhere; word-break: normal;
             max-width: 88vw; margin: 0 !important;
             transition: none !important; animation: none !important;
-            opacity: 1 !important;
         }
 
         /* YouTube Preview Fix (Hover Thumbnails) - STRICT OVERRIDE */
@@ -1513,6 +1644,7 @@ function updateSubtitleStyles(ar, en) {
             padding: ${ar.padding}px 0px !important;
             border-radius: ${ar.borderRadius}px !important;
             transform: none !important;
+            ${!ar.smartTiming ? 'opacity: 1 !important;' : ''}
         }
 
         .is-english .ytp-caption-segment:not(.ytp-custom-active) {
@@ -1531,6 +1663,7 @@ function updateSubtitleStyles(ar, en) {
             padding: ${en.padding}px 0px !important;
             border-radius: ${en.borderRadius}px !important;
             transform: none !important;
+            ${!en.smartTiming ? 'opacity: 1 !important;' : ''}
         }
 
         /* Smart Merge for Custom Subtitles (Only if enabled) */
@@ -1585,6 +1718,17 @@ function updateSubtitleStyles(ar, en) {
             position: relative !important;
             left: auto !important;
         }
+        /* Smart Timing Hidden Class */
+        .ysp-smart-hide {
+            opacity: 0 !important;
+            visibility: hidden !important;
+            pointer-events: none !important;
+        }
+        /* Delay Class */
+        .ysp-delayed {
+            opacity: 0 !important;
+            visibility: hidden !important;
+        }
     `;
     styleTag.innerHTML = css;
 }
@@ -1594,13 +1738,11 @@ function detectLanguage() {
     windows.forEach(win => {
         const segments = win.querySelectorAll('.ytp-caption-segment');
 
-        // Detect if subtitles have custom creator-made styles
         let hasCustomStyles = false;
         segments.forEach(s => {
             const style = s.getAttribute('style');
             if (style) {
-                // Look for things that AREN'T default YouTube styles
-                // Default styles usually have white text (255,255,255) and blackish bg (8,8,8)
+
                 const isCustomColor = style.includes('color') && !style.includes('255, 255, 255') && !style.includes('white');
                 const isCustomBg = style.includes('background') && !style.includes('rgba(8, 8, 8') && !style.includes('rgba(0, 0, 0');
                 const hasShadow = style.includes('text-shadow');
@@ -1644,7 +1786,7 @@ function detectLanguage() {
                 win.dir = "ltr";
             }
         } else {
-            // Neutral (Numbers/Symbols)
+
             if (!win.classList.contains('is-arabic') && !win.classList.contains('is-english')) {
                 if (editTarget === 'ar') {
                     win.classList.add('is-arabic');
@@ -1654,6 +1796,76 @@ function detectLanguage() {
                     win.dir = "ltr";
                 }
             }
+        }
+
+        const isAr = win.classList.contains('is-arabic');
+        const settings = isAr ? cachedSettings.ar : cachedSettings.en;
+
+        if (settings.subDelay && settings.subDelay > 0) {
+            const currentText = fullText.trim();
+            if (currentText.length > 0) {
+                if (win.dataset.yspLastText !== currentText) {
+                    win.dataset.yspLastText = currentText;
+                    win.classList.remove('ysp-delay-ready');
+                    win.classList.add('ysp-delayed');
+
+                    if (win.yspTimeout) clearTimeout(win.yspTimeout);
+
+                    win.yspTimeout = setTimeout(() => {
+                        win.classList.remove('ysp-delayed');
+                        win.classList.add('ysp-delay-ready');
+                    }, settings.subDelay * 1000);
+                }
+            } else {
+                if (win.yspTimeout) clearTimeout(win.yspTimeout);
+                win.classList.remove('ysp-delayed');
+                win.dataset.yspLastText = "";
+            }
+        } else {
+            win.classList.remove('ysp-delayed');
+            if (win.yspTimeout) clearTimeout(win.yspTimeout);
+        }
+
+        if (settings.smartTiming) {
+            const cleanText = fullText.replace(/\s+/g, ' ').trim();
+            const lowerText = cleanText.toLowerCase();
+
+            // Keywords list (Arabic & English)
+            const keywords = [
+                'تصفيق', 'موسيقى', 'ضحك', 'بكاء', 'بكا', 'تنهد', 'صوت', 'ضجيج', 'صراخ', 'همس',
+                'غناء', 'صفير', 'جرس', 'رياح', 'رعد', 'مطر', 'خطوات', 'طرق', 'تحطم', 'نباح', 'زقزقة',
+                'music', 'applause', 'laughter', 'crying', 'sigh', 'sound', 'noise', 'screaming',
+                'whispering', 'singing', 'whistling', 'bell', 'wind', 'thunder', 'rain', 'footsteps',
+                'knocking', 'crash', 'barking', 'chirping', 'cheering', 'drama'
+            ];
+
+            // Check 1: Wrapped in brackets AND contains keyword (e.g. (موسيقى مثيرة))
+            const isBracketed = /^\[[^\]]+\]$/.test(cleanText) || /^\([^\)]+\)$/.test(cleanText);
+            let shouldHide = false;
+
+            if (isBracketed && cleanText.length < 60) {
+                shouldHide = keywords.some(k => lowerText.includes(k));
+            }
+
+            // Check 2: Starts with "Music" or "موسيقى" even without brackets (if short)
+            if (!shouldHide && cleanText.length < 40) {
+                if (/^(music|موسيقى)(\s|$)/i.test(cleanText)) {
+                    shouldHide = true;
+                }
+            }
+
+            // Check 3: Empty lines
+            if (cleanText.length === 0 && win.textContent.trim().length === 0) {
+                shouldHide = true;
+            }
+
+            if (shouldHide) {
+                win.classList.add('ysp-smart-hide');
+            } else {
+                win.classList.remove('ysp-smart-hide');
+            }
+        } else {
+            win.classList.remove('ysp-smart-hide');
         }
     });
 }
@@ -1669,52 +1881,42 @@ function changeFontSize(delta) {
     updatePanelValues();
 }
 
-// --- 8. SHORTCUTS ---
-
 function initShortcuts() {
     document.addEventListener('keydown', (e) => {
         if (!e.altKey) return;
 
-        // Toggle Panel: Alt + S
         if (e.code === 'KeyS') {
             e.preventDefault();
-            e.stopPropagation(); // Prevent other extensions from capturing this
+            e.stopPropagation();
             togglePanel();
         }
 
-        // Font Size Up: Alt + ArrowUp
         if (e.code === 'ArrowUp') {
             e.preventDefault();
             e.stopPropagation();
             changeFontSize(2);
         }
 
-        // Font Size Down: Alt + ArrowDown
         if (e.code === 'ArrowDown') {
             e.preventDefault();
             e.stopPropagation();
             changeFontSize(-2);
         }
-    }, true); // Use capture phase to intercept before other extensions
+    }, true);
 }
 
-
-
-// --- 9. INITIALIZATION ---
-
 function init() {
-    // Load Settings local
+
     chrome.storage.local.get(['ar', 'en', 'uiLanguage', 'fullscreenAssistant', 'customTemplates'], (res) => {
-        // Deep merge for AR
+
         if (res.ar) {
             cachedSettings.ar = { ...defaultAr, ...res.ar };
-            // Ensure new properties are set if missing from old storage
+
             ['letterSpacing', 'strokeOpacity', 'bgBlur', 'textAlign', 'supportCustomEffects'].forEach(k => {
                 if (cachedSettings.ar[k] === undefined) cachedSettings.ar[k] = defaultAr[k];
             });
         }
 
-        // Deep merge for EN
         if (res.en) {
             cachedSettings.en = { ...defaultEn, ...res.en };
             ['letterSpacing', 'strokeOpacity', 'bgBlur', 'textAlign', 'supportCustomEffects'].forEach(k => {
@@ -1726,10 +1928,19 @@ function init() {
         if (res.customTemplates) customTemplates = res.customTemplates;
         if (res.fullscreenAssistant !== undefined) showFullscreenAssistant = res.fullscreenAssistant;
 
+        ['ar', 'en'].forEach(langKey => {
+            const s = cachedSettings[langKey];
+            if (s.customFont && s.customFont.data) {
+                const fontFace = new FontFace(s.customFont.name, `url(${s.customFont.data})`);
+                fontFace.load().then(function (loadedFace) {
+                    document.fonts.add(loadedFace);
+                }).catch(e => console.error("Error restoring font:", e));
+            }
+        });
+
         updateSubtitleStyles(cachedSettings.ar, cachedSettings.en);
         updateAssistantVisibility();
 
-        // If panel is already open (rare on reload), update it
         if (document.getElementById('ysp-panel-container')) {
             updatePanelValues();
             updatePanelTexts();
@@ -1738,18 +1949,15 @@ function init() {
 
     initShortcuts();
 
-    // Start Observer
     const target = document.getElementById('movie_player') || document.body;
     observer.observe(target, { childList: true, subtree: true, characterData: true });
 
-    // Listen for Background Messages
     chrome.runtime.onMessage.addListener((msg) => {
         if (msg.action === "togglePanel") togglePanel();
         if (msg.action === "fontSizeUp") changeFontSize(2);
         if (msg.action === "fontSizeDown") changeFontSize(-2);
     });
 
-    // Auto-Close on Play
     const video = document.querySelector('video');
     if (video) {
         video.addEventListener('play', () => {
@@ -1758,7 +1966,6 @@ function init() {
     }
 }
 
-// --- 9. FULLSCREEN ASSISTANT (Mini Button) ---
 let fsButton = null;
 
 function createAssistantUI() {
@@ -1788,7 +1995,6 @@ function updateAssistantVisibility() {
 
 document.addEventListener('fullscreenchange', updateAssistantVisibility);
 
-// Run Init
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', init);
 } else {

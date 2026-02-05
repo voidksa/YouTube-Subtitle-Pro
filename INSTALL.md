@@ -1,6 +1,6 @@
 <div align="center">
   <a href="https://github.com/voidksa/YouTube-Subtitle-Pro">
-    <img src="icons/icon128.png" width="128" height="128" alt="YouTube Subtitle Pro">
+    <img src="icons/icon_128x128.png" width="128" height="128" alt="YouTube Subtitle Pro">
   </a>
   <h1>YouTube Subtitle Pro</h1>
   <p style="font-size: 1.2em;">

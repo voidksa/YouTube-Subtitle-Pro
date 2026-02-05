@@ -1,18 +1,27 @@
 /**
- * YouTube Subtitle Pro
- * Copyright (c) 2024. All Rights Reserved.
- * 
- * Redistribution on Chrome Web Store is strictly prohibited.
+ * ============================================================================
+ *  YouTube Subtitle Pro
+ *  Copyright (c) VoidKSA. All rights reserved.
+ * ============================================================================
+ *
+ *  ðŸŒ Website:     https://voidksa.com
+ *  âœ–ï¸ X (Twitter): https://x.com/voidksa2
+ *  ðŸ™ GitHub:      https://github.com/voidksa
+ *
+ * ============================================================================
+ *  âš ï¸ LEGAL NOTICE:
+ *  This code is the intellectual property of VoidKSA.
+ *  It is strictly PROHIBITED to remove, modify, or hide this copyright header.
+ *  Redistribution or commercial use without permission is not allowed.
+ * ============================================================================
  */
-
-// Initialize i18n
 document.addEventListener('DOMContentLoaded', () => {
-    applyTranslations('en'); // Default popup language
+    applyTranslations('en'); 
     loadSettings();
-    loadCustomTemplates(); // Initial load of templates
+    loadCustomTemplates(); 
 });
 
-let currentLang = 'en'; // The language currently being EDITED (not the popup UI lang)
+let currentLang = 'en'; 
 const defaultAr = { fontSize: 38, fontColor: '#ffffff', fontFamily: "'Tajawal', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, strokeColor: '#000000', strokeWidth: 1, lineHeight: 1.25, letterSpacing: 0, padding: 8, borderRadius: 6, textAlign: 'center' };
 const defaultEn = { fontSize: 32, fontColor: '#ffffff', fontFamily: "'Roboto', sans-serif", shadowIntensity: 4, fontWeight: 700, bottomPos: 10, bgOpacity: 0, strokeColor: '#000000', strokeWidth: 1, lineHeight: 1.25, letterSpacing: 0, padding: 8, borderRadius: 6, textAlign: 'center' };
 
@@ -21,12 +30,10 @@ let cachedSettings = {
     en: { ...defaultEn }
 };
 
-// UI Elements
 const langSwitcher = document.getElementById('langSwitcher');
-const langOptions = document.querySelectorAll('.lang-btn'); // Updated selector
+const langOptions = document.querySelectorAll('.lang-btn'); 
 const previewText = document.getElementById('previewText');
 
-// Tabs
 const tabBtns = document.querySelectorAll('.tab-btn');
 const tabContents = document.querySelectorAll('.tab-content');
 
@@ -51,77 +58,73 @@ function clearActivePresets() {
     document.querySelectorAll('.preset-card').forEach(c => c.classList.remove('active'));
 }
 
-// --- Tab Switching Logic ---
 tabBtns.forEach(btn => {
     btn.addEventListener('click', () => {
-        // Remove active class from all
+        
         tabBtns.forEach(b => b.classList.remove('active'));
         tabContents.forEach(c => c.classList.remove('active'));
 
-        // Add active class to clicked
+        
         btn.classList.add('active');
         const tabId = btn.getAttribute('data-tab');
         document.getElementById(tabId).classList.add('active');
     });
 });
 
-// --- Language Switching Logic ---
 langOptions.forEach(option => {
     option.addEventListener('click', () => {
-        // 1. Visual Update
+        
         langOptions.forEach(opt => opt.classList.remove('active'));
         option.classList.add('active');
 
         const selectedLang = option.dataset.lang;
 
-        // 2. Logic Update
+        
         currentLang = selectedLang;
         updateUIValues(currentLang);
         updatePreview();
 
-        // 3. Update UI Text Direction & Language
+        
         document.documentElement.setAttribute('dir', selectedLang === 'ar' ? 'rtl' : 'ltr');
         applyTranslations(selectedLang);
 
-        // 4. Update Preview Text Content
+        
         previewText.textContent = selectedLang === 'ar' ? 'نص تجريبي' : 'Preview Text';
         previewText.style.direction = selectedLang === 'ar' ? 'rtl' : 'ltr';
 
-        // 5. Save UI Language Preference
+        
         chrome.storage.local.set({ uiLanguage: selectedLang });
         loadCustomTemplates();
     });
 });
-
-// --- Settings Handling ---
 
 function loadSettings() {
     chrome.storage.local.get(['ar', 'en', 'uiLanguage', 'fullscreenAssistant'], (result) => {
         if (result.ar) cachedSettings.ar = { ...defaultAr, ...result.ar };
         if (result.en) cachedSettings.en = { ...defaultEn, ...result.en };
 
-        // Restore UI Language
+        
         if (result.uiLanguage) {
             currentLang = result.uiLanguage;
 
-            // Visual Update
+            
             document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
             const savedOption = document.querySelector(`.lang-btn[data-lang="${currentLang}"]`);
             if (savedOption) savedOption.classList.add('active');
 
-            // Logic Update
+            
             updateUIValues(currentLang);
             updatePreview();
 
-            // UI Direction
+            
             document.documentElement.setAttribute('dir', currentLang === 'ar' ? 'rtl' : 'ltr');
             applyTranslations(currentLang);
 
-            // Preview Text
+            
             previewText.textContent = currentLang === 'ar' ? 'نص تجريبي' : 'Preview Text';
             previewText.style.direction = currentLang === 'ar' ? 'rtl' : 'ltr';
         } else {
-            // Default Fallback
+            
             applyTranslations('en');
             updateUIValues('en');
             updatePreview();
@@ -145,16 +148,16 @@ function updateUIValues(lang) {
 
 function saveSetting(key, value) {
     clearActivePresets();
-    // Update Cache
+    
     cachedSettings[currentLang][key] = value;
 
-    // Save to Storage
+    
     chrome.storage.local.set({ [currentLang]: cachedSettings[currentLang] });
 
-    // Update Preview
+    
     updatePreview();
 
-    // Notify Content Script
+    
     chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         if (tabs[0]?.id) {
             chrome.tabs.sendMessage(tabs[0].id, {
@@ -165,7 +168,6 @@ function saveSetting(key, value) {
     });
 }
 
-// --- Live Preview Logic ---
 function updatePreview() {
     const s = cachedSettings[currentLang];
 

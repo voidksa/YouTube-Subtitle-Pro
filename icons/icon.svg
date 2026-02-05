@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" style="overflow: visible;" shape-rendering="geometricPrecision"><g transform="translate(256, 256) scale(1.65) translate(-256, -256)">
+      <g   style=" " >
+        <path d="M176.5,140.8 C176.5,123.5 195.8,113.3 210.1,123 L396.1,238.2 C409.1,246.3 409.1,265.7 396.1,273.8 L210.1,389 C195.8,398.7 176.5,388.5 176.5,371.2 Z"  fill="#FC0235" stroke="none">
+          
+        </path>
+      </g>
+    
+      <g   style=" " >
+        <rect x="216" y="215" width="110" height="28" rx="14"  fill="#FFFFFF" stroke="none">
+          
+        </rect>
+      </g>
+    
+      <g   style=" " >
+        <rect x="216" y="269" width="80" height="28" rx="14"  fill="#FFD700" stroke="none">
+          
+        </rect>
+      </g>
+    </g></svg>

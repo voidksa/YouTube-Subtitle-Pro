@@ -1,3 +1,20 @@
+/**
+ * ============================================================================
+ *  YouTube Subtitle Pro
+ *  Copyright (c) VoidKSA. All rights reserved.
+ * ============================================================================
+ *
+ *  ðŸŒ Website:     https://voidksa.com
+ *  âœ–ï¸ X (Twitter): https://x.com/voidksa2
+ *  ðŸ™ GitHub:      https://github.com/voidksa
+ *
+ * ============================================================================
+ *  âš ï¸ LEGAL NOTICE:
+ *  This code is the intellectual property of VoidKSA.
+ *  It is strictly PROHIBITED to remove, modify, or hide this copyright header.
+ *  Redistribution or commercial use without permission is not allowed.
+ * ============================================================================
+ */
 const translations = {
     ar: {
         typography: "الخط والنصوص",
@@ -34,7 +51,7 @@ const translations = {
         tabStyle: "المظهر",
         tabAdvanced: "متقدم",
 
-        // Values
+        
         normal: "عادي",
         bold: "عريض",
         black: "عريض جداً",
@@ -90,7 +107,7 @@ const translations = {
         noTemplates: "No saved templates",
         loadTemplate: "Load",
 
-        // Values
+        
         normal: "Normal",
         bold: "Bold",
         black: "Black",

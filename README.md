@@ -1,9 +1,9 @@
 <div align="center">
-  <img src="icons/icon128.png" width="100" height="100" alt="YouTube Subtitle Pro Icon">
+  <img src="icons/icon_128x128.png" width="100" height="100" alt="YouTube Subtitle Pro Icon">
   <h1>YouTube Subtitle Pro</h1>
   <p><b>Elevate Your YouTube Viewing with Cinematic Subtitles</b></p>
 
-  [![Version](https://img.shields.io/badge/Version-v2.1.1-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
+  [![Version](https://img.shields.io/badge/Version-v2.2.0-blue?style=for-the-badge)](https://github.com/voidksa/YouTube-Subtitle-Pro/releases)
   [![Chrome Web Store](https://img.shields.io/badge/Chrome_Web_Store-Available_Now-chrome?style=for-the-badge&logo=google-chrome&logoColor=white)](https://chromewebstore.google.com/detail/youtube-subtitle-pro-cine/clhoadlllpmdeakgigbbbammfapclcfi)
   [![Firefox Add-ons](https://img.shields.io/badge/Firefox_Add--ons-Available_Now-orange?style=for-the-badge&logo=mozilla-firefox&logoColor=white)](https://addons.mozilla.org/en-US/firefox/addon/youtube-subtitle-pro/)
   [![License](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey?style=for-the-badge)](LICENSE)
@@ -18,22 +18,15 @@
 ## 🌟 Overview
 **YouTube Subtitle Pro** transforms standard YouTube captions into professional, easy-to-read subtitles. Designed for language learners and cinephiles, it fixes Arabic spacing issues and adds stunning cinematic blur effects.
 
-## 🚀 What's New in v2.1.1
+## 🚀 What's New in v2.2.0
 | Feature | Description |
 | :--- | :--- |
-| **✨ Smart Custom Support** | A new dedicated toggle to enable advanced custom effects for creator-styled subtitles. |
-| **🎨 UI Polish** | Fixed invisible toggle buttons and sliders in **Light Mode** and improved overall color contrast. |
-| **🦊 Firefox Support** | Ensured consistent styling and functionality across both Chrome and Firefox versions. |
+| **🧠 Smart Timing** | Automatically hides distraction tags like `[Music]`, `(Applause)` and empty lines for cleaner reading. |
+| **📂 Custom Fonts** | Upload your own local font files (TTF/OTF/WOFF) directly to the extension and save them. |
+| **⏱️ Playback & Timing** | New unified section merging **Playback Speed** and **Subtitle Delay** for better sync control. |
+| **🎨 UI Polish** | Fixed RTL dropdown alignment and arrow positioning for Arabic users. |
 
-## 📦 Installation Guide
-Since the extension is currently under review in the Web Store, you can install it manually in less than a minute:
-
-1.  **Download:** Get **`YouTube-Subtitle-Pro-v2.1.1.zip`** from the [Releases](https://github.com/voidksa/YouTube-Subtitle-Pro/releases/latest) page.
-2.  **Unzip:** Extract the downloaded file to a normal folder.
-3.  **Install:**
-    *   Open `chrome://extensions` in your browser.
-    *   Enable **Developer mode** (top right corner).
-    *   **Drag and drop** the unzipped folder into the page.
+<!-- Installation guide removed -->
 
 ## ✨ Key Features
 ### 🌍 Bilingual Intelligence
@@ -52,6 +45,13 @@ Since the extension is currently under review in the Web Store, you can install 
 | **`Alt + ⬇️`** | ➖ Decrease Font Size |
 
 ## 📜 Changelog
+### [2.2.0] - 2026-02-05
+- **Smart Timing:** Enhanced detection for music notes and descriptive text (e.g., `(Dramatic Music)`) with expanded keyword support.
+- **Custom Fonts:** Added support for uploading local font files (TTF/OTF) with persistent storage.
+- **Playback & Timing:** Merged Playback Speed, Subtitle Delay, and Smart Timing into a unified section.
+- **Firefox Parity:** Added missing keyboard shortcuts to Firefox version.
+- **UI Improvements:** Fixed RTL dropdown arrow overlap and adjusted padding for Arabic interface.
+
 ### [2.1.1] - 2026-01-30
 - **Smart Custom Support:** Added a new toggle to enable advanced custom effects for subtitles.
 - **Light Mode Fixes:** Resolved invisible toggle buttons, sliders, and color contrast issues in Light Mode.
